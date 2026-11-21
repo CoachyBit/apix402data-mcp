@@ -1,0 +1,2964 @@
+{
+  "schema_version": "v1",
+  "name": "x402-data-api",
+  "description": "Data API for AI agents: live web search JSON, real-time news sentiment, trends, crypto news sentiment, SEC EDGAR company intelligence and comparison, pre-flight x402 security audit, agent transaction risk preflight, market convergence index, clean markdown from URL, AI topic briefing, AI summarization, $1.00 research bundle, and vector-ready research dossier. 41 paid tools (POST + JSON body), 5 free GET /check previews. Pay per request with x402 v2 (USDC on Base, EIP-712 USD Coin v2) or Stripe MPP on routes >= $0.01 when advertised.",
+  "version": "5.1.0",
+  "updated": "2026-11-21",
+  "base_url": "https://apix402data.com",
+  "tags": [
+    "Data Enrichment",
+    "NLP",
+    "NER",
+    "Sentiment Analysis",
+    "Web Search",
+    "OSINT",
+    "RAG",
+    "SEC EDGAR",
+    "Financial Data",
+    "Due Diligence",
+    "News Intelligence",
+    "Media Monitoring",
+    "Web Scraping",
+    "Content Extraction",
+    "Entity Extraction",
+    "Company Research",
+    "Market Intelligence",
+    "Competitive Intelligence",
+    "Knowledge Base",
+    "Research Automation"
+  ],
+  "payment": {
+    "protocol": "x402",
+    "x402_version": 2,
+    "scheme": "exact",
+    "network": "eip155:8453",
+    "currency": "USDC",
+    "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "pay_to": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402",
+    "headers": {
+      "request": [
+        "PAYMENT-SIGNATURE",
+        "X-PAYMENT"
+      ],
+      "challenge": "PAYMENT-REQUIRED",
+      "receipt": "PAYMENT-RESPONSE"
+    },
+    "rails": {
+      "x402": {
+        "network": "eip155:8453",
+        "asset": "USDC",
+        "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402",
+        "applies_to": "all paid tools"
+      },
+      "stripe_mpp": {
+        "protocol": "Machine Payments Protocol",
+        "method": "stripe",
+        "intent": "charge",
+        "applies_to": "paid tools priced >= $0.01, only when the 402 includes WWW-Authenticate: Payment",
+        "headers": {
+          "challenge": "WWW-Authenticate: Payment",
+          "request": "Authorization: Payment",
+          "receipt": "Payment-Receipt"
+        }
+      }
+    }
+  },
+  "counts": {
+    "paid": 41,
+    "free_check": 5
+  },
+  "tools": [
+    {
+      "name": "search",
+      "title": "Live web search JSON",
+      "description": "Search live web and news articles by query (or up to 5 batched queries) via Google News RSS and web indexes. Returns structured titles, URLs, snippets, and source metadata as JSON.",
+      "endpoint": "/api/search",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "query": {
+          "type": "string",
+          "description": "Search query (alias: q)",
+          "required": false
+        },
+        "q": {
+          "type": "string",
+          "description": "Search query — supports AI, crypto, finance, tech, biotech, energy topics",
+          "required": false
+        },
+        "category": {
+          "type": "string",
+          "description": "Filter by category: web or news",
+          "required": false
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max results to return per query (default 50, max 500)",
+          "required": false
+        },
+        "queries": {
+          "type": "array",
+          "description": "Batch: array of up to 5 queries; priced unit price x count",
+          "required": false
+        },
+        "fields": {
+          "type": "array",
+          "description": "Return only these result keys, e.g. [\"title\",\"url\",\"enrichment.sentiment\"]",
+          "required": false
+        }
+      },
+      "example_request": {
+        "q": "AI agents",
+        "limit": 2
+      },
+      "output_keys": [
+        "endpoint",
+        "query",
+        "category",
+        "data_source",
+        "count",
+        "results",
+        "results[].id",
+        "results[].query",
+        "results[].category",
+        "results[].title",
+        "results[].url",
+        "results[].snippet",
+        "results[].enrichment",
+        "results[].enrichment.headline",
+        "results[].enrichment.relevance_score",
+        "results[].enrichment.key_takeaway",
+        "results[].enrichment.sentiment",
+        "results[].enrichment.entities",
+        "results[].enrichment.tags",
+        "results[].enrichment.related_queries",
+        "results[].enrichment.wikipedia",
+        "results[].enrichment.source",
+        "results[].enrichment.published",
+        "results[].scraped_at",
+        "results[].data_source",
+        "schema_version",
+        "cached"
+      ],
+      "preview_tool": "web_search_check"
+    },
+    {
+      "name": "company",
+      "title": "SEC EDGAR company intelligence",
+      "description": "Look up public company financials, CIK, recent SEC EDGAR filings (10-K/10-Q/8-K), and recent news sentiment by stock ticker (supports up to 5 batched tickers).",
+      "endpoint": "/api/company",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "ticker": {
+          "type": "string",
+          "description": "Any SEC-registered stock ticker (e.g., AAPL, COST, WMT, NVDA). Unknown tickers return 404 and are not charged.",
+          "required": false
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max results to return (default 50, max 500)",
+          "required": false
+        },
+        "tickers": {
+          "type": "array",
+          "description": "Batch: array of up to 5 tickers; priced unit price x count",
+          "required": false
+        },
+        "fields": {
+          "type": "array",
+          "description": "Return only these result keys, e.g. [\"ticker\",\"company_name\",\"recent_filings\"]",
+          "required": false
+        },
+        "include_news": {
+          "type": "boolean",
+          "description": "Include recent news headlines with sentiment for the company",
+          "required": false
+        }
+      },
+      "example_request": {
+        "ticker": "NVDA",
+        "include_news": true
+      },
+      "output_keys": [
+        "endpoint",
+        "ticker",
+        "count",
+        "results",
+        "results[].id",
+        "results[].ticker",
+        "results[].company_name",
+        "results[].cik",
+        "results[].sic_code",
+        "results[].sic_description",
+        "results[].state",
+        "results[].fiscal_year_end",
+        "results[].recent_filings",
+        "results[].recent_filings[].form",
+        "results[].recent_filings[].date",
+        "results[].recent_filings[].description",
+        "results[].recent_filings[].accession",
+        "results[].enrichment",
+        "results[].enrichment.summary",
+        "results[].enrichment.sector",
+        "results[].enrichment.key_products",
+        "results[].enrichment.recent_activity",
+        "results[].enrichment.risk_factors",
+        "results[].enrichment.outlook",
+        "results[].scraped_at",
+        "results[].financials",
+        "results[].financials.revenue_usd",
+        "results[].financials.net_income_usd",
+        "results[].financials.operating_income_usd",
+        "results[].financials.eps_diluted",
+        "results[].financials.total_assets_usd",
+        "results[].financials.total_liabilities_usd",
+        "results[].financials.stockholders_equity_usd",
+        "results[].financials.cash_usd",
+        "results[].financials.shares_outstanding",
+        "results[].financials.fiscal_year_period_end",
+        "results[].financials.balance_sheet_period_end",
+        "results[].sentiment",
+        "results[].sentiment_source",
+        "results[].entities",
+        "results[].news",
+        "results[].news[].title",
+        "results[].news[].url",
+        "results[].news[].source",
+        "results[].news[].published_at",
+        "results[].news[].sentiment",
+        "schema_version",
+        "cached"
+      ],
+      "preview_tool": "company_enrichment_check"
+    },
+    {
+      "name": "news",
+      "title": "Real-time news with sentiment & entities",
+      "description": "Fetch real-time breaking news headlines and articles by topic or keyword with automated sentiment polarity and extracted named entities in structured JSON.",
+      "endpoint": "/api/news",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "category": {
+          "type": "string",
+          "description": "News category (see enum; full list free at /pricing and /api/news/check)",
+          "required": false
+        },
+        "q": {
+          "type": "string",
+          "description": "Search query to filter news results",
+          "required": false
+        },
+        "topic": {
+          "type": "string",
+          "description": "Topic or keyword (a category name or free text)",
+          "required": false
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max results to return (default 50, max 500)",
+          "required": false
+        },
+        "fields": {
+          "type": "array",
+          "description": "Return only these result keys, e.g. [\"title\",\"url\",\"sentiment\"]",
+          "required": false
+        }
+      },
+      "example_request": {
+        "topic": "artificial intelligence regulation",
+        "limit": 5
+      },
+      "output_keys": [
+        "endpoint",
+        "topic",
+        "category",
+        "query",
+        "match",
+        "count",
+        "dedup",
+        "dedup.candidates",
+        "dedup.unique_stories",
+        "dedup.duplicates_merged",
+        "breaking_count",
+        "results",
+        "results[].id",
+        "results[].title",
+        "results[].url",
+        "results[].source",
+        "results[].category",
+        "results[].published_at",
+        "results[].summary",
+        "results[].entities",
+        "results[].sentiment",
+        "results[].scraped_at",
+        "results[].summary_source",
+        "results[].tickers",
+        "results[].source_count",
+        "results[].also_reported_by",
+        "results[].first_reported_at",
+        "results[].age_minutes",
+        "results[].breaking",
+        "results[].breaking_reasons",
+        "results[].source_tier",
+        "results[].quality_score",
+        "schema_version",
+        "cached",
+        "results[].published",
+        "results[].snippet",
+        "results[].sentiment_score"
+      ],
+      "preview_tool": "news_intel_check"
+    },
+    {
+      "name": "clean_url",
+      "title": "Clean markdown from URL",
+      "description": "Fetch any public HTTPS webpage with SSRF protection, strip navigation/ad boilerplate, and return clean LLM-ready Markdown, word count, and extracted entities as JSON.",
+      "endpoint": "/api/clean-url",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "url": {
+          "type": "string",
+          "description": "Any public URL to fetch, clean, and extract content from",
+          "required": false
+        },
+        "summarize": {
+          "type": "boolean",
+          "description": "Add LLM-powered summary with entity extraction and sentiment scoring",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "url": "https://www.sec.gov/edgar/searchedgar/companysearch"
+      },
+      "output_keys": [
+        "endpoint",
+        "url",
+        "markdown",
+        "word_count",
+        "robots_txt_allowed",
+        "cached",
+        "sentiment",
+        "sentiment_score",
+        "entities",
+        "nlp_method",
+        "degraded",
+        "schema_version",
+        "clean_text",
+        "summary",
+        "summary.headline",
+        "summary.summary",
+        "summary.sentiment",
+        "summary.entities",
+        "summary.key_facts"
+      ],
+      "preview_tool": "clean_url_check"
+    },
+    {
+      "name": "crypto_news",
+      "title": "Crypto news sentiment",
+      "description": "Get real-time cryptocurrency and DeFi news headlines enriched with per-article sentiment scores and mentioned token tickers in structured JSON.",
+      "endpoint": "/api/crypto/news",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "q": {
+          "type": "string",
+          "description": "Filter headlines by text (e.g. 'ETF', 'stablecoin')",
+          "required": false
+        },
+        "ticker": {
+          "type": "string",
+          "description": "Only articles mentioning this ticker (BTC, ETH, SOL, USDC...)",
+          "required": false
+        },
+        "asset": {
+          "type": "string",
+          "description": "Alias of ticker (e.g. USDC, BTC, ETH)",
+          "required": false
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max articles (default 10)",
+          "required": false
+        },
+        "sort": {
+          "type": "string",
+          "description": "quality (freshness + outlet + coverage, default) or newest",
+          "required": false
+        }
+      },
+      "example_request": {
+        "ticker": "BTC",
+        "limit": 3
+      },
+      "output_keys": [
+        "endpoint",
+        "query",
+        "ticker",
+        "data_source",
+        "sort",
+        "count",
+        "dedup",
+        "dedup.candidates",
+        "dedup.unique_stories",
+        "dedup.duplicates_merged",
+        "breaking_count",
+        "freshness",
+        "freshness.newest_article_age_minutes",
+        "freshness.index_last_updated_minutes_ago",
+        "freshness.target_minutes",
+        "freshness.fresh",
+        "sentiment",
+        "sentiment.distribution",
+        "sentiment.distribution.bullish",
+        "sentiment.distribution.bearish",
+        "sentiment.distribution.neutral",
+        "sentiment.dominant",
+        "sentiment.bullish_ratio",
+        "sentiment.scoring",
+        "sentiment.scoring.llm_calls",
+        "sentiment.scoring.llm_scored",
+        "sentiment.scoring.status",
+        "sentiment.scoring.methods",
+        "mentioned_tickers",
+        "mentioned_tickers[].ticker",
+        "mentioned_tickers[].count",
+        "results",
+        "results[].title",
+        "results[].url",
+        "results[].source",
+        "results[].category",
+        "results[].summary",
+        "results[].sentiment",
+        "results[].sentiment_method",
+        "results[].entities",
+        "results[].mentioned_tickers",
+        "results[].published_at",
+        "results[].scraped_at",
+        "results[].full_text_extracted",
+        "results[].summary_source",
+        "results[].tickers",
+        "results[].source_count",
+        "results[].also_reported_by",
+        "results[].also_reported_by[].source",
+        "results[].also_reported_by[].url",
+        "results[].also_reported_by[].title",
+        "results[].also_reported_by[].published_at",
+        "results[].first_reported_at",
+        "results[].age_minutes",
+        "results[].breaking",
+        "results[].breaking_reasons",
+        "results[].source_tier",
+        "results[].quality_score",
+        "results[].tickers_in_body",
+        "results[].full_text_available",
+        "schema_version",
+        "cached",
+        "results[].word_count",
+        "results[].read_time_min"
+      ]
+    },
+    {
+      "name": "security_preflight_402",
+      "title": "Pre-flight x402 security audit",
+      "description": "Pre-flight x402 endpoint security firewall. Probes any x402 URL before payment to detect wallet-drain price spikes, SIWx origin spoofing, fake USDC contracts, and prompt injections.",
+      "endpoint": "/api/security/preflight-402",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "url": {
+          "type": "string",
+          "description": "Target x402 endpoint URL to inspect (https only)",
+          "required": false
+        },
+        "method": {
+          "type": "string",
+          "description": "HTTP method for the unpaid probe",
+          "required": false
+        },
+        "max_acceptable_usd": {
+          "type": "number",
+          "description": "Your maximum acceptable price in USD",
+          "required": false
+        },
+        "deep_audit": {
+          "type": "boolean",
+          "description": "Add one local-LLM prompt-injection audit of the 402 metadata",
+          "required": false
+        }
+      },
+      "example_request": {
+        "url": "https://apix402data.com/api/search",
+        "max_acceptable_usd": 0.05,
+        "deep_audit": false
+      },
+      "output_keys": [
+        "schema_version",
+        "endpoint",
+        "target_url",
+        "final_url",
+        "safe_to_pay",
+        "risk_level",
+        "risk_score",
+        "quoted_price_usd",
+        "max_acceptable_usd",
+        "network",
+        "pay_to",
+        "x402_version",
+        "payment_options",
+        "stripe_mpp_offered",
+        "checks",
+        "checks.returns_402",
+        "checks.spend_cap_safe",
+        "checks.siwx_origin_valid",
+        "checks.canonical_asset_valid",
+        "checks.bazaar_schema_present",
+        "checks.prompt_injection_clean",
+        "warnings",
+        "probe",
+        "probe.method",
+        "probe.status",
+        "probe.redirect_chain",
+        "probe.redirect_chain[].url",
+        "probe.redirect_chain[].status",
+        "probe.error",
+        "deep_audit",
+        "cached"
+      ],
+      "preview_tool": "security_preflight_402_check"
+    },
+    {
+      "name": "agent_preflight",
+      "title": "Autonomous agent transaction & entity risk pre-flight",
+      "description": "Run real-time regulatory, SEC filing, 48h news velocity anomaly, and smart contract or domain security heuristics on any address, domain, or entity before transacting.",
+      "endpoint": "/api/agent/preflight",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.05",
+      "price_atomic_usdc": "50000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "target": {
+          "type": "string",
+          "description": "Target domain, smart contract address (0x...), or entity name",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "target": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+      },
+      "output_keys": [
+        "endpoint",
+        "target",
+        "target_type",
+        "regulatory_flags",
+        "news_velocity_anomaly_score",
+        "security_heuristics",
+        "security_heuristics.is_known_exploit_vector",
+        "security_heuristics.domain_or_contract_trust_level",
+        "security_heuristics.target_type",
+        "security_heuristics.address",
+        "security_heuristics.checksum_valid",
+        "security_heuristics.is_deployed_contract",
+        "security_heuristics.bytecode_size_bytes",
+        "security_heuristics.canonical_label",
+        "composite_safety_confidence_score",
+        "summary_verdict",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "market_convergence_index",
+      "title": "Market narrative vs. capital flow convergence index",
+      "description": "Cross-correlate 48h multi-source social and news momentum with institutional SEC filings and on-chain capital flow signals to separate organic adoption from retail noise.",
+      "endpoint": "/api/market/convergence-index",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.03",
+      "price_atomic_usdc": "30000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "seed": {
+          "type": "string",
+          "description": "Sector, asset identifier, or keyword seed (e.g. 'USDC', 'AI agents', 'NVDA')",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "seed": "USDC"
+      },
+      "output_keys": [
+        "endpoint",
+        "seed",
+        "social_momentum_score",
+        "implied_capital_flow",
+        "correlation_matrix",
+        "correlation_matrix.organic_adoption_vs_retail_noise",
+        "correlation_matrix.confidence",
+        "correlation_matrix.narrative_velocity_ratio",
+        "correlation_matrix.institutional_source_ratio",
+        "correlation_matrix.net_capital_signals",
+        "key_drivers",
+        "analysis",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "crypto_exploit_radar",
+      "title": "Smart contract exploit & drainer radar",
+      "description": "Inspect EVM smart contract bytecode for DELEGATECALL, SELFDESTRUCT, and proxy upgrade vectors while cross-referencing 48-hour security and exploit feeds.",
+      "endpoint": "/api/crypto/exploit-radar",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.05",
+      "price_atomic_usdc": "50000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "address": {
+          "type": "string",
+          "description": "Smart contract address (0x...) or protocol identifier",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Target chain (e.g. 'base', 'ethereum')",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "address",
+        "chain",
+        "canonical_label",
+        "bytecode_risk_level",
+        "proxy_analysis",
+        "exploit_mentions_count_48h",
+        "risk_flags",
+        "summary_verdict",
+        "bytecode_telemetry",
+        "bytecode_telemetry.address",
+        "bytecode_telemetry.chain",
+        "bytecode_telemetry.bytecode_size",
+        "bytecode_telemetry.bytecode_hash",
+        "bytecode_telemetry.is_contract",
+        "bytecode_telemetry.proxy_type",
+        "bytecode_telemetry.has_delegatecall",
+        "bytecode_telemetry.has_selfdestruct",
+        "bytecode_telemetry.has_create2",
+        "bytecode_telemetry.risk_flags",
+        "bytecode_telemetry.inspected_at",
+        "active_exploit_alerts",
+        "active_exploit_alerts[].title",
+        "active_exploit_alerts[].source",
+        "active_exploit_alerts[].url",
+        "active_exploit_alerts[].published_at",
+        "active_exploit_alerts[].matched_keywords",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "crypto_whale_flows",
+      "title": "On-chain whale transfers & institutional flows",
+      "description": "Track large 24-hour on-chain ERC-20 whale transfers on Base L2 alongside institutional crypto treasury context, netflow direction, and sentiment synthesis.",
+      "endpoint": "/api/crypto/whale-flows",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.02",
+      "price_atomic_usdc": "20000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "token": {
+          "type": "string",
+          "description": "Token symbol (e.g. 'USDC', 'WETH', 'cbBTC', 'DAI')",
+          "required": false
+        },
+        "asset": {
+          "type": "string",
+          "description": "Alias of token",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "token": "USDC"
+      },
+      "output_keys": [
+        "endpoint",
+        "token",
+        "netflow_direction",
+        "estimated_net_usd",
+        "institutional_sentiment",
+        "key_insights",
+        "transfer_count_24h",
+        "gross_volume_usd_24h",
+        "whale_transfers",
+        "whale_transfers[].id",
+        "whale_transfers[].tx_hash",
+        "whale_transfers[].log_index",
+        "whale_transfers[].block_number",
+        "whale_transfers[].chain",
+        "whale_transfers[].token_symbol",
+        "whale_transfers[].token_address",
+        "whale_transfers[].sender",
+        "whale_transfers[].recipient",
+        "whale_transfers[].amount_token",
+        "whale_transfers[].amount_usd",
+        "whale_transfers[].flow_type",
+        "whale_transfers[].observed_at",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "defi_yield_matrix",
+      "title": "Cross-chain DeFi real-yield & liquidity matrix",
+      "description": "Rank cross-chain DeFi liquidity pools with TVL >= $5M by risk-adjusted real base APY, impermanent loss exposure, and strategic allocation advice.",
+      "endpoint": "/api/defi/yield-matrix",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.03",
+      "price_atomic_usdc": "30000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "Target chain (e.g. 'base', 'ethereum', 'arbitrum', 'solana', or 'all')",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "min_tvl_usd",
+        "pool_count",
+        "top_opportunity_pool",
+        "average_net_apy",
+        "risk_adjusted_rankings",
+        "strategic_advice",
+        "pools",
+        "pools[].pool_id",
+        "pools[].chain",
+        "pools[].protocol",
+        "pools[].symbol",
+        "pools[].tvl_usd",
+        "pools[].apy_base",
+        "pools[].apy_reward",
+        "pools[].apy_total",
+        "pools[].apy_mean_30d",
+        "pools[].il_risk",
+        "pools[].stablecoin",
+        "pools[].exposure",
+        "pools[].risk_adjusted_score",
+        "pools[].scraped_at",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "agent_reputation_mesh",
+      "title": "Counterparty & agent wallet reputation mesh",
+      "description": "Score any EVM counterparty or agent wallet across Base L2 on-chain nonce/balance history, whale activity, x402 settlement reliability, and 48h security flags.",
+      "endpoint": "/api/agent/reputation-mesh",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.05",
+      "price_atomic_usdc": "50000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "address": {
+          "type": "string",
+          "description": "EVM wallet or contract address (0x...)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Target chain ('base' or 'ethereum')",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "address",
+        "chain",
+        "account_type",
+        "reputation_score",
+        "trust_tier",
+        "onchain_activity_signals",
+        "onchain_activity_signals.tx_count",
+        "onchain_activity_signals.eth_balance",
+        "onchain_activity_signals.bytecode_size_bytes",
+        "onchain_activity_signals.canonical_label",
+        "onchain_activity_signals.x402_settled_count",
+        "onchain_activity_signals.x402_failed_count",
+        "onchain_activity_signals.whale_transfers_24h",
+        "risk_indicators",
+        "counterparty_verdict",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "agent_execution_firewall",
+      "title": "Pre-execution EVM transaction & calldata firewall",
+      "description": "Decode EVM transaction calldata, detect infinite ERC-20 approvals or permit drainers, run dry-run eth_call simulation, and check 48h exploit feeds before signing.",
+      "endpoint": "/api/agent/execution-firewall",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.02",
+      "price_atomic_usdc": "20000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "to": {
+          "type": "string",
+          "description": "Target contract or recipient EVM address (0x...)",
+          "required": false
+        },
+        "data": {
+          "type": "string",
+          "description": "Hex calldata payload (e.g. '0x095ea7b3...')",
+          "required": false
+        },
+        "from_addr": {
+          "type": "string",
+          "description": "Optional sender address for eth_call dry-run",
+          "required": false
+        },
+        "value_wei": {
+          "type": "string",
+          "description": "Optional native value in wei (decimal string)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Target chain ('base' or 'ethereum')",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "to": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "data": "0x095ea7b300000000000000000000000017ea1c2afc105d8e9c976ed65aa97c65cf5720f600000000000000000000000000000000000000000000000000000000000f4240",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "to_checksummed",
+        "chain",
+        "canonical_label",
+        "decoded_function",
+        "spender_or_recipient",
+        "infinite_approval_detected",
+        "simulation_succeeded",
+        "revert_reason",
+        "execution_risk_level",
+        "guardrails",
+        "firewall_verdict",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "defi_arbitrage_radar",
+      "title": "Cross-chain DEX & yield arbitrage radar",
+      "description": "Measure cross-venue DEX spot price dispersion in basis points alongside $5M+ TVL DeFi yield-carry opportunities using keyless DexScreener and DeFiLlama data.",
+      "endpoint": "/api/defi/arbitrage-radar",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.03",
+      "price_atomic_usdc": "30000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "asset": {
+          "type": "string",
+          "description": "Asset ticker (e.g. 'WETH', 'USDC', 'cbBTC', 'SOL')",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Target chain ('base', 'ethereum', 'arbitrum', or 'all')",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "asset": "WETH",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "asset",
+        "chain",
+        "cross_venue_spread_bps",
+        "best_buy_venue",
+        "best_sell_venue",
+        "liquidity_depth_warning",
+        "execution_feasibility",
+        "yield_carry_opportunities",
+        "dex_venues",
+        "dex_venues[].chain",
+        "dex_venues[].dex",
+        "dex_venues[].pair",
+        "dex_venues[].price_usd",
+        "dex_venues[].liquidity_usd",
+        "dex_venues[].volume_24h_usd",
+        "dex_venues[].pair_address",
+        "arbitrage_summary",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "agent_gas_sponsor_check",
+      "title": "EIP-4337 Paymaster & gas sponsorship telemetry",
+      "description": "Evaluate EIP-4337 Paymaster EntryPoint deposits, live EVM RPC gas fees, and USD UserOperation cost before submitting sponsored or self-funded transactions.",
+      "endpoint": "/api/agent/gas-sponsor-check",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.02",
+      "price_atomic_usdc": "20000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "Target chain ('base' or 'ethereum')",
+          "required": false
+        },
+        "estimated_gas_limit": {
+          "type": "integer",
+          "description": "Estimated UserOperation gas limit (default 180000)",
+          "required": false
+        },
+        "paymaster_address": {
+          "type": "string",
+          "description": "Optional custom EIP-4337 Paymaster address (0x...)",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base",
+        "estimated_gas_limit": 180000
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "estimated_gas_limit",
+        "paymaster_address",
+        "entrypoint_version",
+        "entrypoint_address",
+        "paymaster_deposit_eth",
+        "gas_price_gwei",
+        "eth_price_usd",
+        "estimated_userop_cost_usd",
+        "sponsorship_viable",
+        "congestion_level",
+        "gas_recommendation",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "defi_intent_routing",
+      "title": "Cross-chain DeFi intent settlement routing",
+      "description": "Score cross-chain intent settlement routes across Base, Arbitrum, Optimism, and Ethereum by combining DEX liquidity depth, slippage, and live RPC gas costs.",
+      "endpoint": "/api/defi/intent-routing",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.02",
+      "price_atomic_usdc": "20000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "asset": {
+          "type": "string",
+          "description": "Asset symbol (e.g. 'USDC', 'WETH', 'cbBTC')",
+          "required": false
+        },
+        "source_chain": {
+          "type": "string",
+          "description": "Origin chain (e.g. 'base', 'arbitrum', 'optimism', 'ethereum')",
+          "required": false
+        },
+        "destination_chain": {
+          "type": "string",
+          "description": "Destination chain",
+          "required": false
+        },
+        "amount_usd": {
+          "type": "number",
+          "description": "Intent transfer/swap size in USD (default $25,000)",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "asset": "USDC",
+        "source_chain": "base",
+        "destination_chain": "arbitrum",
+        "amount_usd": 25000.0
+      },
+      "output_keys": [
+        "endpoint",
+        "asset",
+        "source_chain",
+        "destination_chain",
+        "amount_usd",
+        "recommended_route",
+        "estimated_slippage_bps",
+        "estimated_gas_usd",
+        "net_settlement_efficiency_score",
+        "alternative_routes",
+        "routing_verdict",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "crypto_state_attestation",
+      "title": "Verifiable EVM state-commitment attestation",
+      "description": "Anchor any EVM address or contract to a live RPC block header, stateRoot, and SHA-256 state commitment cached in SQLite for downstream agent verification.",
+      "endpoint": "/api/crypto/state-attestation",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.05",
+      "price_atomic_usdc": "50000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "subject_address": {
+          "type": "string",
+          "description": "Target EVM address or contract to attest (0x...)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Target chain ('base' or 'ethereum')",
+          "required": false
+        },
+        "ttl_seconds": {
+          "type": "integer",
+          "description": "Attestation cache TTL in seconds (default 120)",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "subject_address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "attestation_id",
+        "subject_address",
+        "chain",
+        "block_number",
+        "block_hash",
+        "state_root",
+        "state_commitment_sha256",
+        "ttl_seconds",
+        "cache_hit",
+        "attestation_summary",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "agent_mev_shield_check",
+      "title": "Pre-submission MEV & sandwich shield telemetry",
+      "description": "Evaluate swap or arbitrage MEV sandwich exposure, pool liquidity ratio, safe slippage bounds, and recommended private-RPC relay before signing.",
+      "endpoint": "/api/agent/mev-shield-check",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.05",
+      "price_atomic_usdc": "50000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "Target chain ('base' or 'ethereum')",
+          "required": false
+        },
+        "swap_value_usd": {
+          "type": "number",
+          "description": "Notional swap value in USD",
+          "required": false
+        },
+        "slippage_tolerance_bps": {
+          "type": "integer",
+          "description": "Caller slippage tolerance in basis points",
+          "required": false
+        },
+        "calldata": {
+          "type": "string",
+          "description": "Optional hex calldata to inspect for router/deadline flags",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base",
+        "swap_value_usd": 25000.0,
+        "slippage_tolerance_bps": 50
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "swap_value_usd",
+        "slippage_tolerance_bps",
+        "gas_gwei",
+        "block_utilization_pct",
+        "top_pool_liquidity_usd",
+        "sandwich_risk_level",
+        "estimated_mev_exposure_bps",
+        "recommended_relay",
+        "max_safe_slippage_bps",
+        "calldata_flags",
+        "shield_verdict",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "agent_escrow_arbitration",
+      "title": "Autonomous agent escrow arbitration & SLA verdict",
+      "description": "Resolve agent-to-agent escrow disputes by cross-referencing task spec hashes, delivery hashes, and state attestations into a persisted SLA verdict.",
+      "endpoint": "/api/agent/escrow-arbitration",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.02",
+      "price_atomic_usdc": "20000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "task_spec_hash": {
+          "type": "string",
+          "description": "SHA-256 or keccak256 hash of the agreed task specification",
+          "required": false
+        },
+        "delivery_payload_hash": {
+          "type": "string",
+          "description": "SHA-256 or keccak256 hash of the submitted agent deliverable",
+          "required": false
+        },
+        "attestation_id": {
+          "type": "string",
+          "description": "Optional state_attestations ID anchoring the deliverable",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "task_spec_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "delivery_payload_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "output_keys": [
+        "endpoint",
+        "arbitration_id",
+        "task_spec_hash",
+        "delivery_payload_hash",
+        "attestation_id",
+        "verdict",
+        "payer_share_pct",
+        "payee_share_pct",
+        "evidence_hash_sha256",
+        "sla_checks",
+        "sla_checks[].check",
+        "sla_checks[].passed",
+        "arbitration_rationale",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "crypto_zk_receipt_verify",
+      "title": "Keyless ZK, Merkle & EIP-712 receipt verification",
+      "description": "Verify verifiable-compute and agent work receipt envelopes using pure Python SHA-256 Merkle commitments, EIP-712/ECDSA checks, and state_attestations.",
+      "endpoint": "/api/crypto/zk-receipt-verify",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.05",
+      "price_atomic_usdc": "50000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "proof_envelope": {
+          "type": "object",
+          "description": "JSON proof envelope object (proof_type, leaf, proof[], root, optional signature/signer)",
+          "required": false
+        },
+        "state_commitment_sha256": {
+          "type": "string",
+          "description": "Expected 64-hex SHA-256 state commitment to verify against",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "proof_envelope": {
+          "proof_type": "merkle_sha256",
+          "leaf": "x402-work-receipt-v1",
+          "proof": [],
+          "root": "5cf5c02c8f8f0c627cb032e48a9e8b91ca7cc64e4ef0ff0483ffba4c6f468666"
+        },
+        "state_commitment_sha256": "5cf5c02c8f8f0c627cb032e48a9e8b91ca7cc64e4ef0ff0483ffba4c6f468666"
+      },
+      "output_keys": [
+        "endpoint",
+        "verified",
+        "proof_type",
+        "merkle_root_match",
+        "anchored_block_number",
+        "commitment_sha256",
+        "checks",
+        "checks[].check",
+        "checks[].passed",
+        "checks[].computed_root",
+        "verification_summary",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "agent_session_open",
+      "title": "Pre-funded agent session tunnel",
+      "description": "Deposit $1.00 USDC once to mint an HMAC-signed Bearer session token (x402s_...) for zero-402 high-frequency API calls with atomic balance debits.",
+      "endpoint": "/api/agent/session-open",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$1.00",
+      "price_atomic_usdc": "1000000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "payer_address": {
+          "type": "string",
+          "description": "EVM wallet address opening the session (0x...)",
+          "required": false
+        },
+        "ttl_minutes": {
+          "type": "integer",
+          "description": "Session lifetime in minutes (default 60, max 1440)",
+          "required": false
+        }
+      },
+      "example_request": {
+        "payer_address": "0x02870E5A7B965404BF608630b0Cb90304675BecE",
+        "ttl_minutes": 60
+      },
+      "output_keys": [
+        "endpoint",
+        "session_id",
+        "payer_address",
+        "session_token",
+        "deposited_usd",
+        "remaining_usd",
+        "expires_at",
+        "auth_header_example",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "token_snapshot",
+      "title": "Live token market snapshot with AI momentum read",
+      "description": "Live token price, liquidity, FDV, market cap, 24h volume, price change, and buy/sell order flow from DEX pairs, plus deterministic anomaly flags and a local qwen3.5:4b momentum and risk read.",
+      "endpoint": "/api/token/snapshot",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.003",
+      "price_atomic_usdc": "3000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "token": {
+          "type": "string",
+          "description": "Token contract address (0x...) or symbol (e.g. AERO)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Optional chain filter: base, ethereum, arbitrum, optimism",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "token",
+        "token.address",
+        "token.name",
+        "token.symbol",
+        "pair",
+        "pair.dex",
+        "pair.pair_address",
+        "pair.quote_symbol",
+        "pair.url",
+        "pair.age_hours",
+        "market",
+        "market.price_usd",
+        "market.liquidity_usd",
+        "market.fdv_usd",
+        "market.market_cap_usd",
+        "market.volume_24h_usd",
+        "market.price_change_pct",
+        "market.price_change_pct.m5",
+        "market.price_change_pct.h1",
+        "market.price_change_pct.h6",
+        "market.price_change_pct.h24",
+        "market.txns_24h",
+        "market.txns_24h.buys",
+        "market.txns_24h.sells",
+        "flags",
+        "ai",
+        "ai.signal",
+        "ai.summary",
+        "ai.watch_points",
+        "ai.source",
+        "ai.adjusted_by_guardrail",
+        "pairs_considered",
+        "data_source",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "token_risk",
+      "title": "EVM token contract risk scan with AI verdict",
+      "description": "On-chain EVM token contract risk scan: proxy upgradeability, owner renouncement, mint/blacklist/fee/trading-toggle functions in bytecode, and DEX liquidity, scored 0-100 with a local qwen3.5:4b verdict and reasons.",
+      "endpoint": "/api/token/risk",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.01",
+      "price_atomic_usdc": "10000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "address": {
+          "type": "string",
+          "description": "Token contract address (0x + 40 hex)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "base (default), ethereum, arbitrum, optimism",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "address": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "address",
+        "token",
+        "token.name",
+        "token.symbol",
+        "token.decimals",
+        "token.total_supply_raw",
+        "contract",
+        "contract.code_size_bytes",
+        "contract.is_proxy",
+        "contract.implementation",
+        "contract.owner",
+        "contract.owner_renounced",
+        "contract.privileged_functions",
+        "contract.privileged_functions.mint",
+        "liquidity",
+        "liquidity.top_pair_liquidity_usd",
+        "liquidity.pair_age_hours",
+        "liquidity.buys_24h",
+        "liquidity.sells_24h",
+        "liquidity.dex",
+        "risk_score",
+        "risk_band",
+        "risk_reasons",
+        "checks_not_performed",
+        "ai",
+        "ai.verdict",
+        "ai.explanation",
+        "ai.top_reasons",
+        "ai.source",
+        "ai.adjusted_by_guardrail",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "tx_decode",
+      "title": "EVM transaction decoder with AI explanation",
+      "description": "Decode any Base, Ethereum, Arbitrum, or Optimism transaction: method, arguments, ERC-20 transfers and approvals, status, and fee, with unlimited-approval flags and a local qwen3.5:4b plain-English explanation.",
+      "endpoint": "/api/tx/decode",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.005",
+      "price_atomic_usdc": "5000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "tx_hash": {
+          "type": "string",
+          "description": "Transaction hash (0x + 64 hex)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "base (default), ethereum, arbitrum, optimism",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "tx_hash": "0xcd5f9d5cdfc75ed2439e6a2f230025eec0b580598881ca36bf06ba29e2ed6dac",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "tx_hash",
+        "chain",
+        "status",
+        "from",
+        "to",
+        "value_eth",
+        "method",
+        "method.selector",
+        "method.signature",
+        "method.signature_source",
+        "method.args",
+        "method.args[].type",
+        "method.args[].value",
+        "transfers",
+        "transfers[].token",
+        "transfers[].symbol",
+        "transfers[].from",
+        "transfers[].to",
+        "transfers[].amount_raw",
+        "transfers[].amount",
+        "approvals",
+        "flags",
+        "fee",
+        "fee.gas_used",
+        "fee.effective_gas_price_gwei",
+        "fee.fee_eth",
+        "fee.fee_usd",
+        "fee.scope",
+        "ai",
+        "ai.risk_level",
+        "ai.plain_english",
+        "ai.warnings",
+        "ai.source",
+        "ai.adjusted_by_guardrail",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "chain_gas",
+      "title": "Multi-chain gas and action cost oracle with AI pick",
+      "description": "Live gas prices on Base, Ethereum, Arbitrum, and Optimism with USD cost for ETH transfers, ERC-20 transfers, and swaps, plus a local qwen3.5:4b recommendation of the cheapest chain for your action.",
+      "endpoint": "/api/chain/gas",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "action": {
+          "type": "string",
+          "description": "What you plan to do (e.g. 'swap USDC to ETH')",
+          "required": false
+        },
+        "chains": {
+          "type": "string",
+          "description": "Comma list (default: base,ethereum,arbitrum,optimism)",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "action": "swap USDC to ETH"
+      },
+      "output_keys": [
+        "endpoint",
+        "action",
+        "eth_usd",
+        "chains",
+        "chains[].chain",
+        "chains[].gas_gwei",
+        "chains[].block",
+        "chains[].costs_usd",
+        "chains[].costs_usd.eth_transfer",
+        "chains[].costs_usd.erc20_transfer",
+        "chains[].costs_usd.swap",
+        "chains[].fee_scope",
+        "cheapest",
+        "cheapest.chain",
+        "cheapest.by",
+        "errors",
+        "ai",
+        "ai.recommended_chain",
+        "ai.recommendation",
+        "ai.source",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "tokens_trending",
+      "title": "Trending DEX pools by chain with AI market read",
+      "description": "Real-time trending DEX liquidity pools across Base, Ethereum, Arbitrum, Optimism, and Solana via GeckoTerminal, deduplicated by token and filtered by minimum liquidity with a local qwen3.5:4b read.",
+      "endpoint": "/api/tokens/trending",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "Network: base, ethereum, arbitrum, optimism, solana",
+          "required": false
+        },
+        "min_liquidity_usd": {
+          "type": "number",
+          "description": "Minimum pool liquidity in USD",
+          "required": false
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max pools to return (1-20)",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base",
+        "min_liquidity_usd": 10000,
+        "limit": 5
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "count",
+        "pools",
+        "pools[].network",
+        "pools[].pool_address",
+        "pools[].name",
+        "pools[].base_token_address",
+        "pools[].dex",
+        "pools[].price_usd",
+        "pools[].liquidity_usd",
+        "pools[].fdv_usd",
+        "pools[].volume_24h_usd",
+        "pools[].price_change_pct",
+        "pools[].price_change_pct.m5",
+        "pools[].price_change_pct.h1",
+        "pools[].price_change_pct.h6",
+        "pools[].price_change_pct.h24",
+        "pools[].txns_24h",
+        "pools[].txns_24h.buys",
+        "pools[].txns_24h.sells",
+        "pools[].pool_created_at",
+        "pools[].flags",
+        "ai",
+        "ai.market_tone",
+        "ai.summary",
+        "ai.source",
+        "data_source",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "tokens_newest",
+      "title": "Newly launched DEX pools with AI quality read",
+      "description": "Newly launched DEX token pools across Base, Ethereum, Arbitrum, Optimism, and Solana filtered by minimum liquidity with early-launch anomaly flags and a local qwen3.5:4b risk summary.",
+      "endpoint": "/api/tokens/newest",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "Network: base, ethereum, arbitrum, optimism, solana",
+          "required": false
+        },
+        "min_liquidity_usd": {
+          "type": "number",
+          "description": "Minimum pool liquidity in USD",
+          "required": false
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max pools to return (1-20)",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base",
+        "min_liquidity_usd": 1000,
+        "limit": 5
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "count",
+        "pools",
+        "pools[].network",
+        "pools[].pool_address",
+        "pools[].name",
+        "pools[].base_token_address",
+        "pools[].dex",
+        "pools[].price_usd",
+        "pools[].liquidity_usd",
+        "pools[].fdv_usd",
+        "pools[].volume_24h_usd",
+        "pools[].price_change_pct",
+        "pools[].price_change_pct.m5",
+        "pools[].price_change_pct.h1",
+        "pools[].price_change_pct.h6",
+        "pools[].price_change_pct.h24",
+        "pools[].txns_24h",
+        "pools[].txns_24h.buys",
+        "pools[].txns_24h.sells",
+        "pools[].pool_created_at",
+        "pools[].flags",
+        "ai",
+        "ai.launch_quality",
+        "ai.summary",
+        "ai.source",
+        "data_source",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "token_indicators",
+      "title": "Computed VWAP, RSI, EMA, MACD technical indicators",
+      "description": "Compute VWAP, RSI(14), EMA(9/21), MACD, volatility, and trend from live DEX pool OHLCV candles (minute/hour/day) with a grounded local qwen3.5:4b technical setup bias.",
+      "endpoint": "/api/token/indicators",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.005",
+      "price_atomic_usdc": "5000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "token": {
+          "type": "string",
+          "description": "Token address or symbol (or pool address)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Network: base, ethereum, arbitrum, optimism, solana",
+          "required": false
+        },
+        "timeframe": {
+          "type": "string",
+          "description": "Candle timeframe: minute, hour, day",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "chain": "base",
+        "timeframe": "hour"
+      },
+      "output_keys": [
+        "endpoint",
+        "token",
+        "chain",
+        "pool_address",
+        "timeframe",
+        "indicators",
+        "indicators.candles",
+        "indicators.latest_close",
+        "indicators.vwap",
+        "indicators.rsi_14",
+        "indicators.ema_9",
+        "indicators.ema_21",
+        "indicators.macd",
+        "indicators.macd.macd",
+        "indicators.macd.signal",
+        "indicators.macd.histogram",
+        "indicators.volatility_pct",
+        "indicators.trend",
+        "ai",
+        "ai.bias",
+        "ai.summary",
+        "ai.source",
+        "data_source",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "onchain_prices",
+      "title": "Batched multi-token on-chain prices and spreads",
+      "description": "Fetch live on-chain DEX prices, liquidity, 24h volume, and cross-venue spread percentages for up to 10 token addresses in one paid call, plus a grounded local qwen3.5:4b summary.",
+      "endpoint": "/api/onchain/prices",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.003",
+      "price_atomic_usdc": "3000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "tokens": {
+          "type": "array",
+          "description": "Comma list or JSON array of up to 10 token addresses (0x...)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Optional chain filter: base, ethereum, arbitrum, optimism",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "tokens": [
+          "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+          "0x4200000000000000000000000000000000000006"
+        ],
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "count",
+        "prices",
+        "prices.0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "prices.0x940181a94A35A4569E4529A3CDfB74e38FD98631.found",
+        "prices.0x940181a94A35A4569E4529A3CDfB74e38FD98631.chain",
+        "prices.0x940181a94A35A4569E4529A3CDfB74e38FD98631.symbol",
+        "prices.0x940181a94A35A4569E4529A3CDfB74e38FD98631.price_usd",
+        "prices.0x940181a94A35A4569E4529A3CDfB74e38FD98631.liquidity_usd",
+        "prices.0x940181a94A35A4569E4529A3CDfB74e38FD98631.volume_24h_usd",
+        "prices.0x940181a94A35A4569E4529A3CDfB74e38FD98631.venue_spread_pct",
+        "prices.0x4200000000000000000000000000000000000006",
+        "prices.0x4200000000000000000000000000000000000006.found",
+        "prices.0x4200000000000000000000000000000000000006.chain",
+        "prices.0x4200000000000000000000000000000000000006.symbol",
+        "prices.0x4200000000000000000000000000000000000006.price_usd",
+        "prices.0x4200000000000000000000000000000000000006.liquidity_usd",
+        "prices.0x4200000000000000000000000000000000000006.volume_24h_usd",
+        "prices.0x4200000000000000000000000000000000000006.venue_spread_pct",
+        "ai",
+        "ai.summary",
+        "ai.source",
+        "data_source",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "chain_rpc_consensus",
+      "title": "Multi-RPC block height consensus and lag monitor",
+      "description": "Cross-check live eth_blockNumber and latency across multiple public RPC nodes for Base, Ethereum, Arbitrum, or Optimism to flag lagging or stale nodes with a local qwen3.5:4b status read.",
+      "endpoint": "/api/chain/rpc-consensus",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "base, ethereum, arbitrum, optimism",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "head_block",
+        "healthy_nodes",
+        "total_nodes",
+        "nodes",
+        "nodes[].rpc",
+        "nodes[].ok",
+        "nodes[].block",
+        "nodes[].latency_ms",
+        "nodes[].lag_blocks",
+        "ai",
+        "ai.consensus",
+        "ai.summary",
+        "ai.source",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "allowance_check",
+      "title": "ERC-20 spender allowance and balance safety check",
+      "description": "Query live on-chain ERC-20 balanceOf and allowance(owner, spender) across Base, Ethereum, Arbitrum, or Optimism, flagging unlimited approvals with a grounded local qwen3.5:4b safety recommendation.",
+      "endpoint": "/api/allowance/check",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.002",
+      "price_atomic_usdc": "2000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "token": {
+          "type": "string",
+          "description": "ERC-20 token contract address (0x...)",
+          "required": false
+        },
+        "owner": {
+          "type": "string",
+          "description": "Wallet owner address (0x...)",
+          "required": false
+        },
+        "spender": {
+          "type": "string",
+          "description": "Spender contract address (0x...)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "base, ethereum, arbitrum, optimism",
+          "required": false
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data",
+          "required": false
+        }
+      },
+      "example_request": {
+        "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "owner": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "spender": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "token",
+        "symbol",
+        "owner",
+        "spender",
+        "allowance_raw",
+        "allowance",
+        "unlimited",
+        "balance_raw",
+        "balance",
+        "ai",
+        "ai.risk",
+        "ai.advice",
+        "ai.source",
+        "as_of",
+        "degraded",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "bypass_sweep",
+      "title": "Gasless stranded-asset & dust-to-USDC sweep builder",
+      "description": "Trigger When: wallet holds ERC-20 dust with $0 native gas. Workflow Outcome: checks EIP-2612/DEX value vs fee floor and builds a non-custodial Permit2/EIP-7702 USDC sweep bundle.",
+      "endpoint": "/api/bypass/sweep",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.02",
+      "price_atomic_usdc": "20000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "owner": {
+          "type": "string",
+          "description": "Owner EVM address (0x...)",
+          "required": false
+        },
+        "token": {
+          "type": "string",
+          "description": "Stranded ERC-20 token address (0x...)",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Source chain: base, ethereum, arbitrum, optimism",
+          "required": false
+        },
+        "target_chain": {
+          "type": "string",
+          "description": "Target USDC chain",
+          "required": false
+        }
+      },
+      "example_request": {
+        "owner": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "chain": "base",
+        "target_chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "target_chain",
+        "owner",
+        "token",
+        "symbol",
+        "decimals",
+        "token_balance",
+        "token_price_usd",
+        "estimated_value_usd",
+        "native_gas_eth",
+        "gas_stranded",
+        "supports_eip2612_permit",
+        "permit_nonce",
+        "sweep_viable",
+        "rejection_reason",
+        "estimated_relay_fee_usd",
+        "estimated_net_usdc",
+        "dex_route",
+        "pool_liquidity_usd",
+        "eth_usd",
+        "eth_usd_degraded",
+        "gasless_bundle",
+        "gasless_bundle.mechanism",
+        "gasless_bundle.permit2_contract",
+        "gasless_bundle.target_usdc",
+        "gasless_bundle.approve_zero_reset_or_permit_needed",
+        "gasless_bundle.non_custodial",
+        "rpc_source",
+        "timestamp",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "agent_ephemeral_key",
+      "title": "Ephemeral scoped-subkey & EIP-7702 policy provisioner",
+      "description": "Trigger When: delegating an untrusted sub-agent task. Workflow Outcome: mints or revokes a time-bounded, contract-allowlisted, spend-capped EIP-7702 policy in SQLite.",
+      "endpoint": "/api/agent/ephemeral-key",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.01",
+      "price_atomic_usdc": "10000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "action": {
+          "type": "string",
+          "description": "mint or revoke",
+          "required": false
+        },
+        "owner": {
+          "type": "string",
+          "description": "Owner EVM address",
+          "required": false
+        },
+        "delegate": {
+          "type": "string",
+          "description": "Delegate EVM address",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "Chain: base, ethereum, arbitrum, optimism",
+          "required": false
+        },
+        "max_spend_usd": {
+          "type": "number",
+          "description": "Max USD spend cap",
+          "required": false
+        },
+        "ttl_minutes": {
+          "type": "integer",
+          "description": "Policy TTL in minutes",
+          "required": false
+        },
+        "policy_id": {
+          "type": "string",
+          "description": "Policy ID to revoke",
+          "required": false
+        }
+      },
+      "example_request": {
+        "action": "mint",
+        "owner": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "delegate": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+        "chain": "base",
+        "max_spend_usd": 25.0,
+        "ttl_minutes": 30
+      },
+      "output_keys": [
+        "endpoint",
+        "action",
+        "chain",
+        "ttl_minutes",
+        "policy_id",
+        "chain_id",
+        "owner",
+        "delegate",
+        "max_spend_usd",
+        "allowed_contracts",
+        "allowed_selectors",
+        "expires_at",
+        "policy_digest_sha256",
+        "attestation_sig",
+        "eip7702_delegation_template",
+        "eip7702_delegation_template.chain_id",
+        "eip7702_delegation_template.authority",
+        "eip7702_delegation_template.delegate_implementation",
+        "eip7702_delegation_template.scope_hash",
+        "eip7702_delegation_template.revoke_instruction",
+        "eip7702_delegation_template.revoke_instruction.to",
+        "eip7702_delegation_template.revoke_instruction.value",
+        "eip7702_delegation_template.revoke_instruction.data",
+        "eip7702_delegation_template.revoke_instruction.note",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "bypass_cross_execute",
+      "title": "Cross-chain atomic pay-here execute-there planner",
+      "description": "Trigger When: funds sit on Chain A but action is needed on Chain B. Workflow Outcome: verifies source USDC, simulates destination eth_call, and outputs a coordinated execution plan.",
+      "endpoint": "/api/bypass/cross-execute",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.02",
+      "price_atomic_usdc": "20000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "source_chain": {
+          "type": "string",
+          "description": "Source funding chain",
+          "required": false
+        },
+        "destination_chain": {
+          "type": "string",
+          "description": "Destination execution chain",
+          "required": false
+        },
+        "sender": {
+          "type": "string",
+          "description": "Sender EVM address",
+          "required": false
+        },
+        "destination_to": {
+          "type": "string",
+          "description": "Destination contract address",
+          "required": false
+        },
+        "destination_data": {
+          "type": "string",
+          "description": "0x calldata for destination",
+          "required": false
+        },
+        "amount_usd": {
+          "type": "number",
+          "description": "USD amount to fund",
+          "required": false
+        }
+      },
+      "example_request": {
+        "source_chain": "base",
+        "destination_chain": "arbitrum",
+        "sender": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "destination_to": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+        "destination_data": "0x313ce567",
+        "amount_usd": 25.0
+      },
+      "output_keys": [
+        "endpoint",
+        "source_chain",
+        "destination_chain",
+        "sender",
+        "source_usdc_balance",
+        "funded_on_source",
+        "destination_simulation",
+        "destination_simulation.passed",
+        "destination_simulation.raw_result",
+        "destination_simulation.gas_units",
+        "destination_simulation.rpc",
+        "cost_breakdown",
+        "cost_breakdown.source_gas_gwei",
+        "cost_breakdown.destination_gas_gwei",
+        "cost_breakdown.destination_exec_usd",
+        "cost_breakdown.estimated_bridge_fee_usd",
+        "cost_breakdown.total_coordination_fee_usd",
+        "estimated_settlement_seconds",
+        "coordination_plan",
+        "coordination_plan.step_1_source_fund",
+        "coordination_plan.step_1_source_fund.chain_id",
+        "coordination_plan.step_1_source_fund.asset",
+        "coordination_plan.step_1_source_fund.amount_usd",
+        "coordination_plan.step_2_destination_exec",
+        "coordination_plan.step_2_destination_exec.chain_id",
+        "coordination_plan.step_2_destination_exec.to",
+        "coordination_plan.step_2_destination_exec.data",
+        "coordination_plan.step_2_destination_exec.gas_limit",
+        "executable",
+        "timestamp",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "guard_preflight_bypass",
+      "title": "Pre-flight doomed-tx simulator & calldata rewriter",
+      "description": "Trigger When: before broadcasting any high-value EVM tx. Workflow Outcome: runs eth_call/estimateGas, catches revert/approval traps, rewrites unsafe calldata, and signs safe_to_broadcast.",
+      "endpoint": "/api/guard/preflight-bypass",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.01",
+      "price_atomic_usdc": "10000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "EVM chain",
+          "required": false
+        },
+        "to": {
+          "type": "string",
+          "description": "Target contract address",
+          "required": false
+        },
+        "data": {
+          "type": "string",
+          "description": "0x calldata",
+          "required": false
+        },
+        "value": {
+          "type": "string",
+          "description": "Hex wei value",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base",
+        "from": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "to": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "data": "0x313ce567"
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "block_number",
+        "safe_to_broadcast",
+        "eth_call_ok",
+        "eth_call_result",
+        "estimated_gas",
+        "selector",
+        "flags",
+        "rewritten_safe_calldata",
+        "attestation_sig",
+        "rpc_source",
+        "timestamp",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "execution_stealth_slice",
+      "title": "MEV & sandwich-safe order stealth splitter",
+      "description": "Trigger When: executing a large DEX swap exposed to front-running. Workflow Outcome: chunks order into liquidity-bounded, jittered tranches with slippage and gas-spike pause bounds.",
+      "endpoint": "/api/execution/stealth-slice",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.01",
+      "price_atomic_usdc": "10000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "token": {
+          "type": "string",
+          "description": "Token address",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "EVM chain",
+          "required": false
+        },
+        "amount_usd": {
+          "type": "number",
+          "description": "Total order USD",
+          "required": false
+        },
+        "max_slippage_bps": {
+          "type": "integer",
+          "description": "Max slippage bps",
+          "required": false
+        },
+        "max_slices": {
+          "type": "integer",
+          "description": "Max tranche count",
+          "required": false
+        }
+      },
+      "example_request": {
+        "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+        "chain": "base",
+        "amount_usd": 25000.0,
+        "max_slippage_bps": 50,
+        "max_slices": 8
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "token",
+        "amount_usd",
+        "token_price_usd",
+        "pool_liquidity_usd",
+        "dex_id",
+        "current_gas_gwei",
+        "slice_count",
+        "total_duration_sec",
+        "pause_if_gas_gwei_above",
+        "recommended_private_rpc",
+        "tranches",
+        "tranches[].slice",
+        "tranches[].amount_usd",
+        "tranches[].delay_after_prev_sec",
+        "tranches[].cumulative_eta_sec",
+        "tranches[].max_slippage_bps",
+        "tranches[].est_price_impact_bps",
+        "timestamp",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "security_approval_purge",
+      "title": "Stale ERC-20 allowance scanner & Multicall3 purge",
+      "description": "Trigger When: after DeFi interactions or suspected stale approvals. Workflow Outcome: scans live allowances across routers, ranks risk, and builds single-tx Multicall3 revoke calldata.",
+      "endpoint": "/api/security/approval-purge",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.01",
+      "price_atomic_usdc": "10000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "owner": {
+          "type": "string",
+          "description": "Wallet address to scan",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "EVM chain",
+          "required": false
+        }
+      },
+      "example_request": {
+        "owner": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "owner",
+        "checked_pairs",
+        "active_allowances_count",
+        "exposed_allowances",
+        "revoke_unsigned_txs",
+        "multicall3_batch",
+        "multicall3_batch.to",
+        "multicall3_batch.data",
+        "multicall3_batch.calls_count",
+        "timestamp",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "rails_route_select",
+      "title": "Cross-rail payment arbitrage & latency router",
+      "description": "Trigger When: choosing between x402 per-call, session tunnel, or Stripe MPP. Workflow Outcome: returns lowest-cost, lowest-latency rail using live Base gas and settlement telemetry.",
+      "endpoint": "/api/rails/route-select",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.005",
+      "price_atomic_usdc": "5000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "amount_usd": {
+          "type": "number",
+          "description": "Per-call USD amount",
+          "required": false
+        },
+        "expected_calls": {
+          "type": "integer",
+          "description": "Expected call count",
+          "required": false
+        }
+      },
+      "example_request": {
+        "amount_usd": 0.01,
+        "expected_calls": 25
+      },
+      "output_keys": [
+        "endpoint",
+        "amount_usd",
+        "expected_calls",
+        "base_gas_gwei",
+        "observed_x402_settlements",
+        "recommended_rail",
+        "reason",
+        "rails",
+        "rails[].rail",
+        "rails[].buyer_gas_usd",
+        "rails[].est_total_cost_usd",
+        "rails[].est_settlement_ms",
+        "rails[].min_payment_usd",
+        "rails[].reliability",
+        "rails[].viable",
+        "timestamp",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "workflow_state_gate",
+      "title": "Proof-of-state conditional release gate",
+      "description": "Trigger When: gating agent bounty release on verifiable delivery. Workflow Outcome: locks SHA-256 and block-height rules in SQLite, then verifies proof to emit signed release_attestation.",
+      "endpoint": "/api/workflow/state-gate",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.01",
+      "price_atomic_usdc": "10000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "action": {
+          "type": "string",
+          "description": "create or verify",
+          "required": false
+        },
+        "creator": {
+          "type": "string",
+          "description": "Creator EVM address",
+          "required": false
+        },
+        "beneficiary": {
+          "type": "string",
+          "description": "Beneficiary EVM address",
+          "required": false
+        },
+        "amount_usd": {
+          "type": "number",
+          "description": "Escrow USD amount",
+          "required": false
+        },
+        "expected_text": {
+          "type": "string",
+          "description": "Expected text to hash",
+          "required": false
+        },
+        "expected_sha256": {
+          "type": "string",
+          "description": "Expected 64-hex SHA-256",
+          "required": false
+        },
+        "gate_id": {
+          "type": "string",
+          "description": "Gate ID to verify",
+          "required": false
+        },
+        "proof_payload": {
+          "type": "string",
+          "description": "Proof payload to verify",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "EVM chain",
+          "required": false
+        }
+      },
+      "example_request": {
+        "action": "create",
+        "creator": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "beneficiary": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+        "amount_usd": 10.0,
+        "expected_text": "x402-delivery-ok",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "current_block",
+        "action",
+        "gate_id",
+        "status",
+        "chain",
+        "amount_usd",
+        "expected_sha256",
+        "min_block_number",
+        "gate_commitment_sha256",
+        "attestation_sig",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "trust_wallet_attest",
+      "title": "Wallet behavioral & sybil liveness attestor",
+      "description": "Trigger When: gating an unknown counterparty or agent caller. Workflow Outcome: scores live nonce, gas, USDC, contract code, and x402 history into a signed risk tier and RPM cap.",
+      "endpoint": "/api/trust/wallet-attest",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.01",
+      "price_atomic_usdc": "10000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "address": {
+          "type": "string",
+          "description": "EVM wallet address to score",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "EVM chain",
+          "required": false
+        }
+      },
+      "example_request": {
+        "address": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+        "chain": "base"
+      },
+      "output_keys": [
+        "endpoint",
+        "address",
+        "chain",
+        "block_number",
+        "latest_nonce",
+        "pending_nonce",
+        "native_eth",
+        "usdc_balance",
+        "is_contract",
+        "x402_settled_count",
+        "liveness_score",
+        "risk_tier",
+        "recommended_rate_limit_rpm",
+        "flags",
+        "attestation_sig",
+        "rpc_source",
+        "timestamp",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "chain_nonce_unstick",
+      "title": "Multi-agent deadlock & stuck-nonce unblocker",
+      "description": "Trigger When: agent outbound queue stalls on pending nonces. Workflow Outcome: diagnoses latest vs pending nonce gap and builds bumped EIP-1559 replacement cancel transactions.",
+      "endpoint": "/api/chain/nonce-unstick",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.005",
+      "price_atomic_usdc": "5000",
+      "payment_rails": [
+        "x402"
+      ],
+      "parameters": {
+        "address": {
+          "type": "string",
+          "description": "EVM wallet address",
+          "required": false
+        },
+        "chain": {
+          "type": "string",
+          "description": "EVM chain",
+          "required": false
+        },
+        "bump_pct": {
+          "type": "integer",
+          "description": "Fee bump percentage",
+          "required": false
+        }
+      },
+      "example_request": {
+        "address": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+        "chain": "base",
+        "bump_pct": 25
+      },
+      "output_keys": [
+        "endpoint",
+        "chain",
+        "address",
+        "latest_nonce",
+        "pending_nonce",
+        "stuck_nonce_count",
+        "queue_wedged",
+        "bump_pct",
+        "replacement_max_fee_gwei",
+        "replacement_priority_fee_gwei",
+        "estimated_clear_cost_usd",
+        "replacement_cancel_txs",
+        "rpc_source",
+        "timestamp",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "web_search_check",
+      "description": "FREE — Search data availability check with result count and enrichment rate. Validate input and check data availability before paying for /api/search. Zero cost.",
+      "endpoint": "/api/search/check",
+      "method": "GET",
+      "price": "free",
+      "parameters": {
+        "q": {
+          "type": "string",
+          "description": "Search query to check",
+          "required": false
+        },
+        "category": {
+          "type": "string",
+          "description": "Filter by category: web or news",
+          "required": false
+        }
+      },
+      "example_request": {
+        "q": "bitcoin"
+      },
+      "output_keys": [
+        "valid_input",
+        "has_cached_results",
+        "result_count",
+        "enriched_count",
+        "response_fields",
+        "full_call_price_usdc",
+        "paid_endpoint",
+        "check_endpoint",
+        "method",
+        "topics_tracked",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "company_enrichment_check",
+      "description": "FREE — Company ticker validation with SEC data availability check. Validate input and check data availability before paying for /api/company. Zero cost.",
+      "endpoint": "/api/company/check",
+      "method": "GET",
+      "price": "free",
+      "parameters": {
+        "ticker": {
+          "type": "string",
+          "description": "Stock ticker to check",
+          "required": false
+        }
+      },
+      "example_request": {
+        "ticker": "AAPL"
+      },
+      "output_keys": [
+        "valid_input",
+        "ticker",
+        "is_tracked_ticker",
+        "has_cached_record",
+        "estimated_fields",
+        "available_tickers",
+        "tracked_tickers",
+        "tracked_tickers[].ticker",
+        "tracked_tickers[].company_name",
+        "tracked_tickers[].sector",
+        "tracked_tickers[].has_sec_data",
+        "tracked_tickers[].last_updated",
+        "tracked_tickers[].data_source",
+        "sectors",
+        "sectors[].name",
+        "sectors[].tickers",
+        "sectors[].count",
+        "total_tickers",
+        "any_sec_ticker_accepted",
+        "note",
+        "response_fields",
+        "full_call_price_usdc",
+        "paid_endpoint",
+        "check_endpoint",
+        "method",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "news_intel_check",
+      "description": "FREE — News data availability check with category and result counts. Validate input and check data availability before paying for /api/news. Zero cost.",
+      "endpoint": "/api/news/check",
+      "method": "GET",
+      "price": "free",
+      "parameters": {
+        "category": {
+          "type": "string",
+          "description": "News category to check",
+          "required": false
+        },
+        "q": {
+          "type": "string",
+          "description": "Search query to check",
+          "required": false
+        }
+      },
+      "example_request": {
+        "category": "technology"
+      },
+      "output_keys": [
+        "valid_input",
+        "has_cached_results",
+        "result_count",
+        "available_categories",
+        "response_fields",
+        "full_call_price_usdc",
+        "paid_endpoint",
+        "check_endpoint",
+        "method",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "clean_url_check",
+      "description": "FREE — URL validation with SSRF protection and cache status check. Validate input and check data availability before paying for /api/clean-url. Zero cost.",
+      "endpoint": "/api/clean-url/check",
+      "method": "GET",
+      "price": "free",
+      "parameters": {
+        "url": {
+          "type": "string",
+          "description": "URL to validate (https only)",
+          "required": false
+        }
+      },
+      "example_request": {
+        "url": "https://example.com"
+      },
+      "output_keys": [
+        "valid_input",
+        "url",
+        "is_cached",
+        "cache_age_seconds",
+        "response_fields",
+        "full_call_price_usdc",
+        "paid_endpoint",
+        "method",
+        "schema_version",
+        "cached"
+      ]
+    },
+    {
+      "name": "security_preflight_402_check",
+      "description": "FREE — Free pre-flight input check: URL scheme + SSRF validation and last scan status (no outbound request). Validate input and check data availability before paying for /api/security/preflight-402. Zero cost.",
+      "endpoint": "/api/security/preflight-402/check",
+      "method": "GET",
+      "price": "free",
+      "parameters": {
+        "url": {
+          "type": "string",
+          "description": "Target x402 endpoint URL (https only)",
+          "required": false
+        }
+      },
+      "example_request": {
+        "url": "https://apix402data.com/api/search"
+      },
+      "output_keys": [
+        "valid_input",
+        "reason",
+        "target_url",
+        "resolved_ips",
+        "has_recent_scan",
+        "last_scan",
+        "last_scan.risk_level",
+        "last_scan.safe_to_pay",
+        "last_scan.age_seconds",
+        "response_fields",
+        "full_call_price_usdc",
+        "paid_endpoint",
+        "check_endpoint",
+        "method",
+        "schema_version",
+        "cached"
+      ]
+    }
+  ],
+  "discovery": {
+    "openapi": "/openapi.json",
+    "health": "/health",
+    "pricing": "/pricing",
+    "llms_txt": "/llms.txt",
+    "root": "/"
+  }
+}
