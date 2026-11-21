@@ -1,0 +1,12 @@
+{
+  "name": "apix402data-mcp",
+  "version": "5.2.0",
+  "description": "Remote MCP server & x402 pay-per-call crypto, DeFi, EVM pre-flight, SEC, and research API (10 free trial calls included).",
+  "bin": {
+    "apix402data-mcp": "./bin/cli.mjs"
+  },
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://apix402data.com",
+  "keywords": ["mcp", "x402", "crypto", "defi", "base", "usdc", "evm", "agents"]
+}
