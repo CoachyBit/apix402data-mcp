@@ -1,7 +1,7 @@
 {
   "schema_version": "v1",
   "name": "x402-data-api",
-  "description": "Data API for AI agents: live web search JSON, real-time news sentiment, trends, crypto news sentiment, SEC EDGAR company intelligence and comparison, pre-flight x402 security audit, agent transaction risk preflight, market convergence index, clean markdown from URL, AI topic briefing, AI summarization, $1.00 research bundle, and vector-ready research dossier. 41 paid tools (POST + JSON body), 5 free GET /check previews. Pay per request with x402 v2 (USDC on Base, EIP-712 USD Coin v2) or Stripe MPP on routes >= $0.01 when advertised.",
+  "description": "Data API for AI agents: live web search JSON, real-time news sentiment, trends, crypto news sentiment, SEC EDGAR company intelligence and comparison, pre-flight x402 security audit, agent transaction risk preflight, market convergence index, clean markdown from URL, AI topic briefing, AI summarization, $1.00 research bundle, and vector-ready research dossier. 46 paid tools (POST + JSON body), 5 free GET /check previews. Pay per request with x402 v2 (USDC on Base, EIP-712 USD Coin v2) or Stripe MPP on routes >= $0.01 when advertised.",
   "version": "5.1.0",
   "updated": "2026-11-21",
   "base_url": "https://apix402data.com",
@@ -65,7 +65,7 @@
     }
   },
   "counts": {
-    "paid": 41,
+    "paid": 46,
     "free_check": 5
   },
   "tools": [
@@ -474,10 +474,6 @@
         "results[].tickers",
         "results[].source_count",
         "results[].also_reported_by",
-        "results[].also_reported_by[].source",
-        "results[].also_reported_by[].url",
-        "results[].also_reported_by[].title",
-        "results[].also_reported_by[].published_at",
         "results[].first_reported_at",
         "results[].age_minutes",
         "results[].breaking",
@@ -488,8 +484,10 @@
         "results[].full_text_available",
         "schema_version",
         "cached",
-        "results[].word_count",
-        "results[].read_time_min"
+        "results[].also_reported_by[].source",
+        "results[].also_reported_by[].url",
+        "results[].also_reported_by[].title",
+        "results[].also_reported_by[].published_at"
       ]
     },
     {
@@ -707,8 +705,6 @@
         "risk_flags",
         "summary_verdict",
         "bytecode_telemetry",
-        "bytecode_telemetry.address",
-        "bytecode_telemetry.chain",
         "bytecode_telemetry.bytecode_size",
         "bytecode_telemetry.bytecode_hash",
         "bytecode_telemetry.is_contract",
@@ -717,7 +713,6 @@
         "bytecode_telemetry.has_selfdestruct",
         "bytecode_telemetry.has_create2",
         "bytecode_telemetry.risk_flags",
-        "bytecode_telemetry.inspected_at",
         "active_exploit_alerts",
         "active_exploit_alerts[].title",
         "active_exploit_alerts[].source",
@@ -726,7 +721,10 @@
         "active_exploit_alerts[].matched_keywords",
         "degraded",
         "schema_version",
-        "cached"
+        "cached",
+        "bytecode_telemetry.address",
+        "bytecode_telemetry.chain",
+        "bytecode_telemetry.inspected_at"
       ]
     },
     {
@@ -2361,7 +2359,7 @@
     {
       "name": "guard_preflight_bypass",
       "title": "Pre-flight doomed-tx simulator & calldata rewriter",
-      "description": "Trigger When: before broadcasting any high-value EVM tx. Workflow Outcome: runs eth_call/estimateGas, catches revert/approval traps, rewrites unsafe calldata, and signs safe_to_broadcast.",
+      "description": "Trigger When: before signing or broadcasting an EVM transaction. Workflow Outcome: runs a read-only eth_call/estimateGas simulation, flags revert or unlimited-approval traps, rewrites unsafe calldata, and returns a signed safety attestation.",
       "endpoint": "/api/guard/preflight-bypass",
       "method": "POST",
       "content_type": "application/json",
@@ -2420,7 +2418,7 @@
     {
       "name": "execution_stealth_slice",
       "title": "MEV & sandwich-safe order stealth splitter",
-      "description": "Trigger When: executing a large DEX swap exposed to front-running. Workflow Outcome: chunks order into liquidity-bounded, jittered tranches with slippage and gas-spike pause bounds.",
+      "description": "Trigger When: planning a large DEX swap. Workflow Outcome: computes a read-only, non-custodial tranche schedule with slippage and gas-spike pause bounds (no custody, approvals, or on-chain execution; paused tranches defer).",
       "endpoint": "/api/execution/stealth-slice",
       "method": "POST",
       "content_type": "application/json",
@@ -2770,6 +2768,363 @@
         "timestamp",
         "schema_version",
         "cached"
+      ]
+    },
+    {
+      "name": "workflow_tx_guardian_suite",
+      "title": "All-in-one pre-sign calldata & EIP-712 security suite",
+      "description": "Trigger When: vetting an EVM tx or off-chain Permit2/EIP-712 signature. Workflow Outcome: runs calldata/typed-data decode, bytecode & taint audit, eth_call simulation, and safe rewrite.",
+      "endpoint": "/api/workflow/tx-guardian-suite",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.04",
+      "price_atomic_usdc": "40000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "EVM chain (base, ethereum, arbitrum, optimism)",
+          "required": false
+        },
+        "to": {
+          "type": "string",
+          "description": "Target 0x contract or recipient address",
+          "required": false
+        },
+        "from_addr": {
+          "type": "string",
+          "description": "Optional sender 0x address for eth_call simulation",
+          "required": false
+        },
+        "data": {
+          "type": "string",
+          "description": "0x-prefixed hex calldata",
+          "required": false
+        },
+        "typed_data": {
+          "type": "string",
+          "description": "Optional EIP-712 / Permit2 / Seaport typed-data JSON",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base",
+        "to": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "data": "0x313ce567"
+      },
+      "output_keys": [
+        "endpoint",
+        "schema_version",
+        "non_custodial",
+        "degraded",
+        "chain",
+        "rpc_source",
+        "gas_gwei",
+        "calldata_analysis",
+        "calldata_analysis.selector",
+        "calldata_analysis.method",
+        "calldata_analysis.flags",
+        "calldata_analysis.rewritten_safe_calldata",
+        "typed_data_analysis",
+        "bytecode_audit",
+        "bytecode_audit.has_code",
+        "bytecode_audit.byte_len",
+        "bytecode_audit.delegatecall",
+        "bytecode_audit.selfdestruct",
+        "bytecode_audit.flags",
+        "simulation",
+        "simulation.eth_call_ok",
+        "simulation.result_or_error",
+        "taint_hits",
+        "exploit_feed_hits",
+        "flags",
+        "risk_score",
+        "safe_to_sign_or_broadcast",
+        "recommended_private_rpc",
+        "attestation_sig",
+        "cached"
+      ]
+    },
+    {
+      "name": "workflow_protocol_due_diligence",
+      "title": "Institutional protocol & token circuit-breaker dossier",
+      "description": "Trigger When: deciding whether to pause or exit a DeFi protocol. Workflow Outcome: checks paused/owner/proxy slots, bytecode, TVL shock, DEX liquidity, and 48h exploit feeds.",
+      "endpoint": "/api/workflow/protocol-due-diligence",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.05",
+      "price_atomic_usdc": "50000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "EVM chain (base, ethereum, arbitrum, optimism)",
+          "required": false
+        },
+        "contract_address": {
+          "type": "string",
+          "description": "0x protocol or token contract address",
+          "required": false
+        },
+        "protocol": {
+          "type": "string",
+          "description": "DeFiLlama protocol slug (e.g. aave-v3, morpho)",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base",
+        "contract_address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "protocol": "aave-v3"
+      },
+      "output_keys": [
+        "endpoint",
+        "schema_version",
+        "non_custodial",
+        "degraded",
+        "chain",
+        "contract_address",
+        "protocol",
+        "rpc_source",
+        "bytecode",
+        "bytecode.has_code",
+        "bytecode.byte_len",
+        "bytecode.delegatecall",
+        "bytecode.selfdestruct",
+        "bytecode.flags",
+        "proxy_implementation",
+        "contract_paused",
+        "owner",
+        "owner_renounced",
+        "dex_top_liquidity_usd",
+        "defillama_tvl_usd",
+        "defillama_tvl_24h_pct",
+        "exploit_feed_hits",
+        "flags",
+        "risk_score",
+        "circuit_breaker_tripped",
+        "recommended_action",
+        "cached"
+      ]
+    },
+    {
+      "name": "workflow_defi_position_shield",
+      "title": "Multi-protocol lending health & rescue calldata builder",
+      "description": "Trigger When: guarding a DeFi wallet against liquidation or stale approvals. Workflow Outcome: stress-tests Aave/Compound health factor (-10%/-20%) and builds unsigned repay & revoke txs.",
+      "endpoint": "/api/workflow/defi-position-shield",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.04",
+      "price_atomic_usdc": "40000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "EVM chain (base, ethereum, arbitrum, optimism)",
+          "required": false
+        },
+        "wallet": {
+          "type": "string",
+          "description": "0x wallet address to inspect",
+          "required": false
+        },
+        "target_health_factor": {
+          "type": "number",
+          "description": "Target Aave health factor (1.1-5.0)",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base",
+        "wallet": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "target_health_factor": 1.5
+      },
+      "output_keys": [
+        "endpoint",
+        "schema_version",
+        "non_custodial",
+        "degraded",
+        "chain",
+        "wallet",
+        "rpc_source",
+        "usdc_wallet_balance",
+        "aave_v3",
+        "aave_v3.collateral_usd",
+        "aave_v3.debt_usd",
+        "aave_v3.liquidation_threshold",
+        "aave_v3.health_factor",
+        "aave_v3.hf_after_10pct_drop",
+        "aave_v3.hf_after_20pct_drop",
+        "aave_v3.collateral_drop_to_liq_pct",
+        "aave_v3.repay_usdc_for_target_hf",
+        "compound_v3_usdc_debt",
+        "stale_unlimited_usdc_approvals",
+        "unsigned_aave_repay_tx",
+        "unsigned_multicall3_revoke_tx",
+        "cached"
+      ]
+    },
+    {
+      "name": "workflow_agent_treasury_audit",
+      "title": "Autonomous wallet compliance, PnL & ops readiness audit",
+      "description": "Trigger When: auditing an agent wallet before operations or reporting. Workflow Outcome: aggregates balances, stuck nonces, 1-hop inflow taint, and USDC Transfer PnL ledger.",
+      "endpoint": "/api/workflow/agent-treasury-audit",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.04",
+      "price_atomic_usdc": "40000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "chain": {
+          "type": "string",
+          "description": "EVM chain (base, ethereum, arbitrum, optimism)",
+          "required": false
+        },
+        "wallet": {
+          "type": "string",
+          "description": "0x wallet address to audit",
+          "required": false
+        },
+        "lookback_blocks": {
+          "type": "integer",
+          "description": "Recent block window for USDC Transfer logs (100-2000)",
+          "required": false
+        }
+      },
+      "example_request": {
+        "chain": "base",
+        "wallet": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "lookback_blocks": 1000
+      },
+      "output_keys": [
+        "endpoint",
+        "schema_version",
+        "non_custodial",
+        "degraded",
+        "chain",
+        "wallet",
+        "rpc_source",
+        "block_window",
+        "block_window.from_block",
+        "block_window.to_block",
+        "block_window.lookback_blocks",
+        "balances",
+        "balances.native_eth",
+        "balances.usdc",
+        "nonce_health",
+        "nonce_health.latest_nonce",
+        "nonce_health.pending_nonce",
+        "nonce_health.stuck_nonces",
+        "usdc_pnl_ledger",
+        "usdc_pnl_ledger.transfer_count",
+        "usdc_pnl_ledger.inflow_usdc",
+        "usdc_pnl_ledger.outflow_usdc",
+        "usdc_pnl_ledger.net_usdc",
+        "usdc_pnl_ledger.unique_counterparties",
+        "usdc_pnl_ledger.taint_hits",
+        "ops_ready",
+        "recommended_actions",
+        "cached"
+      ]
+    },
+    {
+      "name": "workflow_cross_chain_arb_executor",
+      "title": "Net-profit cross-chain arb & tranche execution planner",
+      "description": "Trigger When: sizing cross-chain DEX arbitrage after all fees. Workflow Outcome: verifies dual-chain RPCs, deducts gas, bridge, and slippage costs, and outputs a tranche plan.",
+      "endpoint": "/api/workflow/cross-chain-arb-executor",
+      "method": "POST",
+      "content_type": "application/json",
+      "price": "$0.04",
+      "price_atomic_usdc": "40000",
+      "payment_rails": [
+        "x402",
+        "stripe_mpp"
+      ],
+      "parameters": {
+        "asset": {
+          "type": "string",
+          "description": "Token symbol to arbitrage",
+          "required": false
+        },
+        "source_chain": {
+          "type": "string",
+          "description": "Source EVM chain (base, ethereum, arbitrum, optimism)",
+          "required": false
+        },
+        "destination_chain": {
+          "type": "string",
+          "description": "Destination EVM chain (must differ from source_chain)",
+          "required": false
+        },
+        "amount_usd": {
+          "type": "number",
+          "description": "Trade notional in USD (50-5000000)",
+          "required": false
+        },
+        "max_slippage_bps": {
+          "type": "integer",
+          "description": "Maximum slippage tolerance in basis points (5-500)",
+          "required": false
+        }
+      },
+      "example_request": {
+        "asset": "USDC",
+        "source_chain": "base",
+        "destination_chain": "arbitrum",
+        "amount_usd": 10000.0,
+        "max_slippage_bps": 50
+      },
+      "output_keys": [
+        "endpoint",
+        "schema_version",
+        "non_custodial",
+        "degraded",
+        "asset",
+        "source_chain",
+        "destination_chain",
+        "rpc_health",
+        "rpc_health.source_rpc",
+        "rpc_health.destination_rpc",
+        "rpc_health.both_live",
+        "venues",
+        "spread_bps",
+        "economics",
+        "economics.amount_usd",
+        "economics.gross_profit_usd",
+        "economics.gas_cost_usd",
+        "economics.bridge_fee_usd",
+        "economics.est_slippage_usd",
+        "economics.net_profit_usd",
+        "economics.profitable_after_costs",
+        "execution_plan",
+        "execution_plan.slice_count",
+        "execution_plan.total_duration_sec",
+        "execution_plan.pause_if_gas_gwei_above",
+        "execution_plan.recommended_private_rpc",
+        "execution_plan.tranches",
+        "execution_plan.tranches[].slice",
+        "execution_plan.tranches[].amount_usd",
+        "execution_plan.tranches[].delay_after_prev_sec",
+        "execution_plan.tranches[].cumulative_eta_sec",
+        "execution_plan.tranches[].max_slippage_bps",
+        "execution_plan.tranches[].est_price_impact_bps",
+        "cached",
+        "venues.base",
+        "venues.base.price_usd",
+        "venues.base.liquidity_usd",
+        "venues.base.dex"
       ]
     },
     {
