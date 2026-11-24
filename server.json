@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
   "name": "io.github.CoachyBit/apix402data-mcp",
-  "description": "46 pay-per-call crypto, DeFi, EVM pre-flight security, SEC EDGAR, news & web-intel endpoints (14 flagship MCP tools + 10 free preview calls) via x402 Base USDC & Stripe MPP.",
+  "description": "46 pay-per-call crypto, DeFi, EVM security & SEC endpoints (14 MCP tools, 10 free calls) via x402.",
   "repository": {
     "url": "https://github.com/CoachyBit/apix402data-mcp",
     "source": "github"
