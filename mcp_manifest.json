@@ -366,11 +366,11 @@
         "word_count",
         "robots_txt_allowed",
         "cached",
+        "cache_age_seconds",
         "sentiment",
         "sentiment_score",
         "entities",
         "nlp_method",
-        "degraded",
         "schema_version",
         "clean_text",
         "summary",
@@ -470,10 +470,16 @@
         "results[].published_at",
         "results[].scraped_at",
         "results[].full_text_extracted",
+        "results[].word_count",
+        "results[].read_time_min",
         "results[].summary_source",
         "results[].tickers",
         "results[].source_count",
         "results[].also_reported_by",
+        "results[].also_reported_by[].source",
+        "results[].also_reported_by[].url",
+        "results[].also_reported_by[].title",
+        "results[].also_reported_by[].published_at",
         "results[].first_reported_at",
         "results[].age_minutes",
         "results[].breaking",
@@ -483,11 +489,7 @@
         "results[].tickers_in_body",
         "results[].full_text_available",
         "schema_version",
-        "cached",
-        "results[].also_reported_by[].source",
-        "results[].also_reported_by[].url",
-        "results[].also_reported_by[].title",
-        "results[].also_reported_by[].published_at"
+        "cached"
       ]
     },
     {
@@ -560,7 +562,8 @@
         "probe.redirect_chain[].status",
         "probe.error",
         "deep_audit",
-        "cached"
+        "cached",
+        "cache_age_seconds"
       ],
       "preview_tool": "security_preflight_402_check"
     },
@@ -705,6 +708,8 @@
         "risk_flags",
         "summary_verdict",
         "bytecode_telemetry",
+        "bytecode_telemetry.address",
+        "bytecode_telemetry.chain",
         "bytecode_telemetry.bytecode_size",
         "bytecode_telemetry.bytecode_hash",
         "bytecode_telemetry.is_contract",
@@ -713,6 +718,7 @@
         "bytecode_telemetry.has_selfdestruct",
         "bytecode_telemetry.has_create2",
         "bytecode_telemetry.risk_flags",
+        "bytecode_telemetry.inspected_at",
         "active_exploit_alerts",
         "active_exploit_alerts[].title",
         "active_exploit_alerts[].source",
@@ -721,10 +727,7 @@
         "active_exploit_alerts[].matched_keywords",
         "degraded",
         "schema_version",
-        "cached",
-        "bytecode_telemetry.address",
-        "bytecode_telemetry.chain",
-        "bytecode_telemetry.inspected_at"
+        "cached"
       ]
     },
     {
@@ -2079,7 +2082,7 @@
       },
       "example_request": {
         "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-        "owner": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "spender": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "chain": "base"
       },
@@ -2141,7 +2144,7 @@
         }
       },
       "example_request": {
-        "owner": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
         "chain": "base",
         "target_chain": "base"
@@ -2233,8 +2236,8 @@
       },
       "example_request": {
         "action": "mint",
-        "owner": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
-        "delegate": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+        "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+        "delegate": "0xf9018e83427EFeBBaD7de5Dfd60161Ab5E9b07eF",
         "chain": "base",
         "max_spend_usd": 25.0,
         "ttl_minutes": 30
@@ -2316,7 +2319,7 @@
       "example_request": {
         "source_chain": "base",
         "destination_chain": "arbitrum",
-        "sender": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "sender": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "destination_to": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
         "destination_data": "0x313ce567",
         "amount_usd": 25.0
@@ -2393,7 +2396,7 @@
       },
       "example_request": {
         "chain": "base",
-        "from": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "from": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "to": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
         "data": "0x313ce567"
       },
@@ -2513,7 +2516,7 @@
         }
       },
       "example_request": {
-        "owner": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "chain": "base"
       },
       "output_keys": [
@@ -2644,7 +2647,7 @@
       },
       "example_request": {
         "action": "create",
-        "creator": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "creator": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "beneficiary": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "amount_usd": 10.0,
         "expected_text": "x402-delivery-ok",
@@ -2945,7 +2948,7 @@
       },
       "example_request": {
         "chain": "base",
-        "wallet": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "wallet": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "target_health_factor": 1.5
       },
       "output_keys": [
@@ -2975,8 +2978,8 @@
     },
     {
       "name": "workflow_agent_treasury_audit",
-      "title": "Autonomous wallet compliance, PnL & ops readiness audit",
-      "description": "Trigger When: auditing an agent wallet before operations or reporting. Workflow Outcome: aggregates balances, stuck nonces, 1-hop inflow taint, and USDC Transfer PnL ledger.",
+      "title": "Wallet portfolio, history, compliance & PnL audit",
+      "description": "Trigger When: auditing wallet history, multi-asset portfolio USD value, or agent readiness. Workflow Outcome: aggregates ETH/WETH/USDC portfolio, nonce history, top counterparties, taint, and PnL.",
       "endpoint": "/api/workflow/agent-treasury-audit",
       "method": "POST",
       "content_type": "application/json",
@@ -3005,7 +3008,7 @@
       },
       "example_request": {
         "chain": "base",
-        "wallet": "0x2810EB5899EF878E4F35bF2Af9D75B861135Bd0E",
+        "wallet": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
         "lookback_blocks": 1000
       },
       "output_keys": [
@@ -3022,7 +3025,16 @@
         "block_window.lookback_blocks",
         "balances",
         "balances.native_eth",
+        "balances.weth",
         "balances.usdc",
+        "portfolio",
+        "portfolio.eth_usd_spot",
+        "portfolio.total_portfolio_usd",
+        "wallet_history",
+        "wallet_history.onchain_tx_count",
+        "wallet_history.activity_tier",
+        "wallet_history.x402_settled_calls",
+        "wallet_history.x402_spend_usd",
         "nonce_health",
         "nonce_health.latest_nonce",
         "nonce_health.pending_nonce",
@@ -3033,6 +3045,7 @@
         "usdc_pnl_ledger.outflow_usdc",
         "usdc_pnl_ledger.net_usdc",
         "usdc_pnl_ledger.unique_counterparties",
+        "usdc_pnl_ledger.top_counterparties",
         "usdc_pnl_ledger.taint_hits",
         "ops_ready",
         "recommended_actions",
@@ -3120,11 +3133,7 @@
         "execution_plan.tranches[].cumulative_eta_sec",
         "execution_plan.tranches[].max_slippage_bps",
         "execution_plan.tranches[].est_price_impact_bps",
-        "cached",
-        "venues.base",
-        "venues.base.price_usd",
-        "venues.base.liquidity_usd",
-        "venues.base.dex"
+        "cached"
       ]
     },
     {
