@@ -1,0 +1,2290 @@
+[
+  {
+    "name": "web_search",
+    "title": "Live web search JSON",
+    "description": "[$0.002] Fast live web and news search JSON (up to 5 batched queries) with relevance score, sentiment, and entities. $0.002/call \u2014 2.5x to 5x cheaper than $0.005-$0.01 search APIs. Do not use for single-URL extraction (use web_fetch_markdown) or crypto ticker feeds (use news_crypto_feed). `q` and `query` are aliases, `queries` overrides them for up to 5 batched lookups (1 HTTP request), and omitting all returns top headlines. Live web/RSS data, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 60 HTTP req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Search query (alias: q)"
+        },
+        "q": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Search query \u2014 supports AI, crypto, finance, tech, biotech, energy topics"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "web",
+            "news"
+          ],
+          "maxLength": 50,
+          "description": "Filter by category: web or news"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500,
+          "default": 50,
+          "description": "Max results to return per query (default 50, max 500)"
+        },
+        "queries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "description": "Batch: array of up to 5 queries; priced unit price x count"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Return only these result keys, e.g. [\"title\",\"url\",\"enrichment.sentiment\"]"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Live web search JSON",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        },
+        "category": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "data_source": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "query": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "snippet": {
+                "type": "string"
+              },
+              "enrichment": {
+                "type": "object",
+                "properties": {
+                  "headline": {
+                    "type": "string"
+                  },
+                  "relevance_score": {
+                    "type": "integer"
+                  },
+                  "key_takeaway": {
+                    "type": "string"
+                  },
+                  "sentiment": {
+                    "type": "string"
+                  },
+                  "entities": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "related_queries": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "wikipedia": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "extract": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "published": {
+                    "type": "string"
+                  }
+                }
+              },
+              "scraped_at": {
+                "type": "string"
+              },
+              "data_source": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "web_fetch_markdown",
+    "title": "Webpage to clean LLM Markdown",
+    "description": "[$0.002] Fetch any public HTTPS webpage (SSRF-guarded), strip ads/nav boilerplate, and return clean LLM-ready Markdown, word count, summary, and extracted entities ($0.002/call). Do not use for searching across sites (use web_search) or probing x402 paywalls (use x402_paywall_probe). Only `summarize=true` invokes the local LLM, and expiring `timeout_ms` returns `degraded=true` with extracted Markdown but no summary. Live SSRF-guarded HTTPS fetch, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Any public URL to fetch, clean, and extract content from"
+        },
+        "summarize": {
+          "type": "boolean",
+          "default": false,
+          "description": "Add LLM-powered summary with entity extraction and sentiment scoring"
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120000,
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Webpage to clean LLM Markdown",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "markdown": {
+          "type": "string"
+        },
+        "word_count": {
+          "type": "integer"
+        },
+        "robots_txt_allowed": {
+          "type": "boolean"
+        },
+        "cached": {
+          "type": "boolean"
+        },
+        "cache_age_seconds": {
+          "type": "number"
+        },
+        "sentiment": {
+          "type": "string"
+        },
+        "sentiment_score": {
+          "type": "number"
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nlp_method": {
+          "type": "string"
+        },
+        "schema_version": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "name": "news_crypto_feed",
+    "title": "Crypto news sentiment",
+    "description": "[$0.002] Get real-time cryptocurrency and DeFi news headlines enriched with per-article sentiment scores and mentioned token tickers in structured JSON. Do not use for general web search (use web_search) or SEC filings (use sec_company_lookup). `ticker` and `asset` are aliases, and `sort='quality'` (default) ranks by freshness+tier while `'newest'` sorts strictly chronologically. Live feeds, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Filter headlines by text (e.g. 'ETF', 'stablecoin')"
+        },
+        "ticker": {
+          "type": "string",
+          "enum": [
+            "AAVE",
+            "ADA",
+            "APT",
+            "ARB",
+            "ATOM",
+            "AVAX",
+            "BCH",
+            "BNB",
+            "BTC",
+            "COIN",
+            "DAI",
+            "DOGE",
+            "DOT",
+            "ENA",
+            "ETC",
+            "ETH",
+            "FIL",
+            "HBAR",
+            "HYPE",
+            "INJ",
+            "LINK",
+            "LTC",
+            "MSTR",
+            "NEAR",
+            "ONDO",
+            "OP",
+            "PEPE",
+            "POL",
+            "PYUSD",
+            "SEI",
+            "SHIB",
+            "SOL",
+            "SUI",
+            "TAO",
+            "TON",
+            "TRX",
+            "UNI",
+            "USDC",
+            "USDT",
+            "WLD",
+            "XLM",
+            "XMR",
+            "XRP"
+          ],
+          "maxLength": 10,
+          "description": "Only articles mentioning this ticker (BTC, ETH, SOL, USDC...)"
+        },
+        "asset": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Alias of ticker (e.g. USDC, BTC, ETH)"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200,
+          "default": 10,
+          "description": "Max articles (default 10)"
+        },
+        "sort": {
+          "type": "string",
+          "enum": [
+            "quality",
+            "newest"
+          ],
+          "maxLength": 10,
+          "default": "quality",
+          "description": "quality (freshness + outlet + coverage, default) or newest"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Crypto news sentiment",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "query": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "data_source": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "dedup": {
+          "type": "object",
+          "properties": {
+            "candidates": {
+              "type": "integer"
+            },
+            "unique_stories": {
+              "type": "integer"
+            },
+            "duplicates_merged": {
+              "type": "integer"
+            }
+          }
+        },
+        "breaking_count": {
+          "type": "integer"
+        },
+        "freshness": {
+          "type": "object",
+          "properties": {
+            "newest_article_age_minutes": {
+              "type": "number"
+            },
+            "index_last_updated_minutes_ago": {
+              "type": "number"
+            },
+            "target_minutes": {
+              "type": "integer"
+            },
+            "fresh": {
+              "type": "boolean"
+            }
+          }
+        },
+        "sentiment": {
+          "type": "object",
+          "properties": {
+            "distribution": {
+              "type": "object",
+              "properties": {
+                "bullish": {
+                  "type": "integer"
+                },
+                "bearish": {
+                  "type": "integer"
+                },
+                "neutral": {
+                  "type": "integer"
+                }
+              }
+            },
+            "dominant": {
+              "type": "string"
+            },
+            "bullish_ratio": {
+              "type": "number"
+            },
+            "scoring": {
+              "type": "object",
+              "properties": {
+                "llm_calls": {
+                  "type": "integer"
+                },
+                "llm_scored": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "methods": {
+                  "type": "object",
+                  "properties": {
+                    "crew_llm": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mentioned_tickers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ticker": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "sentiment": {
+                "type": "string"
+              },
+              "sentiment_method": {
+                "type": "string"
+              },
+              "entities": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "mentioned_tickers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "published_at": {
+                "type": "string"
+              },
+              "scraped_at": {
+                "type": "string"
+              },
+              "full_text_extracted": {
+                "type": "boolean"
+              },
+              "word_count": {
+                "type": "integer"
+              },
+              "read_time_min": {
+                "type": "integer"
+              },
+              "summary_source": {
+                "type": "string"
+              },
+              "tickers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source_count": {
+                "type": "integer"
+              },
+              "also_reported_by": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "source": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "published_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "first_reported_at": {
+                "type": "string"
+              },
+              "age_minutes": {
+                "type": "number"
+              },
+              "breaking": {
+                "type": "boolean"
+              },
+              "breaking_reasons": {
+                "type": "array",
+                "items": {}
+              },
+              "source_tier": {
+                "type": "string"
+              },
+              "quality_score": {
+                "type": "number"
+              },
+              "tickers_in_body": {
+                "type": "array",
+                "items": {}
+              },
+              "full_text_available": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "sec_company_lookup",
+    "title": "SEC EDGAR company intelligence",
+    "description": "[$0.002] Look up public company financials, CIK, recent SEC EDGAR filings (10-K/10-Q/8-K), and recent news sentiment by stock ticker (supports up to 5 batched tickers). Do not use for crypto tokens (use token_market_snapshot) or open web search (use web_search). `tickers` overrides `ticker` to batch up to 5 symbols, while `include_news=false` skips headline sentiment to reduce latency. Live SEC EDGAR data, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "ticker": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Any SEC-registered stock ticker (e.g., AAPL, COST, WMT, NVDA). Unknown tickers return 404 and are not charged."
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500,
+          "default": 50,
+          "description": "Max results to return (default 50, max 500)"
+        },
+        "tickers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "description": "Batch: array of up to 5 tickers; priced unit price x count"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Return only these result keys, e.g. [\"ticker\",\"company_name\",\"recent_filings\"]"
+        },
+        "include_news": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include recent news headlines with sentiment for the company"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "SEC EDGAR company intelligence",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "ticker": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "ticker": {
+                "type": "string"
+              },
+              "company_name": {
+                "type": "string"
+              },
+              "cik": {
+                "type": "string"
+              },
+              "sic_code": {
+                "type": "string"
+              },
+              "sic_description": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "fiscal_year_end": {
+                "type": "string"
+              },
+              "recent_filings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "form": {
+                      "type": "string"
+                    },
+                    "date": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "accession": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "enrichment": {
+                "type": "object",
+                "properties": {
+                  "summary": {
+                    "type": "string"
+                  },
+                  "sector": {
+                    "type": "string"
+                  },
+                  "key_products": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "recent_activity": {
+                    "type": "string"
+                  },
+                  "risk_factors": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "outlook": {
+                    "type": "string"
+                  }
+                }
+              },
+              "scraped_at": {
+                "type": "string"
+              },
+              "financials": {
+                "type": "object",
+                "properties": {
+                  "revenue_usd": {
+                    "type": "integer"
+                  },
+                  "net_income_usd": {
+                    "type": "integer"
+                  },
+                  "operating_income_usd": {
+                    "type": "integer"
+                  },
+                  "eps_diluted": {
+                    "type": "number"
+                  },
+                  "total_assets_usd": {
+                    "type": "integer"
+                  },
+                  "total_liabilities_usd": {
+                    "type": "integer"
+                  },
+                  "stockholders_equity_usd": {
+                    "type": "integer"
+                  },
+                  "cash_usd": {
+                    "type": "integer"
+                  },
+                  "shares_outstanding": {
+                    "type": "integer"
+                  },
+                  "fiscal_year_period_end": {
+                    "type": "string"
+                  },
+                  "balance_sheet_period_end": {
+                    "type": "string"
+                  }
+                }
+              },
+              "sentiment": {
+                "type": "string"
+              },
+              "sentiment_source": {
+                "type": "string"
+              },
+              "entities": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "news": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "published_at": {
+                      "type": "string"
+                    },
+                    "sentiment": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "x402_paywall_probe",
+    "title": "Pre-flight x402 security audit & prompt-injection detector",
+    "description": "[$0.002] Pre-flight x402 endpoint security firewall & prompt-injection detector. Probes any URL unpaid to catch price spikes, SIWx spoofing, fake USDC, and prompt injections ($0.002/call). Do not use for EVM calldata simulation (use evm_tx_simulate) or token bytecode scans (use token_honeypot_scan). `method` sets the HTTP probe verb (`GET` vs `POST`) used to trigger the 402 header, `deep_audit=true` runs prompt-injection checks, and `max_acceptable_usd` caps price validation. Live HTTP probe, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Target x402 endpoint URL to inspect (https only)"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "POST"
+          ],
+          "maxLength": 4,
+          "default": "POST",
+          "description": "HTTP method for the unpaid probe"
+        },
+        "max_acceptable_usd": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "default": 0.1,
+          "description": "Your maximum acceptable price in USD"
+        },
+        "deep_audit": {
+          "type": "boolean",
+          "default": false,
+          "description": "Add one local-LLM prompt-injection audit of the 402 metadata"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Pre-flight x402 security audit & prompt-injection detector",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "target_url": {
+          "type": "string"
+        },
+        "final_url": {
+          "type": "string"
+        },
+        "safe_to_pay": {
+          "type": "boolean"
+        },
+        "risk_level": {
+          "type": "string"
+        },
+        "risk_score": {
+          "type": "integer"
+        },
+        "quoted_price_usd": {
+          "type": "number"
+        },
+        "max_acceptable_usd": {
+          "type": "number"
+        },
+        "network": {
+          "type": "string"
+        },
+        "pay_to": {
+          "type": "string"
+        },
+        "x402_version": {
+          "type": "integer"
+        },
+        "payment_options": {
+          "type": "integer"
+        },
+        "stripe_mpp_offered": {
+          "type": "boolean"
+        },
+        "checks": {
+          "type": "object",
+          "properties": {
+            "returns_402": {
+              "type": "boolean"
+            },
+            "spend_cap_safe": {
+              "type": "boolean"
+            },
+            "siwx_origin_valid": {
+              "type": "boolean"
+            },
+            "canonical_asset_valid": {
+              "type": "boolean"
+            },
+            "bazaar_schema_present": {
+              "type": "boolean"
+            },
+            "prompt_injection_clean": {
+              "type": "boolean"
+            }
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {}
+        },
+        "probe": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "status": {
+              "type": "integer"
+            },
+            "redirect_chain": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "error": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "deep_audit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cached": {
+          "type": "boolean"
+        },
+        "cache_age_seconds": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  {
+    "name": "token_market_snapshot",
+    "title": "Live token market snapshot with AI momentum read",
+    "description": "[$0.003] Live token price, liquidity, FDV, market cap, 24h volume, price change, and buy/sell order flow from DEX pairs, plus deterministic anomaly flags and a local qwen3.5:4b momentum and risk read. Do not use for contract honeypot safety (use token_honeypot_scan) or DeFi yield pools (use defi_yield_pools). `chain` defaults to `'base'` (supports base, ethereum, arbitrum, optimism, solana), and expiring `timeout_ms` returns `degraded=true` omitting the LLM summary. Live DEX data, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "maxLength": 60,
+          "description": "Token contract address (0x...) or symbol (e.g. AERO)"
+        },
+        "chain": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Optional chain filter: base, ethereum, arbitrum, optimism"
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120000,
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Live token market snapshot with AI momentum read",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "chain": {
+          "type": "string"
+        },
+        "token": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "symbol": {
+              "type": "string"
+            }
+          }
+        },
+        "pair": {
+          "type": "object",
+          "properties": {
+            "dex": {
+              "type": "string"
+            },
+            "pair_address": {
+              "type": "string"
+            },
+            "quote_symbol": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "age_hours": {
+              "type": "number"
+            }
+          }
+        },
+        "market": {
+          "type": "object",
+          "properties": {
+            "price_usd": {
+              "type": "number"
+            },
+            "liquidity_usd": {
+              "type": "number"
+            },
+            "fdv_usd": {
+              "type": "number"
+            },
+            "market_cap_usd": {
+              "type": "number"
+            },
+            "volume_24h_usd": {
+              "type": "number"
+            },
+            "price_change_pct": {
+              "type": "object",
+              "properties": {
+                "m5": {
+                  "type": "number"
+                },
+                "h1": {
+                  "type": "number"
+                },
+                "h6": {
+                  "type": "number"
+                },
+                "h24": {
+                  "type": "number"
+                }
+              }
+            },
+            "txns_24h": {
+              "type": "object",
+              "properties": {
+                "buys": {
+                  "type": "integer"
+                },
+                "sells": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "signal": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "watch_points": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source": {
+              "type": "string"
+            },
+            "adjusted_by_guardrail": {
+              "type": "boolean"
+            }
+          }
+        },
+        "pairs_considered": {
+          "type": "integer"
+        },
+        "data_source": {
+          "type": "string"
+        },
+        "as_of": {
+          "type": "string"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "token_honeypot_scan",
+    "title": "EVM token risk verdict & honeypot scan",
+    "description": "[$0.01] Token risk verdict & honeypot scan ($0.01/call \u2014 50% cheaper than $0.02 verdicts): proxy upgradeability, owner renouncement, mint/blacklist/fee/trading-toggle bytecode, DEX liquidity, 0-100 score & AI grade. Do not use for token price/FDV/liquidity (use token_market_snapshot), protocol TVL checks (use defi_protocol_tvl_check), or pre-tx simulation (use evm_tx_simulate). `chain` accepts EVM networks (base, ethereum, arbitrum, optimism; not Solana), and expiring `timeout_ms` returns `degraded=true` omitting the LLM verdict. Live RPC bytecode + DEX, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "maxLength": 42,
+          "description": "Token contract address (0x + 40 hex)"
+        },
+        "chain": {
+          "type": "string",
+          "maxLength": 20,
+          "default": "base",
+          "description": "base (default), ethereum, arbitrum, optimism"
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120000,
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "EVM token risk verdict & honeypot scan",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "chain": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "token": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "symbol": {
+              "type": "string"
+            },
+            "decimals": {
+              "type": "integer"
+            },
+            "total_supply_raw": {
+              "type": "string"
+            }
+          }
+        },
+        "contract": {
+          "type": "object",
+          "properties": {
+            "code_size_bytes": {
+              "type": "integer"
+            },
+            "is_proxy": {
+              "type": "boolean"
+            },
+            "implementation": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "owner": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "owner_renounced": {
+              "type": "boolean"
+            },
+            "privileged_functions": {
+              "type": "object",
+              "properties": {
+                "mint": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "liquidity": {
+          "type": "object",
+          "properties": {
+            "top_pair_liquidity_usd": {
+              "type": "number"
+            },
+            "pair_age_hours": {
+              "type": "number"
+            },
+            "buys_24h": {
+              "type": "integer"
+            },
+            "sells_24h": {
+              "type": "integer"
+            },
+            "dex": {
+              "type": "string"
+            }
+          }
+        },
+        "risk_score": {
+          "type": "integer"
+        },
+        "risk_band": {
+          "type": "string"
+        },
+        "risk_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checks_not_performed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "type": "string"
+            },
+            "explanation": {
+              "type": "string"
+            },
+            "top_reasons": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source": {
+              "type": "string"
+            },
+            "adjusted_by_guardrail": {
+              "type": "boolean"
+            }
+          }
+        },
+        "as_of": {
+          "type": "string"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "defi_yield_pools",
+    "title": "Cross-chain DeFi real-yield & liquidity matrix",
+    "description": "[$0.03] Rank cross-chain DeFi liquidity pools with TVL >= $5M by risk-adjusted real base APY, impermanent loss exposure, and strategic allocation advice. Do not use for cross-chain swap arbitrage (use defi_cross_arb_plan) or wallet borrow health (use defi_position_shield). `chain` defaults to `'base'` (pass `'all'` to scan all supported chains at `$5M+` TVL), and expiring `timeout_ms` returns `degraded=true` with deterministic rankings only. Live DeFiLlama data, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 20 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "chain": {
+          "type": "string",
+          "maxLength": 40,
+          "default": "base",
+          "description": "Target chain (e.g. 'base', 'ethereum', 'arbitrum', 'solana', or 'all')"
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120000,
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Cross-chain DeFi real-yield & liquidity matrix",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "chain": {
+          "type": "string"
+        },
+        "min_tvl_usd": {
+          "type": "number"
+        },
+        "pool_count": {
+          "type": "integer"
+        },
+        "top_opportunity_pool": {
+          "type": "string"
+        },
+        "average_net_apy": {
+          "type": "number"
+        },
+        "risk_adjusted_rankings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "strategic_advice": {
+          "type": "string"
+        },
+        "pools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pool_id": {
+                "type": "string"
+              },
+              "chain": {
+                "type": "string"
+              },
+              "protocol": {
+                "type": "string"
+              },
+              "symbol": {
+                "type": "string"
+              },
+              "tvl_usd": {
+                "type": "number"
+              },
+              "apy_base": {
+                "type": "number"
+              },
+              "apy_reward": {
+                "type": "number"
+              },
+              "apy_total": {
+                "type": "number"
+              },
+              "apy_mean_30d": {
+                "type": "number"
+              },
+              "il_risk": {
+                "type": "string"
+              },
+              "stablecoin": {
+                "type": "integer"
+              },
+              "exposure": {
+                "type": "string"
+              },
+              "risk_adjusted_score": {
+                "type": "number"
+              },
+              "scraped_at": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "evm_tx_simulate",
+    "title": "All-in-one pre-sign calldata & EIP-712 security suite",
+    "description": "[$0.04] Trigger When: vetting an EVM tx or off-chain Permit2/EIP-712 signature. Workflow Outcome: runs calldata/typed-data decode, bytecode & taint audit, eth_call simulation, and safe rewrite. Do not use for DeFi protocol TVL/circuit-breaker checks (use defi_protocol_tvl_check) or token honeypot scans (use token_honeypot_scan). Supply `to`+`data` for calldata simulation, `typed_data` for off-chain EIP-712/Permit2 vetting, or both; `from_addr` enables sender-accurate `eth_call`. Live RPC/bytecode/taint check, read-only non-custodial (no broadcast); requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "chain": {
+          "type": "string",
+          "default": "base",
+          "description": "EVM chain (base, ethereum, arbitrum, optimism)"
+        },
+        "to": {
+          "type": "string",
+          "description": "Target 0x contract or recipient address"
+        },
+        "from_addr": {
+          "type": "string",
+          "description": "Optional sender 0x address for eth_call simulation"
+        },
+        "data": {
+          "type": "string",
+          "default": "0x",
+          "description": "0x-prefixed hex calldata"
+        },
+        "typed_data": {
+          "type": "string",
+          "description": "Optional EIP-712 / Permit2 / Seaport typed-data JSON"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "All-in-one pre-sign calldata & EIP-712 security suite",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "non_custodial": {
+          "type": "boolean"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "chain": {
+          "type": "string"
+        },
+        "rpc_source": {
+          "type": "string"
+        },
+        "gas_gwei": {
+          "type": "number"
+        },
+        "calldata_analysis": {
+          "type": "object",
+          "properties": {
+            "selector": {
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            },
+            "flags": {
+              "type": "array",
+              "items": {}
+            },
+            "rewritten_safe_calldata": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "typed_data_analysis": {
+          "type": "object",
+          "properties": {}
+        },
+        "bytecode_audit": {
+          "type": "object",
+          "properties": {
+            "has_code": {
+              "type": "boolean"
+            },
+            "byte_len": {
+              "type": "integer"
+            },
+            "delegatecall": {
+              "type": "boolean"
+            },
+            "selfdestruct": {
+              "type": "boolean"
+            },
+            "flags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "simulation": {
+          "type": "object",
+          "properties": {
+            "eth_call_ok": {
+              "type": "boolean"
+            },
+            "result_or_error": {
+              "type": "string"
+            }
+          }
+        },
+        "taint_hits": {
+          "type": "array",
+          "items": {}
+        },
+        "exploit_feed_hits": {
+          "type": "array",
+          "items": {}
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "risk_score": {
+          "type": "integer"
+        },
+        "safe_to_sign_or_broadcast": {
+          "type": "boolean"
+        },
+        "recommended_private_rpc": {
+          "type": "string"
+        },
+        "attestation_sig": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "defi_protocol_tvl_check",
+    "title": "Institutional protocol & token circuit-breaker dossier",
+    "description": "[$0.05] Trigger When: deciding whether to pause or exit a DeFi protocol. Workflow Outcome: checks paused/owner/proxy slots, bytecode, TVL shock, DEX liquidity, and 48h exploit feeds. Do not use for single-tx calldata simulation (use evm_tx_simulate), single-token honeypot scans (use token_honeypot_scan), or wallet borrow health (use defi_position_shield). Provide `contract_address` for on-chain `paused()`/proxy/DEX checks, `protocol` for DeFiLlama TVL shock, or both (omitting both returns 400). Live RPC/DeFiLlama/DexScreener, read-only non-custodial; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "chain": {
+          "type": "string",
+          "default": "base",
+          "description": "EVM chain (base, ethereum, arbitrum, optimism)"
+        },
+        "contract_address": {
+          "type": "string",
+          "description": "0x protocol or token contract address"
+        },
+        "protocol": {
+          "type": "string",
+          "description": "DeFiLlama protocol slug (e.g. aave-v3, morpho)"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Institutional protocol & token circuit-breaker dossier",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "non_custodial": {
+          "type": "boolean"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "chain": {
+          "type": "string"
+        },
+        "contract_address": {
+          "type": "string"
+        },
+        "protocol": {
+          "type": "string"
+        },
+        "rpc_source": {
+          "type": "string"
+        },
+        "bytecode": {
+          "type": "object",
+          "properties": {
+            "has_code": {
+              "type": "boolean"
+            },
+            "byte_len": {
+              "type": "integer"
+            },
+            "delegatecall": {
+              "type": "boolean"
+            },
+            "selfdestruct": {
+              "type": "boolean"
+            },
+            "flags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "proxy_implementation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contract_paused": {
+          "type": "boolean"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "owner_renounced": {
+          "type": "boolean"
+        },
+        "dex_top_liquidity_usd": {
+          "type": "number"
+        },
+        "defillama_tvl_usd": {
+          "type": "number"
+        },
+        "defillama_tvl_24h_pct": {
+          "type": "number"
+        },
+        "exploit_feed_hits": {
+          "type": "array",
+          "items": {}
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "risk_score": {
+          "type": "integer"
+        },
+        "circuit_breaker_tripped": {
+          "type": "boolean"
+        },
+        "recommended_action": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "defi_position_shield",
+    "title": "Multi-protocol lending health & rescue calldata builder",
+    "description": "[$0.04] Trigger When: guarding a DeFi wallet against liquidation or stale approvals. Workflow Outcome: stress-tests Aave/Compound health factor (-10%/-20%) and builds unsigned repay & revoke txs. Do not use for pool yield discovery (use defi_yield_pools) or wallet PnL logs (use wallet_treasury_pnl). The `-10%` and `-20%` collateral drops are fixed stress simulations, while `target_health_factor` sets the safety target used to size `unsigned_aave_repay_tx`. Live Aave/Compound RPCs, read-only non-custodial (no broadcast); requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "chain": {
+          "type": "string",
+          "default": "base",
+          "description": "EVM chain (base, ethereum, arbitrum, optimism)"
+        },
+        "wallet": {
+          "type": "string",
+          "description": "0x wallet address to inspect"
+        },
+        "target_health_factor": {
+          "type": "number",
+          "default": 1.5,
+          "description": "Target Aave health factor (1.1-5.0)"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Multi-protocol lending health & rescue calldata builder",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "non_custodial": {
+          "type": "boolean"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "chain": {
+          "type": "string"
+        },
+        "wallet": {
+          "type": "string"
+        },
+        "rpc_source": {
+          "type": "string"
+        },
+        "usdc_wallet_balance": {
+          "type": "number"
+        },
+        "aave_v3": {
+          "type": "object",
+          "properties": {
+            "collateral_usd": {
+              "type": "number"
+            },
+            "debt_usd": {
+              "type": "number"
+            },
+            "liquidation_threshold": {
+              "type": "number"
+            },
+            "health_factor": {
+              "type": "number"
+            },
+            "hf_after_10pct_drop": {
+              "type": "number"
+            },
+            "hf_after_20pct_drop": {
+              "type": "number"
+            },
+            "collateral_drop_to_liq_pct": {
+              "type": "number"
+            },
+            "repay_usdc_for_target_hf": {
+              "type": "number"
+            }
+          }
+        },
+        "compound_v3_usdc_debt": {
+          "type": "number"
+        },
+        "stale_unlimited_usdc_approvals": {
+          "type": "array",
+          "items": {}
+        },
+        "unsigned_aave_repay_tx": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unsigned_multicall3_revoke_tx": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "wallet_treasury_pnl",
+    "title": "Wallet portfolio, history, compliance & PnL audit",
+    "description": "[$0.04] Trigger When: auditing wallet history, multi-asset portfolio USD value, or agent readiness. Workflow Outcome: aggregates ETH/WETH/USDC portfolio, nonce history, top counterparties, taint, and PnL. Do not use for DeFi borrow liquidation checks (use defi_position_shield) or protocol TVL checks (use defi_protocol_tvl_check). `lookback_blocks` is clamped to `100-2000` (default `1000`) to keep `eth_getLogs` fast across public RPCs. Live RPC/log scan, read-only non-custodial; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "chain": {
+          "type": "string",
+          "default": "base",
+          "description": "EVM chain (base, ethereum, arbitrum, optimism)"
+        },
+        "wallet": {
+          "type": "string",
+          "description": "0x wallet address to audit"
+        },
+        "lookback_blocks": {
+          "type": "integer",
+          "default": 1000,
+          "description": "Recent block window for USDC Transfer logs (100-2000)"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Wallet portfolio, history, compliance & PnL audit",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "non_custodial": {
+          "type": "boolean"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "chain": {
+          "type": "string"
+        },
+        "wallet": {
+          "type": "string"
+        },
+        "rpc_source": {
+          "type": "string"
+        },
+        "block_window": {
+          "type": "object",
+          "properties": {
+            "from_block": {
+              "type": "integer"
+            },
+            "to_block": {
+              "type": "integer"
+            },
+            "lookback_blocks": {
+              "type": "integer"
+            }
+          }
+        },
+        "balances": {
+          "type": "object",
+          "properties": {
+            "native_eth": {
+              "type": "number"
+            },
+            "weth": {
+              "type": "number"
+            },
+            "usdc": {
+              "type": "number"
+            }
+          }
+        },
+        "portfolio": {
+          "type": "object",
+          "properties": {
+            "eth_usd_spot": {
+              "type": "number"
+            },
+            "total_portfolio_usd": {
+              "type": "number"
+            }
+          }
+        },
+        "wallet_history": {
+          "type": "object",
+          "properties": {
+            "onchain_tx_count": {
+              "type": "integer"
+            },
+            "activity_tier": {
+              "type": "string"
+            },
+            "x402_settled_calls": {
+              "type": "integer"
+            },
+            "x402_spend_usd": {
+              "type": "number"
+            }
+          }
+        },
+        "nonce_health": {
+          "type": "object",
+          "properties": {
+            "latest_nonce": {
+              "type": "integer"
+            },
+            "pending_nonce": {
+              "type": "integer"
+            },
+            "stuck_nonces": {
+              "type": "integer"
+            }
+          }
+        },
+        "usdc_pnl_ledger": {
+          "type": "object",
+          "properties": {
+            "transfer_count": {
+              "type": "integer"
+            },
+            "inflow_usdc": {
+              "type": "number"
+            },
+            "outflow_usdc": {
+              "type": "number"
+            },
+            "net_usdc": {
+              "type": "number"
+            },
+            "unique_counterparties": {
+              "type": "integer"
+            },
+            "top_counterparties": {
+              "type": "array",
+              "items": {}
+            },
+            "taint_hits": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        },
+        "ops_ready": {
+          "type": "boolean"
+        },
+        "recommended_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "defi_cross_arb_plan",
+    "title": "Net-profit cross-chain arb & tranche execution planner",
+    "description": "[$0.04] Trigger When: sizing cross-chain DEX arbitrage after all fees. Workflow Outcome: verifies dual-chain RPCs, deducts gas, bridge, and slippage costs, and outputs a tranche plan. Do not use for DeFi yield pool ranking (use defi_yield_pools) or single-token snapshots (use token_market_snapshot). `source_chain` and `destination_chain` must differ, and `profitable_after_costs` turns `false` whenever gas+bridge+slippage exceed spread. Live DEX/RPC, read-only non-custodial plan; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "asset": {
+          "type": "string",
+          "default": "USDC",
+          "description": "Token symbol to arbitrage"
+        },
+        "source_chain": {
+          "type": "string",
+          "default": "base",
+          "description": "Source EVM chain (base, ethereum, arbitrum, optimism)"
+        },
+        "destination_chain": {
+          "type": "string",
+          "default": "arbitrum",
+          "description": "Destination EVM chain (must differ from source_chain)"
+        },
+        "amount_usd": {
+          "type": "number",
+          "default": 10000.0,
+          "description": "Trade notional in USD (50-5000000)"
+        },
+        "max_slippage_bps": {
+          "type": "integer",
+          "default": 50,
+          "description": "Maximum slippage tolerance in basis points (5-500)"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Net-profit cross-chain arb & tranche execution planner",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "non_custodial": {
+          "type": "boolean"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "asset": {
+          "type": "string"
+        },
+        "source_chain": {
+          "type": "string"
+        },
+        "destination_chain": {
+          "type": "string"
+        },
+        "rpc_health": {
+          "type": "object",
+          "properties": {
+            "source_rpc": {
+              "type": "string"
+            },
+            "destination_rpc": {
+              "type": "string"
+            },
+            "both_live": {
+              "type": "boolean"
+            }
+          }
+        },
+        "venues": {
+          "type": "object",
+          "properties": {}
+        },
+        "spread_bps": {
+          "type": "number"
+        },
+        "economics": {
+          "type": "object",
+          "properties": {
+            "amount_usd": {
+              "type": "number"
+            },
+            "gross_profit_usd": {
+              "type": "number"
+            },
+            "gas_cost_usd": {
+              "type": "number"
+            },
+            "bridge_fee_usd": {
+              "type": "number"
+            },
+            "est_slippage_usd": {
+              "type": "number"
+            },
+            "net_profit_usd": {
+              "type": "number"
+            },
+            "profitable_after_costs": {
+              "type": "boolean"
+            }
+          }
+        },
+        "execution_plan": {
+          "type": "object",
+          "properties": {
+            "slice_count": {
+              "type": "integer"
+            },
+            "total_duration_sec": {
+              "type": "integer"
+            },
+            "pause_if_gas_gwei_above": {
+              "type": "number"
+            },
+            "recommended_private_rpc": {
+              "type": "boolean"
+            },
+            "tranches": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "slice": {
+                    "type": "integer"
+                  },
+                  "amount_usd": {
+                    "type": "number"
+                  },
+                  "delay_after_prev_sec": {
+                    "type": "integer"
+                  },
+                  "cumulative_eta_sec": {
+                    "type": "integer"
+                  },
+                  "max_slippage_bps": {
+                    "type": "integer"
+                  },
+                  "est_price_impact_bps": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "agent_session_open",
+    "title": "Pre-funded agent session tunnel",
+    "description": "[$1.00] Deposit $1.00 USDC once to mint an HMAC-signed Bearer session token (x402s_...) for zero-402 high-frequency API calls with atomic balance debits. Do not use for single paid calls or read-only checks (call any tool directly with x402/MPP). Every call charges `$1.00` USDC and mints a fresh `x402s_...` Bearer session (does not top up prior sessions); `ttl_minutes` sets expiry and `payer_address` binds ownership. Persists prepaid meter in SQLite (non-custodial); requires x402/MPP at 30-60 req/min.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "payer_address": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "EVM wallet address opening the session (0x...)"
+        },
+        "ttl_minutes": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 1440,
+          "default": 60,
+          "description": "Session lifetime in minutes (default 60, max 1440)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Pre-funded agent session tunnel",
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "payer_address": {
+          "type": "string"
+        },
+        "session_token": {
+          "type": "string"
+        },
+        "deposited_usd": {
+          "type": "number"
+        },
+        "remaining_usd": {
+          "type": "number"
+        },
+        "expires_at": {
+          "type": "string"
+        },
+        "auth_header_example": {
+          "type": "string"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+]
