@@ -1,8 +1,10 @@
 # apix402data MCP & x402 API
 
-Remote **MCP Streamable HTTP** server and **HTTP 402** pay-per-call crypto, DeFi, EVM pre-flight, SEC EDGAR, news, and web-intelligence API (`46` paid tools + `10` free lifetime preview calls).
+Remote **MCP Streamable HTTP** server, **A2A v1.0** agent, and **HTTP 402** pay-per-call crypto, DeFi, EVM pre-flight, LLM inference, SEC EDGAR, news, and web-intelligence API (`47` paid tools + `10` free lifetime preview calls).
 
 - **Remote MCP Endpoint:** `https://apix402data.com/mcp` (`14` non-overlapping flagship MCP tools)
+- **A2A Messaging Endpoint:** `https://apix402data.com/a2a` (`message/send`, `tasks/get`) & `POST /message:send`
+- **OpenAI-Compatible LLM Inference:** `POST https://apix402data.com/v1/chat/completions` (`$0.0018/call`, local GPU `qwen3.5:4b`)
 - **Free Preview (10 lifetime calls via `/mcp` or REST):** `GET https://apix402data.com/api/free/status` & `POST https://apix402data.com/api/free/<tool_path>`
 - **Card / Apple Pay Top-Up (Claude Web & Mobile):** `https://apix402data.com/pay` — mints an instant 30-day `session_token` (`x402s_...`) to pass in any MCP tool call or `Authorization: Bearer` header
 - **OpenAPI 3.1 Spec:** `https://apix402data.com/openapi.json`
@@ -49,7 +51,8 @@ curl -s -X POST https://apix402data.com/api/free/token/risk \
   -d '{"address":"0x940181a94A35A4569E4529A3CDfB74e38FD98631","chain":"base"}'
 ```
 
-## Tool Categories (`46` Paid Endpoints, `$0.002–$0.05` USDC on Base + Stripe MPP/Tempo)
+## Tool Categories (`47` Paid Endpoints, `$0.0018–$0.05` USDC on Base + Stripe MPP/Tempo)
+- **OpenAI-Compatible LLM Inference:** `/v1/chat/completions` & `/api/v1/chat/completions` (`$0.0018/call`, local GPU `qwen3.5:4b` with JSON mode)
 - **Mega-Workflows (`v5.3`, 0% GPU):** `/api/workflow/tx-guardian-suite`, `/api/workflow/protocol-due-diligence`, `/api/workflow/defi-position-shield`, `/api/workflow/agent-treasury-audit`, `/api/workflow/cross-chain-arb-executor`
 - **Agent Workflows & Bypass (`v5.2`):** `/api/bypass/sweep`, `/api/agent/ephemeral-key`, `/api/bypass/cross-execute`, `/api/guard/preflight-bypass`, `/api/execution/stealth-slice`, `/api/security/approval-purge`, `/api/rails/route-select`, `/api/workflow/state-gate`, `/api/trust/wallet-attest`, `/api/chain/nonce-unstick`
 - **Token & Chain Data:** `/api/token/snapshot`, `/api/token/risk`, `/api/tx/decode`, `/api/chain/gas`, `/api/tokens/trending`, `/api/tokens/newest`, `/api/token/indicators`, `/api/onchain/prices`, `/api/chain/rpc-consensus`, `/api/allowance/check`
