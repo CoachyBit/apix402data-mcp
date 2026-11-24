@@ -1,10 +1,12 @@
-# apix402data MCP & x402 API
+# apix402data MCP Server (`apix402data-mcp`)
 
 [![Glama MCP Connector Score](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api/badges/score.svg)](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api)
 
-Remote **MCP Streamable HTTP** server, **A2A v1.0** agent, and **HTTP 402** pay-per-call crypto, DeFi, EVM pre-flight, LLM inference, SEC EDGAR, news, and web-intelligence API (`47` paid tools + `10` free lifetime preview calls).
+Open-source **Node.js MCP stdio server** (`bin/cli.mjs` + `tools_catalog.json` + `Dockerfile`) implementing **14 flagship crypto, DeFi, EVM pre-flight, SEC EDGAR, news, and web-intelligence MCP tools** backed by the `apix402data.com` REST/x402 API (`47` total endpoints, `10` free lifetime preview calls per IP).
 
-- **Remote MCP Endpoint:** `https://apix402data.com/mcp` (`14` non-overlapping flagship MCP tools)
+- **Local Stdio MCP Server (`bin/cli.mjs`):** Implements JSON-RPC `initialize`, `ping`, `tools/list`, and `tools/call` locally in Node.js (`>=18`, zero external dependencies) with built-in support for `X402_SESSION_TOKEN` (`x402s_...`), `X402_PAYMENT_SIGNATURE`, and automatic `/api/free/*` preview routing.
+- **Docker Support:** Includes a standalone `Dockerfile` (`node:22-alpine`) for containerized MCP runners.
+- **Remote Streamable HTTP MCP Endpoint:** `https://apix402data.com/mcp` (`14` flagship MCP tools)
 - **A2A Messaging Endpoint:** `https://apix402data.com/a2a` (`message/send`, `tasks/get`) & `POST /message:send`
 - **OpenAI-Compatible LLM Inference:** `POST https://apix402data.com/v1/chat/completions` (`$0.0018/call`, local GPU `qwen3.5:4b`)
 - **Free Preview (10 lifetime calls via `/mcp` or REST):** `GET https://apix402data.com/api/free/status` & `POST https://apix402data.com/api/free/<tool_path>`
