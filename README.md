@@ -9,6 +9,8 @@ Remote **MCP Streamable HTTP** server and **HTTP 402** pay-per-call crypto, DeFi
 - **x402 / Bazaar Manifest:** `https://apix402data.com/.well-known/x402.json`
 - **A2A Agent Card:** `https://apix402data.com/.well-known/agent-card.json`
 - **Agent Docs (`llms.txt`):** `https://apix402data.com/llms.txt`
+- **Agent Skill (`SKILL.md`):** `https://apix402data.com/SKILL.md` ([SKILL.md](./SKILL.md))
+- **Workflow Packages (JSON):** `https://apix402data.com/packages`
 
 ## Connect in Claude Desktop / Cursor / Windsurf / OpenCode
 
@@ -34,6 +36,17 @@ Or via stdio bridge:
     }
   }
 }
+```
+
+## 30-Second Copy-Paste Recipes (Most Used by Agents)
+
+Top active endpoints: `/api/token/risk` (`$0.01`), `/api/company` (`$0.002`), `/api/clean-url` (`$0.002`), `/api/defi/yield-matrix` (`$0.03`), `/api/crypto/news` (`$0.002`), `/api/workflow/tx-guardian-suite` (`$0.04`).
+
+```bash
+# Try free right now (10 lifetime preview calls, no wallet required)
+curl -s -X POST https://apix402data.com/api/free/token/risk \
+  -H "Content-Type: application/json" \
+  -d '{"address":"0x940181a94A35A4569E4529A3CDfB74e38FD98631","chain":"base"}'
 ```
 
 ## Tool Categories (`46` Paid Endpoints, `$0.002–$0.05` USDC on Base + Stripe MPP/Tempo)
