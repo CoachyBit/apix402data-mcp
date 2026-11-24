@@ -1,5 +1,7 @@
 # apix402data MCP & x402 API
 
+[![Glama MCP Connector Score](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api/badges/score.svg)](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api)
+
 Remote **MCP Streamable HTTP** server, **A2A v1.0** agent, and **HTTP 402** pay-per-call crypto, DeFi, EVM pre-flight, LLM inference, SEC EDGAR, news, and web-intelligence API (`47` paid tools + `10` free lifetime preview calls).
 
 - **Remote MCP Endpoint:** `https://apix402data.com/mcp` (`14` non-overlapping flagship MCP tools)
