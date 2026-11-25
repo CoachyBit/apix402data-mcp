@@ -2,7 +2,17 @@
 
 [![Glama MCP Connector Score](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api/badges/score.svg)](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api)
 
-Open-source **Node.js MCP stdio server** (`bin/cli.mjs` + `tools_catalog.json` + `Dockerfile`) implementing **14 flagship crypto, DeFi, EVM pre-flight, SEC EDGAR, news, and web-intelligence MCP tools** backed by the `apix402data.com` REST/x402 API (`47` total endpoints, `10` free lifetime preview calls per IP).
+Open-source **Node.js MCP stdio server** (`bin/cli.mjs` + `tools_catalog.json` + `Dockerfile`) implementing **14 flagship crypto, DeFi, EVM pre-flight, SEC EDGAR, news, and web-intelligence MCP tools** backed by the `apix402data.com` REST/x402 API (`48` total endpoints, `5` free lifetime preview calls per IP).
+
+## 1-Line Drop-In Replacements (40%–80% Cheaper, Zero Code Changes)
+Swap only your base URL to `https://apix402data.com`:
+
+| Drop-In Endpoint | Replaces | Your Price | Extra Data Included |
+| :--- | :--- | :--- | :--- |
+| `GET /api/v3/x402/simple/price` | **CoinGecko x402** (`$0.005`) | **`$0.003`** | `usd_24h_change`, `usd_24h_vol`, `<5ms` cached |
+| `POST /v1/scrape` & `/v2/scrape` | **Firecrawl** (`$0.01`) | **`$0.002`** | `data.markdown`, `data.summary`, `data.entities` |
+| `POST /v1/search` & `/exa/search` | **Exa** (`$0.004–$0.007`) | **`$0.002`** | `results[].{title,url,text,highlights,sentiment,entities}` |
+| `POST /v1/chat/completions` | **OpenAI** | **`$0.0018`** | `qwen3.5:4b` with JSON schema mode |
 
 - **Local Stdio MCP Server (`bin/cli.mjs`):** Implements JSON-RPC `initialize`, `ping`, `tools/list`, and `tools/call` locally in Node.js (`>=18`, zero external dependencies) with built-in support for `X402_SESSION_TOKEN` (`x402s_...`), `X402_PAYMENT_SIGNATURE`, and automatic `/api/free/*` preview routing.
 - **Docker Support:** Includes a standalone `Dockerfile` (`node:22-alpine`) for containerized MCP runners.
@@ -55,7 +65,7 @@ curl -s -X POST https://apix402data.com/api/free/token/risk \
   -d '{"address":"0x940181a94A35A4569E4529A3CDfB74e38FD98631","chain":"base"}'
 ```
 
-## Tool Categories (`47` Paid Endpoints, `$0.0018–$0.05` USDC on Base + Stripe MPP/Tempo)
+## Tool Categories (`48` Paid Endpoints, `$0.001–$0.05` USDC on Base + Stripe MPP/Tempo)
 - **OpenAI-Compatible LLM Inference:** `/v1/chat/completions` & `/api/v1/chat/completions` (`$0.0018/call`, local GPU `qwen3.5:4b` with JSON mode)
 - **Mega-Workflows (`v5.3`, 0% GPU):** `/api/workflow/tx-guardian-suite`, `/api/workflow/protocol-due-diligence`, `/api/workflow/defi-position-shield`, `/api/workflow/agent-treasury-audit`, `/api/workflow/cross-chain-arb-executor`
 - **Agent Workflows & Bypass (`v5.2`):** `/api/bypass/sweep`, `/api/agent/ephemeral-key`, `/api/bypass/cross-execute`, `/api/guard/preflight-bypass`, `/api/execution/stealth-slice`, `/api/security/approval-purge`, `/api/rails/route-select`, `/api/workflow/state-gate`, `/api/trust/wallet-attest`, `/api/chain/nonce-unstick`
