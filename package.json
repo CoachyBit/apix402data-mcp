@@ -1,6 +1,6 @@
 {
   "name": "apix402data-mcp",
-  "version": "5.3.1",
+  "version": "5.3.2",
   "description": "Self-contained Node.js MCP server + 1-line drop-in for CoinGecko x402, Firecrawl, Exa & OpenAI powered by apix402data.com (5 free calls + x402 Base USDC).",
   "main": "./bin/cli.mjs",
   "bin": {
