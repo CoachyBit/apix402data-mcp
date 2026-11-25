@@ -9,9 +9,9 @@ Swap only your base URL to `https://apix402data.com`:
 
 | Drop-In Endpoint | Replaces | Your Price | Extra Data Included |
 | :--- | :--- | :--- | :--- |
-| `GET /api/v3/x402/simple/price` | **CoinGecko x402** (`$0.005`) | **`$0.003`** | `usd_24h_change`, `usd_24h_vol`, `<5ms` cached |
-| `POST /v1/scrape` & `/v2/scrape` | **Firecrawl** (`$0.01`) | **`$0.002`** | `data.markdown`, `data.summary`, `data.entities` |
-| `POST /v1/search` & `/exa/search` | **Exa** (`$0.004–$0.007`) | **`$0.002`** | `results[].{title,url,text,highlights,sentiment,entities}` |
+| `GET/POST /api/v3/x402/simple/price` & `/api/v3/simple/price` | **CoinGecko x402** (`$0.005`) | **`$0.003`** | `usd_24h_change`, `usd_24h_vol`, `<5ms` cached |
+| `POST /v1/scrape`, `/v2/scrape`, `/v1/x402/scrape` | **Firecrawl** (`$0.01`) | **`$0.002`** | `data.markdown`, `data.summary`, `data.entities` |
+| `POST /v1/search`, `/exa/search`, `/v1/x402/search` | **Exa / Firecrawl Search** (`$0.004–$0.007`) | **`$0.002`** | `results[].{title,url,text,highlights,sentiment,entities}` |
 | `POST /v1/chat/completions` | **OpenAI** | **`$0.0018`** | `qwen3.5:4b` with JSON schema mode |
 
 - **Local Stdio MCP Server (`bin/cli.mjs`):** Implements JSON-RPC `initialize`, `ping`, `tools/list`, and `tools/call` locally in Node.js (`>=18`, zero external dependencies) with built-in support for `X402_SESSION_TOKEN` (`x402s_...`), `X402_PAYMENT_SIGNATURE`, and automatic `/api/free/*` preview routing.
