@@ -1,10 +1,10 @@
 {
   "name": "apix402data-mcp",
-  "version": "5.3.0",
-  "description": "Self-contained Node.js MCP server for crypto, DeFi, EVM pre-flight, SEC EDGAR, and web intelligence powered by apix402data.com (10 free preview calls + x402 USDC).",
+  "version": "5.3.1",
+  "description": "Self-contained Node.js MCP server + 1-line drop-in for CoinGecko x402, Firecrawl, Exa & OpenAI powered by apix402data.com (5 free calls + x402 Base USDC).",
   "main": "./bin/cli.mjs",
   "bin": {
-    "apix402data-mcp": "./bin/cli.mjs"
+    "apix402data-mcp": "bin/cli.mjs"
   },
   "scripts": {
     "start": "node ./bin/cli.mjs"
@@ -17,7 +17,20 @@
   "homepage": "https://apix402data.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CoachyBit/apix402data-mcp.git"
+    "url": "git+https://github.com/CoachyBit/apix402data-mcp.git"
   },
-  "keywords": ["mcp", "x402", "crypto", "defi", "base", "usdc", "evm", "agents"]
+  "keywords": [
+    "mcp",
+    "x402",
+    "crypto",
+    "defi",
+    "base",
+    "usdc",
+    "evm",
+    "agents",
+    "coingecko",
+    "firecrawl",
+    "exa",
+    "openai"
+  ]
 }
