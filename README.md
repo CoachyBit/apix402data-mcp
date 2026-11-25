@@ -23,6 +23,7 @@ Swap only your base URL to `https://apix402data.com`:
 - **Card / Apple Pay Top-Up (Claude Web & Mobile):** `https://apix402data.com/pay` — mints an instant 30-day `session_token` (`x402s_...`) to pass in any MCP tool call or `Authorization: Bearer` header
 - **OpenAPI 3.1 Spec:** `https://apix402data.com/openapi.json`
 - **x402 / Bazaar Manifest:** `https://apix402data.com/.well-known/x402.json`
+- **Framework Adapters (`adapters/`):** Ready-to-use integrations for **LangChain** (`adapters/langchain_tools.py`), **ElizaOS** (`adapters/elizaos_plugin.mjs`), and **Coinbase AgentKit** (`adapters/agentkit_provider.mjs`)
 - **A2A Agent Card:** `https://apix402data.com/.well-known/agent-card.json`
 - **Agent Docs (`llms.txt`):** `https://apix402data.com/llms.txt`
 - **Agent Skill (`SKILL.md`):** `https://apix402data.com/SKILL.md` ([SKILL.md](./SKILL.md))
