@@ -17,11 +17,6 @@ const TOOL_ROUTES = {
   token_market_snapshot: "/api/token/snapshot",
   token_honeypot_scan: "/api/token/risk",
   defi_yield_pools: "/api/defi/yield-matrix",
-  evm_tx_simulate: "/api/workflow/tx-guardian-suite",
-  defi_protocol_tvl_check: "/api/workflow/protocol-due-diligence",
-  defi_position_shield: "/api/workflow/defi-position-shield",
-  wallet_treasury_pnl: "/api/workflow/agent-treasury-audit",
-  defi_cross_arb_plan: "/api/workflow/cross-chain-arb-executor",
   agent_session_open: "/api/agent/session-open",
 };
 
