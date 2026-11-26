@@ -39,11 +39,11 @@ async def run(free: bool):
     async with httpx.AsyncClient(transport=x402_httpx_transport(client), timeout=60) as http:
         r1 = await http.post(f"{BASE}/api/defi/yield-matrix", json={"chain": "base"})
         r2 = await http.post(
-            f"{BASE}/api/workflow/cross-chain-arb-executor",
-            json={"asset": "WETH", "source_chain": "base", "destination_chain": "arbitrum", "amount_usd": 10000.0},
+            f"{BASE}/api/defi/arbitrage-radar",
+            json={"asset": "WETH", "chain": "base"},
         )
         print("yield-matrix:", r1.status_code, r1.json().get("top_opportunity_pool"))
-        print("arb-executor:", r2.status_code, r2.json().get("spread_bps"))
+        print("arbitrage-radar:", r2.status_code, r2.json().get("best_spread_bps"))
 
 
 if __name__ == "__main__":
