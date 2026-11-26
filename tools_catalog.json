@@ -1,8 +1,200 @@
 [
   {
+    "name": "multichain_rpc",
+    "title": "Keyless multi-chain JSON-RPC proxy",
+    "description": "[$0.001] Keyless multi-chain JSON-RPC proxy for Solana, Base, Ethereum, Arbitrum, and Optimism with automatic failover and hot RAM caching for read calls ($0.001/call). Keyless multi-chain JSON-RPC proxy (Solana, Base, Ethereum, Arbitrum, Optimism) with multi-RPC failover and hot RAM cache. Includes 1 free try per IP, then automatically rolls over to paid HTTP 402 (Solana or Base USDC, $0.001/call) or session_token.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "chain": {
+          "type": "string",
+          "default": "solana",
+          "description": "Target chain: solana, base, ethereum, arbitrum, optimism"
+        },
+        "method": {
+          "type": "string",
+          "maxLength": 64,
+          "default": "getSlot",
+          "description": "Allowed JSON-RPC method"
+        },
+        "params": {
+          "type": "string",
+          "description": "JSON-encoded RPC params array/object"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Keyless multi-chain JSON-RPC proxy",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  {
+    "name": "solana_priority_fee",
+    "title": "Solana priority fees & Jito tip floor",
+    "description": "[$0.001] Live Solana priority fee percentiles (p50/p75/p95 microlamports), Jito tip floor, slot, and congestion level pre-warmed in RAM every 10 seconds ($0.001/call). Live Solana priority fee percentiles (p50/p75/p95 microlamports) + Jito tip floor pre-warmed every 10s. Includes 1 free try per IP, then automatically rolls over to paid HTTP 402 (Solana or Base USDC, $0.001/call).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Solana priority fees & Jito tip floor",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  {
+    "name": "solana_token_risk",
+    "title": "Solana SPL / Token-2022 rug check",
+    "description": "[$0.002] Instant Solana SPL and Token-2022 rug check: mint and freeze authority status, top-10 holder concentration, Raydium/PumpSwap DEX liquidity, and risk score ($0.002/call). Instant Solana SPL & Token-2022 rug check (mint/freeze authority, top-10 holder %, Raydium/PumpSwap DEX liquidity). Do not use for EVM chains (use token_honeypot_scan). 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.002/call).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "mint": {
+          "type": "string",
+          "maxLength": 44,
+          "default": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+          "description": "Solana SPL token mint address"
+        },
+        "include_ai": {
+          "type": "boolean",
+          "default": false,
+          "description": "Optional dual-GPU (3060+3080) 1-sentence risk verdict"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Solana SPL / Token-2022 rug check",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  {
+    "name": "solana_wallet_holdings",
+    "title": "Solana wallet SOL + SPL portfolio",
+    "description": "[$0.002] Keyless Solana wallet portfolio lookup returning SOL balance, SPL token holdings with live USD valuation, total portfolio USD, and recent tx signatures ($0.002/call). Keyless Solana SOL + SPL token portfolio with USD valuation and recent signatures. 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.002/call).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "wallet": {
+          "type": "string",
+          "maxLength": 44,
+          "default": "GThvpKNLrFQmxxdM9kTKJmwBvqjzdoJCckoMeZaDZiJ6",
+          "description": "Solana wallet Base58 address"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Solana wallet SOL + SPL portfolio",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  {
+    "name": "polymarket_markets",
+    "title": "Polymarket live odds & spread radar",
+    "description": "[$0.002] Live Polymarket active prediction markets sorted by 24h volume with implied odds, bid/ask spread bps, probability sum arb deviation, and keyword filtering ($0.002/call). Live Polymarket active prediction markets sorted by 24h volume with implied odds and bid/ask spreads. 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.002/call).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "Optional keyword filter (e.g. bitcoin, fed, trump, eth)"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 15,
+          "description": "Max markets to return (1-50)"
+        },
+        "min_volume_usd": {
+          "type": "number",
+          "minimum": 0.0,
+          "default": 0.0,
+          "description": "Minimum 24h volume USD filter"
+        },
+        "include_ai": {
+          "type": "boolean",
+          "default": false,
+          "description": "Optional dual-GPU (3060+3080) brief on top mispriced/active markets"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Polymarket live odds & spread radar",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  {
+    "name": "farcaster_lookup",
+    "title": "Farcaster & Base wallet identity lookup",
+    "description": "[$0.002] Keyless Base EVM wallet and handle lookup resolving Farcaster FID, username, follower counts, ENS/Basenames profiles, and sybil trust signal in JSON ($0.002/call). Keyless Base 0x wallet <-> Farcaster FID, username, follower count & ENS profile lookup. 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.002/call).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "type": "string",
+          "maxLength": 64,
+          "default": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+          "description": "Base/EVM 0x address, ENS name, or Farcaster handle (e.g. dwr)"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Farcaster & Base wallet identity lookup",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  {
     "name": "web_search",
     "title": "Live web search JSON",
-    "description": "[$0.002] Fast live web and news search JSON (up to 5 batched queries) with relevance score, sentiment, and entities. $0.002/call \u2014 2.5x to 5x cheaper than $0.005-$0.01 search APIs. Do not use for single-URL extraction (use web_fetch_markdown) or crypto ticker feeds (use news_crypto_feed). `q` and `query` are aliases, `queries` overrides them for up to 5 batched lookups (1 HTTP request), and omitting all returns top headlines. Live web/RSS data, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 60 HTTP req/min.",
+    "description": "[$0.002] Fast live web search & news JSON (up to 5 batched queries, highlights, sentiment, and named entities) at $0.002/call \u2014 2.5x-5x cheaper than Exa ($0.004-$0.007). Do not use for single-URL extraction (use web_fetch_markdown) or crypto ticker feeds (use news_crypto_feed). Live web/RSS data, read-only; 1 free try per IP, then auto-rollover to paid HTTP 402 (Solana/Base USDC or Stripe MPP).",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -49,7 +241,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
         }
       },
       "additionalProperties": false
@@ -182,7 +374,7 @@
   {
     "name": "web_fetch_markdown",
     "title": "Webpage to clean LLM Markdown",
-    "description": "[$0.002] Fetch any public HTTPS webpage (SSRF-guarded), strip ads/nav boilerplate, and return clean LLM-ready Markdown, word count, summary, and extracted entities ($0.002/call). Do not use for searching across sites (use web_search) or probing x402 paywalls (use x402_paywall_probe). Only `summarize=true` invokes the local LLM, and expiring `timeout_ms` returns `degraded=true` with extracted Markdown but no summary. Live SSRF-guarded HTTPS fetch, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "description": "[$0.002] Fetch any public HTTPS webpage (SSRF-guarded) to clean LLM Markdown, structured summary, and extracted entities at $0.002/call \u2014 5x cheaper than Firecrawl ($0.01). Do not use for searching across sites (use web_search) or probing x402 paywalls (use x402_paywall_probe). Live SSRF-guarded HTTPS fetch, read-only; 1 free try per IP, then auto-rollover to paid HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -204,7 +396,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
         }
       },
       "additionalProperties": false
@@ -264,7 +456,7 @@
   {
     "name": "news_crypto_feed",
     "title": "Crypto news sentiment",
-    "description": "[$0.002] Get real-time cryptocurrency and DeFi news headlines enriched with per-article sentiment scores and mentioned token tickers in structured JSON. Do not use for general web search (use web_search) or SEC filings (use sec_company_lookup). `ticker` and `asset` are aliases, and `sort='quality'` (default) ranks by freshness+tier while `'newest'` sorts strictly chronologically. Live feeds, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "description": "[$0.002] Get real-time cryptocurrency and DeFi news headlines enriched with per-article sentiment scores and mentioned token tickers in structured JSON. Do not use for general web search (use web_search) or SEC filings (use sec_company_lookup). Live feeds, read-only; 1 free try per IP, then auto-rollover to paid HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -347,7 +539,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
         }
       },
       "additionalProperties": false
@@ -604,7 +796,7 @@
   {
     "name": "sec_company_lookup",
     "title": "SEC EDGAR company intelligence",
-    "description": "[$0.002] Look up public company financials, CIK, recent SEC EDGAR filings (10-K/10-Q/8-K), and recent news sentiment by stock ticker (supports up to 5 batched tickers). Do not use for crypto tokens (use token_market_snapshot) or open web search (use web_search). `tickers` overrides `ticker` to batch up to 5 symbols, while `include_news=false` skips headline sentiment to reduce latency. Live SEC EDGAR data, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "description": "[$0.002] Look up public company financials, CIK, recent SEC EDGAR filings (10-K/10-Q/8-K), and recent news sentiment by stock ticker (supports up to 5 batched tickers). Do not use for crypto tokens (use token_market_snapshot) or open web search (use web_search). Live SEC EDGAR data, read-only; 1 free try per IP, then auto-rollover to paid HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -642,7 +834,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
         }
       },
       "additionalProperties": false
@@ -831,7 +1023,7 @@
   {
     "name": "x402_paywall_probe",
     "title": "Pre-flight x402 security audit & prompt-injection detector",
-    "description": "[$0.002] Pre-flight x402 endpoint security firewall & prompt-injection detector. Probes any URL unpaid to catch price spikes, SIWx spoofing, fake USDC, and prompt injections ($0.002/call). Do not use for EVM calldata simulation (use evm_tx_simulate) or token bytecode scans (use token_honeypot_scan). `method` sets the HTTP probe verb (`GET` vs `POST`) used to trigger the 402 header, `deep_audit=true` runs prompt-injection checks, and `max_acceptable_usd` caps price validation. Live HTTP probe, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "description": "[$0.002] Pre-flight x402 endpoint security firewall & prompt-injection detector. Probes any URL unpaid to catch price spikes, SIWx spoofing, fake USDC, and prompt injections ($0.002/call). Live x402 paywall probe and security audit. 1 free try per IP, then auto-rollover to paid HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -864,7 +1056,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
         }
       },
       "additionalProperties": false
@@ -997,7 +1189,7 @@
   {
     "name": "token_market_snapshot",
     "title": "Live token market snapshot with AI momentum read",
-    "description": "[$0.003] Live token price, liquidity, FDV, market cap, 24h volume, price change, and buy/sell order flow from DEX pairs, plus deterministic anomaly flags and a local qwen3.5:4b momentum and risk read. Do not use for contract honeypot safety (use token_honeypot_scan) or DeFi yield pools (use defi_yield_pools). `chain` defaults to `'base'` (supports base, ethereum, arbitrum, optimism, solana), and expiring `timeout_ms` returns `degraded=true` omitting the LLM summary. Live DEX data, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "description": "[$0.003] Live token price, liquidity, FDV, market cap, 24h volume, price change, and buy/sell order flow from DEX pairs, plus deterministic anomaly flags and a local qwen3.5:4b momentum and risk read. Live DEX token snapshot (Base, Ethereum, Arbitrum, Optimism, Solana). 1 free try per IP, then auto-rollover to paid HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1019,7 +1211,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
         }
       },
       "additionalProperties": false
@@ -1175,7 +1367,7 @@
   {
     "name": "token_honeypot_scan",
     "title": "EVM token risk verdict & honeypot scan",
-    "description": "[$0.01] Token risk verdict & honeypot scan ($0.01/call \u2014 50% cheaper than $0.02 verdicts): proxy upgradeability, owner renouncement, mint/blacklist/fee/trading-toggle bytecode, DEX liquidity, 0-100 score & AI grade. Do not use for token price/FDV/liquidity (use token_market_snapshot), protocol TVL checks (use defi_protocol_tvl_check), or pre-tx simulation (use evm_tx_simulate). `chain` accepts EVM networks (base, ethereum, arbitrum, optimism; not Solana), and expiring `timeout_ms` returns `degraded=true` omitting the LLM verdict. Live RPC bytecode + DEX, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 30-60 req/min.",
+    "description": "[$0.01] Token risk verdict & honeypot scan ($0.01/call \u2014 50% cheaper than $0.02 verdicts): proxy upgradeability, owner renouncement, mint/blacklist/fee/trading-toggle bytecode, DEX liquidity, 0-100 score & AI grade. EVM contract honeypot & liquidity scan (Base, Ethereum, Arbitrum, Optimism; for Solana use solana_token_risk). 1 free try per IP, then auto-rollover to paid HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1198,7 +1390,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
         }
       },
       "additionalProperties": false
@@ -1355,7 +1547,7 @@
   {
     "name": "defi_yield_pools",
     "title": "Cross-chain DeFi real-yield & liquidity matrix",
-    "description": "[$0.03] Rank cross-chain DeFi liquidity pools with TVL >= $5M by risk-adjusted real base APY, impermanent loss exposure, and strategic allocation advice. Do not use for cross-chain swap arbitrage (use defi_cross_arb_plan) or wallet borrow health (use defi_position_shield). `chain` defaults to `'base'` (pass `'all'` to scan all supported chains at `$5M+` TVL), and expiring `timeout_ms` returns `degraded=true` with deterministic rankings only. Live DeFiLlama data, read-only; requires x402 USDC or Stripe MPP (10 free lifetime calls via /api/free/*) at 20 req/min.",
+    "description": "[$0.005] Rank cross-chain DeFi liquidity pools with TVL >= $5M by risk-adjusted real base APY, impermanent loss exposure, and strategic allocation advice. Live DeFiLlama yield pool rankings across Base or all chains ($5M+ TVL). 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.005/call).",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1373,7 +1565,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 10-call free preview."
+          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
         }
       },
       "additionalProperties": false
@@ -1480,7 +1672,7 @@
   {
     "name": "agent_session_open",
     "title": "Pre-funded agent session tunnel",
-    "description": "[$1.00] Deposit $1.00 USDC once to mint an HMAC-signed Bearer session token (x402s_...) for zero-402 high-frequency API calls with atomic balance debits. Do not use for single paid calls or read-only checks (call any tool directly with x402/MPP). Every call charges `$1.00` USDC and mints a fresh `x402s_...` Bearer session (does not top up prior sessions); `ttl_minutes` sets expiry and `payer_address` binds ownership. Persists prepaid meter in SQLite (non-custodial); requires x402/MPP at 30-60 req/min.",
+    "description": "[$1.00] Deposit $1.00 USDC once to mint an HMAC-signed Bearer session token (x402s_...) for zero-402 high-frequency API calls with atomic balance debits. Charges $1.00 USDC (Solana or Base) and mints a fresh 30-day x402s_... Bearer session token for high-frequency calls without per-call 402 roundtrips. Check balance and expiry anytime with agent_session_status; sessions auto-expire after ttl_minutes (no close required) and additional credits can be added by calling agent_session_open again or via https://apix402data.com/pay.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1540,6 +1732,31 @@
           "type": "boolean"
         }
       }
+    }
+  },
+  {
+    "name": "agent_session_status",
+    "title": "Check prepaid session balance & expiry",
+    "description": "[$0.00 FREE] Check remaining USD balance, call count, active state, and expiration timestamp for an existing x402s_... prepaid session token minted via agent_session_open or https://apix402data.com/pay. Read-only and free (never consumes your 1 free try).",
+    "inputSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "session_token": {
+          "type": "string",
+          "description": "Prepaid x402s_... session token to inspect."
+        }
+      },
+      "required": [
+        "session_token"
+      ]
+    },
+    "annotations": {
+      "title": "Check prepaid session balance & expiry",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
     }
   }
 ]
