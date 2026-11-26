@@ -1,7 +1,7 @@
 {
   "name": "apix402data-mcp",
-  "version": "5.3.2",
-  "description": "Self-contained Node.js MCP server + 1-line drop-in for CoinGecko x402, Firecrawl, Exa & OpenAI powered by apix402data.com (5 free calls + x402 Base USDC).",
+  "version": "5.4.0",
+  "description": "Self-contained Node.js MCP server (15 flagship tools, 48 endpoints) for Solana & Base USDC x402: keyless multi-chain RPC, Solana rug-check & priority fees, Polymarket odds, Farcaster, DeFi security & SEC EDGAR (1 free try -> auto-rollover to paid).",
   "main": "./bin/cli.mjs",
   "bin": {
     "apix402data-mcp": "bin/cli.mjs"
