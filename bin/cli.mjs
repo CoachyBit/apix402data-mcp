@@ -9,6 +9,12 @@ const TOOLS = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "tools_catal
 const BASE_URL = (process.env.APIX402_BASE_URL || "https://apix402data.com").replace(/\/+$/, "");
 
 const TOOL_ROUTES = {
+  multichain_rpc: "/api/rpc",
+  solana_priority_fee: "/api/solana/priority-fee",
+  solana_token_risk: "/api/solana/token-risk",
+  solana_wallet_holdings: "/api/solana/wallet-holdings",
+  polymarket_markets: "/api/markets/polymarket",
+  farcaster_lookup: "/api/social/farcaster-lookup",
   web_search: "/api/search",
   web_fetch_markdown: "/api/clean-url",
   news_crypto_feed: "/api/crypto/news",
@@ -18,6 +24,7 @@ const TOOL_ROUTES = {
   token_honeypot_scan: "/api/token/risk",
   defi_yield_pools: "/api/defi/yield-matrix",
   agent_session_open: "/api/agent/session-open",
+  agent_session_status: "/api/agent/session-status",
 };
 
 function send(msg) {
@@ -44,14 +51,15 @@ async function callTool(name, rawArgs) {
     headers["Authorization"] = `Bearer ${sessionToken}`;
   } else if (paySig) {
     headers["PAYMENT-SIGNATURE"] = paySig;
-  } else if (route !== "/api/agent/session-open") {
+  } else if (route !== "/api/agent/session-open" && route !== "/api/agent/session-status") {
     targetPath = "/api/free" + route.slice("/api".length);
   }
 
+  const isGet = route === "/api/agent/session-status";
   const res = await fetch(`${BASE_URL}${targetPath}`, {
-    method: "POST",
+    method: isGet ? "GET" : "POST",
     headers,
-    body: JSON.stringify(args),
+    ...(isGet ? {} : { body: JSON.stringify(args) }),
   });
   const text = await res.text();
   return {
