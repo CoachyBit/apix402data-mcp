@@ -9,19 +9,17 @@ const TOOLS = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "tools_catal
 const BASE_URL = (process.env.APIX402_BASE_URL || "https://apix402data.com").replace(/\/+$/, "");
 
 const TOOL_ROUTES = {
-  multichain_rpc: "/api/rpc",
+  chain_rpc_call: "/api/rpc",
   solana_priority_fee: "/api/solana/priority-fee",
   solana_token_risk: "/api/solana/token-risk",
   solana_wallet_holdings: "/api/solana/wallet-holdings",
   polymarket_markets: "/api/markets/polymarket",
-  farcaster_lookup: "/api/social/farcaster-lookup",
+  farcaster_identity: "/api/social/farcaster-lookup",
   web_search: "/api/search",
   web_fetch_markdown: "/api/clean-url",
   news_crypto_feed: "/api/crypto/news",
   sec_company_lookup: "/api/company",
-  x402_paywall_probe: "/api/security/preflight-402",
-  token_market_snapshot: "/api/token/snapshot",
-  token_honeypot_scan: "/api/token/risk",
+  evm_token_risk: "/api/token/risk",
   defi_yield_pools: "/api/defi/yield-matrix",
   agent_session_open: "/api/agent/session-open",
   agent_session_status: "/api/agent/session-status",
