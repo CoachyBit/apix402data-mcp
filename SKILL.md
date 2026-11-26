@@ -41,14 +41,11 @@ Validate 402 paywalls, counterparty reputation, calldata/approvals, MEV risk, ga
 - `POST /api/agent/mev-shield-check` (`$0.05`, x402 + Stripe MPP/Tempo) — MEV / sandwich-attack risk & slippage protection check. Example body: `{"chain":"base","swap_value_usd":25000.0,"slippage_tolerance_bps":50}`
 - `POST /api/agent/gas-sponsor-check` (`$0.02`, x402 + Stripe MPP/Tempo) — Gas estimation & paymaster/sponsorability check. Example body: `{"chain":"base","estimated_gas_limit":180000}`
 - `POST /api/agent/escrow-arbitration` (`$0.02`, x402 + Stripe MPP/Tempo) — Hash-committed task/delivery escrow verification. Example body: `{"task_spec_hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","delivery_payload_hash":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}`
-- `POST /api/workflow/tx-guardian-suite` (`$0.04`, x402 + Stripe MPP/Tempo) — 1-call composite guardrail bundle (firewall + calldata + approval safety). Example body: `{"chain":"base","to":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913","data":"0x313ce567"}`
 
 ### Package 2: Public Company & Market Due-Diligence Pack
-SEC EDGAR XBRL GAAP financials, cross-signal market convergence, protocol TVL/contract due diligence, and treasury portfolio audits.
+SEC EDGAR XBRL GAAP financials and cross-signal market convergence.
 - `POST /api/company` (`$0.002`, x402) — SEC EDGAR XBRL GAAP financials, filings & news; supports batch 'tickers' up to 5 (free pre-check: GET /api/company/check?ticker=<SYMBOL>). Example body: `{"ticker":"NVDA","include_news":true}`
 - `POST /api/market/convergence-index` (`$0.03`, x402 + Stripe MPP/Tempo) — Cross-signal market convergence score across crypto, macro, and news. Example body: `{"seed":"USDC"}`
-- `POST /api/workflow/protocol-due-diligence` (`$0.05`, x402 + Stripe MPP/Tempo) — 1-call composite DeFi protocol & contract due diligence (contract risk + DeFiLlama TVL). Example body: `{"chain":"base","contract_address":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913","protocol":"aave-v3"}`
-- `POST /api/workflow/agent-treasury-audit` (`$0.04`, x402 + Stripe MPP/Tempo) — 1-call wallet portfolio (WETH + ETH-USD), history & top counterparties audit. Example body: `{"chain":"base","wallet":"0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6","lookback_blocks":1000}`
 
 ### Package 3: On-Chain Crypto & Cross-Chain Intent Routing Pack
 24h Base L2 & cross-venue whale flows, crypto news, DEX arbitrage spreads, yield matrices, and cross-chain intent routing.
@@ -57,7 +54,6 @@ SEC EDGAR XBRL GAAP financials, cross-signal market convergence, protocol TVL/co
 - `POST /api/defi/arbitrage-radar` (`$0.03`, x402 + Stripe MPP/Tempo) — Cross-DEX arbitrage & spread detection. Example body: `{"asset":"WETH","chain":"base"}`
 - `POST /api/defi/intent-routing` (`$0.02`, x402 + Stripe MPP/Tempo) — Optimal cross-chain bridge & intent route. Example body: `{"asset":"USDC","source_chain":"base","destination_chain":"arbitrum","amount_usd":25000.0}`
 - `POST /api/defi/yield-matrix` (`$0.03`, x402 + Stripe MPP/Tempo) — Live DeFi yield & TVL matrix. Example body: `{"chain":"base"}`
-- `POST /api/workflow/cross-chain-arb-executor` (`$0.04`, x402 + Stripe MPP/Tempo) — 1-call composite arbitrage + cross-chain intent execution plan. Example body: `{"asset":"USDC","source_chain":"base","destination_chain":"arbitrum","amount_usd":10000.0,"max_slippage_bps":50}`
 
 ### Package 4: Web Research, Clean Extraction & Session Pack
 Live web/news search with field projection, SSRF-safe clean Markdown extraction for RAG, and 30-day prepaid session tunnels.
@@ -68,17 +64,17 @@ Live web/news search with field projection, SSRF-safe clean Markdown extraction 
 
 ## 30-Second Copy-Paste Recipes (Top-Demanded Endpoints)
 
-Most active endpoints in live agent traffic: `/api/token/risk` (`$0.01`), `/api/company` (`$0.002`), `/api/clean-url` (`$0.002`), `/api/defi/yield-matrix` (`$0.03`), `/api/crypto/news` (`$0.002`), `/api/workflow/tx-guardian-suite` (`$0.04`), and `/api/workflow/cross-chain-arb-executor` (`$0.04`).
+Most active endpoints in live agent traffic: `/api/token/risk` (`$0.01`), `/api/company` (`$0.002`), `/api/clean-url` (`$0.002`), `/api/defi/yield-matrix` (`$0.03`), and `/api/crypto/news` (`$0.002`).
 
 ### 1. Try Free Right Now (No Wallet — 10 Free Calls)
 ```bash
-curl -s -X POST https://apix402data.com/api/free/workflow/tx-guardian-suite   -H "Content-Type: application/json"   -d '{"chain":"base","to":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913","data":"0x313ce567"}'
+curl -s -X POST https://apix402data.com/api/free/token/risk   -H "Content-Type: application/json"   -d '{"chain":"base","address":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"}'
 ```
 
 ### 2. Pre-Swap Guardrail in 1 Call (`x402` Python / LangChain / CrewAI)
 ```python
 # pip install "x402[httpx]" eth-account
-r = await http.post("https://apix402data.com/api/workflow/tx-guardian-suite",
+r = await http.post("https://apix402data.com/api/agent/execution-firewall",
     json={"chain": "base", "to": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", "data": "0x313ce567"})
 ```
 
