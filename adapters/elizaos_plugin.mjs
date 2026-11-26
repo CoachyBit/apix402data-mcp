@@ -24,32 +24,32 @@ export const apix402dataPlugin = {
       validate: async () => true,
       handler: async (_runtime, message, _state, _opts, callback) => {
         const query = message?.content?.text || "Base x402 ecosystem";
-        const out = await callApix402("/v1/x402/search", { query, numResults: 5 });
+        const out = await callApix402("/api/search", { query, limit: 5 });
         if (callback) await callback({ text: JSON.stringify(out.data) });
         return out;
       },
     },
     {
       name: "APIX402_SCRAPE_URL",
-      similes: ["FIRECRAWL_SCRAPE", "CLEAN_URL", "READ_WEBPAGE"],
+      similes: ["CLEAN_URL", "READ_WEBPAGE"],
       description: "Extract clean LLM Markdown from any public HTTPS URL ($0.002/call).",
       validate: async () => true,
       handler: async (_runtime, message, _state, _opts, callback) => {
         const match = String(message?.content?.text || "").match(/https:\/\/\S+/i);
         if (!match) return { status: 400, data: { error: "No https:// URL found in message" } };
-        const out = await callApix402("/v1/x402/scrape", { url: match[0] });
+        const out = await callApix402("/api/clean-url", { url: match[0] });
         if (callback) await callback({ text: JSON.stringify(out.data) });
         return out;
       },
     },
     {
       name: "APIX402_TOKEN_PRICE",
-      similes: ["COINGECKO_PRICE", "TOKEN_PRICE"],
-      description: "Fetch CoinGecko-compatible token spot prices ($0.003/call).",
+      similes: ["ONCHAIN_PRICE", "TOKEN_PRICE"],
+      description: "Fetch live on-chain token prices ($0.003/call).",
       validate: async () => true,
       handler: async (_runtime, message, _state, _opts, callback) => {
-        const ids = message?.content?.ids || "bitcoin,ethereum,solana";
-        const out = await callApix402("/api/v3/x402/simple/price", { ids, vs_currencies: "usd", include_24hr_change: true });
+        const tokens = message?.content?.tokens || "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913,0x4200000000000000000000000000000000000006";
+        const out = await callApix402("/api/onchain/prices", { tokens });
         if (callback) await callback({ text: JSON.stringify(out.data) });
         return out;
       },
