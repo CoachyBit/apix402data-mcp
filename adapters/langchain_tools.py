@@ -30,18 +30,18 @@ def _call_apix402(path: str, payload: dict[str, Any] | None = None, session_toke
 
 
 def apix402_search(query: str, num_results: int = 5, session_token: str | None = None) -> dict[str, Any]:
-    """Live web & news search ($0.002/call, Exa-compatible)."""
-    return _call_apix402("/v1/x402/search", {"query": query, "numResults": num_results}, session_token)
+    """Live web & news search ($0.002/call)."""
+    return _call_apix402("/api/search", {"query": query, "limit": num_results}, session_token)
 
 
 def apix402_scrape(url: str, session_token: str | None = None) -> dict[str, Any]:
-    """Scrape any public HTTPS URL into clean LLM Markdown ($0.002/call, Firecrawl-compatible)."""
-    return _call_apix402("/v1/x402/scrape", {"url": url}, session_token)
+    """Scrape any public HTTPS URL into clean LLM Markdown ($0.002/call)."""
+    return _call_apix402("/api/clean-url", {"url": url}, session_token)
 
 
-def apix402_token_prices(ids: str = "bitcoin,ethereum,solana", vs_currencies: str = "usd", session_token: str | None = None) -> dict[str, Any]:
-    """Live crypto spot prices + 24h stats ($0.003/call, CoinGecko-compatible)."""
-    return _call_apix402("/api/v3/x402/simple/price", {"ids": ids, "vs_currencies": vs_currencies, "include_24hr_change": True}, session_token)
+def apix402_token_prices(tokens: str = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913,0x4200000000000000000000000000000000000006", session_token: str | None = None) -> dict[str, Any]:
+    """Live on-chain token prices ($0.003/call)."""
+    return _call_apix402("/api/onchain/prices", {"tokens": tokens}, session_token)
 
 
 def apix402_defi_yields(chain: str = "base", session_token: str | None = None) -> dict[str, Any]:
