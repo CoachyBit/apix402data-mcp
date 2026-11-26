@@ -17,19 +17,19 @@ export function apix402ActionProvider({ fetchFn = fetch, sessionToken = process.
     getActions: () => [
       {
         name: "apix402_search",
-        description: "Live web & news search ($0.002/call, Exa /v1/x402/search drop-in).",
-        invoke: ({ query, numResults = 5 }) => post("/v1/x402/search", { query, numResults }),
+        description: "Live web & news search ($0.002/call).",
+        invoke: ({ query, numResults = 5 }) => post("/api/search", { query, limit: numResults }),
       },
       {
         name: "apix402_scrape",
-        description: "Scrape public HTTPS URL to clean LLM Markdown ($0.002/call, Firecrawl /v1/x402/scrape drop-in).",
-        invoke: ({ url }) => post("/v1/x402/scrape", { url }),
+        description: "Scrape public HTTPS URL to clean LLM Markdown ($0.002/call).",
+        invoke: ({ url }) => post("/api/clean-url", { url }),
       },
       {
-        name: "apix402_simple_price",
-        description: "CoinGecko-compatible token spot prices ($0.003/call).",
-        invoke: ({ ids = "bitcoin,ethereum", vs_currencies = "usd" }) =>
-          post("/api/v3/x402/simple/price", { ids, vs_currencies, include_24hr_change: true }),
+        name: "apix402_onchain_prices",
+        description: "On-chain Base/EVM token prices ($0.003/call).",
+        invoke: ({ tokens = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913,0x4200000000000000000000000000000000000006" }) =>
+          post("/api/onchain/prices", { tokens }),
       },
       {
         name: "apix402_defi_yields",
