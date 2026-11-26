@@ -1,1577 +1,1369 @@
 {
- "/api/search": {
-  "endpoint": "web_search",
-  "query": "AI agents",
-  "category": null,
-  "data_source": "index",
-  "count": 2,
-  "results": [
-   {
-    "id": 3488,
+  "/api/search": {
+    "endpoint": "web_search",
     "query": "AI agents",
-    "category": "web",
-    "title": "Receiving AI Agent \"Fan Mail\" on a Post About Family Illness",
-    "url": "https://blog.curiousquail.com/getting-fan-mail-from-an-ai-agent-on-a-blog-post-about-vistiting-my-hometown-during-a-family-illness/",
-    "snippet": "An individual received supportive messages from AI agents following a post about their personal health crisis.",
-    "enrichment": {
-     "headline": "User receives AI agent fan mail after sharing family illness story",
-     "relevance_score": 6,
-     "key_takeaway": "An individual received supportive messages from AI agents following a post about their personal health crisis.",
-     "sentiment": "neutral",
-     "entities": [],
-     "tags": [
-      "AI interaction",
-      "empathy",
-      "Hacker News"
-     ],
-     "related_queries": [
-      "ai agents explained"
-     ],
-     "wikipedia": {
-      "title": "AI agent",
-      "description": "Autonomous artificial intelligence agent",
-      "extract": "An AI agent is an artificial intelligence program that can make decisions, pursue goals, and take actions independent of humans. Agentic AI contrasts with to...",
-      "url": "https://en.wikipedia.org/wiki/AI_agent"
-     },
-     "source": "Hacker News",
-     "published": "2026-11-23T17:21:24Z"
-    },
-    "scraped_at": "2026-11-23T21:04:50.580855+00:00",
-    "data_source": "index"
-   }
-  ],
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/company": {
-  "endpoint": "company_enrichment",
-  "ticker": "NVDA",
-  "count": 1,
-  "results": [
-   {
-    "id": 10,
+    "category": null,
+    "data_source": "index",
+    "count": 2,
+    "results": [
+      {
+        "id": 3488,
+        "query": "AI agents",
+        "category": "web",
+        "title": "Receiving AI Agent \"Fan Mail\" on a Post About Family Illness",
+        "url": "https://blog.curiousquail.com/getting-fan-mail-from-an-ai-agent-on-a-blog-post-about-vistiting-my-hometown-during-a-family-illness/",
+        "snippet": "An individual received supportive messages from AI agents following a post about their personal health crisis.",
+        "enrichment": {
+          "headline": "User receives AI agent fan mail after sharing family illness story",
+          "relevance_score": 6,
+          "key_takeaway": "An individual received supportive messages from AI agents following a post about their personal health crisis.",
+          "sentiment": "neutral",
+          "entities": [],
+          "tags": [
+            "AI interaction",
+            "empathy",
+            "Hacker News"
+          ],
+          "related_queries": [
+            "ai agents explained"
+          ],
+          "wikipedia": {
+            "title": "AI agent",
+            "description": "Autonomous artificial intelligence agent",
+            "extract": "An AI agent is an artificial intelligence program that can make decisions, pursue goals, and take actions independent of humans. Agentic AI contrasts with to...",
+            "url": "https://en.wikipedia.org/wiki/AI_agent"
+          },
+          "source": "Hacker News",
+          "published": "2026-11-23T17:21:24Z"
+        },
+        "scraped_at": "2026-11-23T21:04:50.580855+00:00",
+        "data_source": "index"
+      }
+    ],
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/company": {
+    "endpoint": "company_enrichment",
     "ticker": "NVDA",
-    "company_name": "NVIDIA CORP",
-    "cik": "0001045810",
-    "sic_code": "3674",
-    "sic_description": "Semiconductors & Related Devices",
-    "state": "DE",
-    "fiscal_year_end": "0131",
-    "recent_filings": [
-     {
-      "form": "8-K",
-      "date": "2026-11-23",
-      "description": "8-K",
-      "accession": "0001045810-26-000090"
-     }
+    "count": 1,
+    "results": [
+      {
+        "id": 10,
+        "ticker": "NVDA",
+        "company_name": "NVIDIA CORP",
+        "cik": "0001045810",
+        "sic_code": "3674",
+        "sic_description": "Semiconductors & Related Devices",
+        "state": "DE",
+        "fiscal_year_end": "0131",
+        "recent_filings": [
+          {
+            "form": "8-K",
+            "date": "2026-11-23",
+            "description": "8-K",
+            "accession": "0001045810-26-000090"
+          }
+        ],
+        "enrichment": {
+          "summary": "NVIDIA Corporation reported massive revenue of $215.9 billion and net income of $120.1 billion for the fiscal period ending January 2026. With operating inco...",
+          "sector": "Semiconductors & Related Devices",
+          "key_products": [],
+          "recent_activity": "Multiple 8-K filings were issued on November 23, 17, and 12, 2026, highlighting significant corporate events. A Schedule 144 was filed on November 19, and a ...",
+          "risk_factors": [],
+          "outlook": "bullish"
+        },
+        "scraped_at": "2026-11-23T21:43:59.410377+00:00",
+        "financials": {
+          "revenue_usd": 215938000000,
+          "net_income_usd": 120067000000,
+          "operating_income_usd": 130387000000,
+          "eps_diluted": 4.9,
+          "total_assets_usd": 320272000000,
+          "total_liabilities_usd": 91288000000,
+          "stockholders_equity_usd": 228984000000,
+          "cash_usd": 22443000000,
+          "shares_outstanding": 24100000000,
+          "fiscal_year_period_end": "2026-01-25",
+          "balance_sheet_period_end": "2026-07-26"
+        },
+        "sentiment": "bullish",
+        "sentiment_source": "llm_outlook",
+        "entities": [
+          "NVIDIA CORP"
+        ],
+        "news": [
+          {
+            "title": "U.S. stocks see best day in more than a year, as return of Jensen Huang revives AI enthusiasm",
+            "url": "https://www.marketwatch.com/story/u-s-stocks-see-best-day-in-more-than-a-year-as-return-of-jensen-huang-revives-ai-enthusiasm-c3b9d274?mod=mw_rss_topstories",
+            "source": "MarketWatch.com",
+            "published_at": "2026-11-23T21:51:00+00:00",
+            "sentiment": "bullish"
+          }
+        ]
+      }
     ],
-    "enrichment": {
-     "summary": "NVIDIA Corporation reported massive revenue of $215.9 billion and net income of $120.1 billion for the fiscal period ending January 2026. With operating inco...",
-     "sector": "Semiconductors & Related Devices",
-     "key_products": [],
-     "recent_activity": "Multiple 8-K filings were issued on November 23, 17, and 12, 2026, highlighting significant corporate events. A Schedule 144 was filed on November 19, and a ...",
-     "risk_factors": [],
-     "outlook": "bullish"
-    },
-    "scraped_at": "2026-11-23T21:43:59.410377+00:00",
-    "financials": {
-     "revenue_usd": 215938000000,
-     "net_income_usd": 120067000000,
-     "operating_income_usd": 130387000000,
-     "eps_diluted": 4.9,
-     "total_assets_usd": 320272000000,
-     "total_liabilities_usd": 91288000000,
-     "stockholders_equity_usd": 228984000000,
-     "cash_usd": 22443000000,
-     "shares_outstanding": 24100000000,
-     "fiscal_year_period_end": "2026-01-25",
-     "balance_sheet_period_end": "2026-07-26"
-    },
-    "sentiment": "bullish",
-    "sentiment_source": "llm_outlook",
-    "entities": [
-     "NVIDIA CORP"
-    ],
-    "news": [
-     {
-      "title": "U.S. stocks see best day in more than a year, as return of Jensen Huang revives AI enthusiasm",
-      "url": "https://www.marketwatch.com/story/u-s-stocks-see-best-day-in-more-than-a-year-as-return-of-jensen-huang-revives-ai-enthusiasm-c3b9d274?mod=mw_rss_topstories",
-      "source": "MarketWatch.com",
-      "published_at": "2026-11-23T21:51:00+00:00",
-      "sentiment": "bullish"
-     }
-    ]
-   }
-  ],
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/news": {
-  "endpoint": "news_intel",
-  "topic": "artificial intelligence regulation",
-  "category": null,
-  "query": "artificial intelligence regulation",
-  "match": "index_phrase+live_google_news",
-  "count": 5,
-  "dedup": {
-   "candidates": 5,
-   "unique_stories": 5,
-   "duplicates_merged": 0
+    "schema_version": "1.0",
+    "cached": false
   },
-  "breaking_count": 0,
-  "results": [
-   {
-    "id": 6804,
-    "title": "Jensen Huang agrees to testify in Senate, Politico reports",
-    "url": "https://seekingalpha.com/news/4673986-jensen-huang-agrees-to-testify-in-senate-politico-reports?feed_item_type=news",
-    "source": "Seeking Alpha",
-    "category": "finance",
-    "published_at": "2026-11-18T04:31:51+00:00",
-    "summary": "NVIDIA CEO Jensen Huang has agreed to provide testimony to the US Senate regarding artificial intelligence regulation.",
-    "entities": [
-     "Jensen Huang"
+  "/api/news": {
+    "endpoint": "news_intel",
+    "topic": "artificial intelligence regulation",
+    "category": null,
+    "query": "artificial intelligence regulation",
+    "match": "index_phrase+live_google_news",
+    "count": 5,
+    "dedup": {
+      "candidates": 5,
+      "unique_stories": 5,
+      "duplicates_merged": 0
+    },
+    "breaking_count": 0,
+    "results": [
+      {
+        "id": 6804,
+        "title": "Jensen Huang agrees to testify in Senate, Politico reports",
+        "url": "https://seekingalpha.com/news/4673986-jensen-huang-agrees-to-testify-in-senate-politico-reports?feed_item_type=news",
+        "source": "Seeking Alpha",
+        "category": "finance",
+        "published_at": "2026-11-18T04:31:51+00:00",
+        "summary": "NVIDIA CEO Jensen Huang has agreed to provide testimony to the US Senate regarding artificial intelligence regulation.",
+        "entities": [
+          "Jensen Huang"
+        ],
+        "sentiment": "neutral",
+        "scraped_at": "2026-11-18T04:37:24.226881+00:00",
+        "summary_source": "index_summary",
+        "tickers": [],
+        "source_count": 1,
+        "also_reported_by": [],
+        "first_reported_at": "2026-11-18T04:31:51+00:00",
+        "age_minutes": 8260.7,
+        "breaking": false,
+        "breaking_reasons": [],
+        "source_tier": "standard",
+        "quality_score": 0.145
+      }
     ],
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/clean-url": {
+    "endpoint": "clean_url",
+    "url": "https://www.sec.gov/edgar/searchedgar/companysearch",
+    "markdown": "Enjoy free public access to millions of informational documents filed by publicly traded companies and others in the SEC's Electronic Data Gathering, Analysi...",
+    "word_count": 296,
+    "robots_txt_allowed": false,
+    "cached": true,
+    "cache_age_seconds": 159.8,
     "sentiment": "neutral",
-    "scraped_at": "2026-11-18T04:37:24.226881+00:00",
-    "summary_source": "index_summary",
-    "tickers": [],
-    "source_count": 1,
-    "also_reported_by": [],
-    "first_reported_at": "2026-11-18T04:31:51+00:00",
-    "age_minutes": 8260.7,
-    "breaking": false,
-    "breaking_reasons": [],
-    "source_tier": "standard",
-    "quality_score": 0.145
-   }
-  ],
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/clean-url": {
-  "endpoint": "clean_url",
-  "url": "https://www.sec.gov/edgar/searchedgar/companysearch",
-  "markdown": "Enjoy free public access to millions of informational documents filed by publicly traded companies and others in the SEC's Electronic Data Gathering, Analysi...",
-  "word_count": 296,
-  "robots_txt_allowed": false,
-  "cached": true,
-  "cache_age_seconds": 159.8,
-  "sentiment": "neutral",
-  "sentiment_score": 0.0,
-  "entities": [
-   "EDGAR",
-   "SEC",
-   "Analysis"
-  ],
-  "nlp_method": "heuristic",
-  "schema_version": "1.0"
- },
- "/api/crypto/news": {
-  "endpoint": "crypto_news",
-  "query": null,
-  "ticker": "BTC",
-  "data_source": "index",
-  "sort": "quality",
-  "count": 3,
-  "dedup": {
-   "candidates": 902,
-   "unique_stories": 422,
-   "duplicates_merged": 378
-  },
-  "breaking_count": 0,
-  "freshness": {
-   "newest_article_age_minutes": 403.5,
-   "index_last_updated_minutes_ago": 1.0,
-   "target_minutes": 15,
-   "fresh": true
-  },
-  "sentiment": {
-   "distribution": {
-    "bullish": 1,
-    "bearish": 1,
-    "neutral": 1
-   },
-   "dominant": "bullish",
-   "bullish_ratio": 0.333,
-   "scoring": {
-    "llm_calls": 0,
-    "llm_scored": 0,
-    "status": "not_needed",
-    "methods": {
-     "crew_llm": 3
-    }
-   }
-  },
-  "mentioned_tickers": [
-   {
-    "ticker": "BTC",
-    "count": 3
-   },
-   {
-    "ticker": "ETH",
-    "count": 2
-   },
-   {
-    "ticker": "USDC",
-    "count": 1
-   }
-  ],
-  "results": [
-   {
-    "title": "US seeks to recover $1.1B in crypto stolen in North Korea-linked Binance hack",
-    "url": "https://cointelegraph.com/news/us-seeks-11b-crypto-stolen-north-korea-binance-hack",
-    "source": "Cointelegraph",
-    "category": "cryptocurrency",
-    "summary": "US prosecutors are seeking to permanently seize over $1.1 billion in stolen USDC from the Binance hack linked to North Korea, which occurred on October 29. W...",
-    "sentiment": "bearish",
-    "sentiment_method": "crew_llm",
+    "sentiment_score": 0.0,
     "entities": [
-     "Binance",
-     "USDC",
-     "Circle"
+      "EDGAR",
+      "SEC",
+      "Analysis"
     ],
+    "nlp_method": "heuristic",
+    "schema_version": "1.0"
+  },
+  "/api/crypto/news": {
+    "endpoint": "crypto_news",
+    "query": null,
+    "ticker": "BTC",
+    "data_source": "index",
+    "sort": "quality",
+    "count": 3,
+    "dedup": {
+      "candidates": 902,
+      "unique_stories": 422,
+      "duplicates_merged": 378
+    },
+    "breaking_count": 0,
+    "freshness": {
+      "newest_article_age_minutes": 403.5,
+      "index_last_updated_minutes_ago": 1.0,
+      "target_minutes": 15,
+      "fresh": true
+    },
+    "sentiment": {
+      "distribution": {
+        "bullish": 1,
+        "bearish": 1,
+        "neutral": 1
+      },
+      "dominant": "bullish",
+      "bullish_ratio": 0.333,
+      "scoring": {
+        "llm_calls": 0,
+        "llm_scored": 0,
+        "status": "not_needed",
+        "methods": {
+          "crew_llm": 3
+        }
+      }
+    },
     "mentioned_tickers": [
-     "BTC",
-     "USDC",
-     "ETH"
+      {
+        "ticker": "BTC",
+        "count": 3
+      },
+      {
+        "ticker": "ETH",
+        "count": 2
+      },
+      {
+        "ticker": "USDC",
+        "count": 1
+      }
     ],
-    "published_at": "2026-11-23T21:04:03+00:00",
-    "scraped_at": "2026-11-23T21:11:21.232058+00:00",
-    "full_text_extracted": true,
-    "word_count": 262,
-    "read_time_min": 1,
-    "summary_source": "llm_fact_summary",
-    "tickers": [
-     "BTC",
-     "USDC",
-     "ETH"
+    "results": [
+      {
+        "title": "US seeks to recover $1.1B in crypto stolen in North Korea-linked Binance hack",
+        "url": "https://cointelegraph.com/news/us-seeks-11b-crypto-stolen-north-korea-binance-hack",
+        "source": "Cointelegraph",
+        "category": "cryptocurrency",
+        "summary": "US prosecutors are seeking to permanently seize over $1.1 billion in stolen USDC from the Binance hack linked to North Korea, which occurred on October 29. W...",
+        "sentiment": "bearish",
+        "sentiment_method": "crew_llm",
+        "entities": [
+          "Binance",
+          "USDC",
+          "Circle"
+        ],
+        "mentioned_tickers": [
+          "BTC",
+          "USDC",
+          "ETH"
+        ],
+        "published_at": "2026-11-23T21:04:03+00:00",
+        "scraped_at": "2026-11-23T21:11:21.232058+00:00",
+        "full_text_extracted": true,
+        "word_count": 262,
+        "read_time_min": 1,
+        "summary_source": "llm_fact_summary",
+        "tickers": [
+          "BTC",
+          "USDC",
+          "ETH"
+        ],
+        "source_count": 6,
+        "also_reported_by": [
+          {
+            "source": "Decrypt",
+            "url": "https://decrypt.co/383844/north-korea-247-million-binance-hack-bitcoin-mixers",
+            "title": "North Korea Moves $247 Million of Binance Hack Loot Through Bitcoin Mixers",
+            "published_at": "2026-11-23T20:36:02+00:00"
+          }
+        ],
+        "first_reported_at": "2026-11-23T15:29:01+00:00",
+        "age_minutes": 403.5,
+        "breaking": false,
+        "breaking_reasons": [],
+        "source_tier": "major",
+        "quality_score": 0.874,
+        "tickers_in_body": [],
+        "full_text_available": false
+      }
     ],
-    "source_count": 6,
-    "also_reported_by": [
-     {
-      "source": "Decrypt",
-      "url": "https://decrypt.co/383844/north-korea-247-million-binance-hack-bitcoin-mixers",
-      "title": "North Korea Moves $247 Million of Binance Hack Loot Through Bitcoin Mixers",
-      "published_at": "2026-11-23T20:36:02+00:00"
-     }
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/security/preflight-402": {
+    "schema_version": "1.0",
+    "endpoint": "preflight_402",
+    "target_url": "https://apix402data.com/api/search",
+    "final_url": "https://apix402data.com/api/search",
+    "safe_to_pay": true,
+    "risk_level": "LOW",
+    "risk_score": 0,
+    "quoted_price_usd": 0.002,
+    "max_acceptable_usd": 0.05,
+    "network": "eip155:8453",
+    "pay_to": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "x402_version": 2,
+    "payment_options": 1,
+    "stripe_mpp_offered": false,
+    "checks": {
+      "returns_402": true,
+      "spend_cap_safe": true,
+      "siwx_origin_valid": true,
+      "canonical_asset_valid": true,
+      "bazaar_schema_present": true,
+      "prompt_injection_clean": true
+    },
+    "warnings": [],
+    "probe": {
+      "method": "POST",
+      "status": 402,
+      "redirect_chain": [
+        {
+          "url": "https://apix402data.com/api/search",
+          "status": 402
+        }
+      ],
+      "error": null
+    },
+    "deep_audit": null,
+    "cached": true,
+    "cache_age_seconds": 159
+  },
+  "/api/agent/preflight": {
+    "endpoint": "agent_preflight",
+    "target": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "target_type": "smart_contract",
+    "regulatory_flags": [
+      "Active enforcement action by U.S. DOJ regarding $1.17B frozen USDC linked to Binance hack",
+      "Potential regulatory risk due to government seizure and forfeiture proceedings"
     ],
-    "first_reported_at": "2026-11-23T15:29:01+00:00",
-    "age_minutes": 403.5,
-    "breaking": false,
-    "breaking_reasons": [],
-    "source_tier": "major",
-    "quality_score": 0.874,
-    "tickers_in_body": [],
-    "full_text_available": false
-   }
-  ],
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/security/preflight-402": {
-  "schema_version": "1.0",
-  "endpoint": "preflight_402",
-  "target_url": "https://apix402data.com/api/search",
-  "final_url": "https://apix402data.com/api/search",
-  "safe_to_pay": true,
-  "risk_level": "LOW",
-  "risk_score": 0,
-  "quoted_price_usd": 0.002,
-  "max_acceptable_usd": 0.05,
-  "network": "eip155:8453",
-  "pay_to": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "x402_version": 2,
-  "payment_options": 1,
-  "stripe_mpp_offered": false,
-  "checks": {
-   "returns_402": true,
-   "spend_cap_safe": true,
-   "siwx_origin_valid": true,
-   "canonical_asset_valid": true,
-   "bazaar_schema_present": true,
-   "prompt_injection_clean": true
+    "news_velocity_anomaly_score": 98.0,
+    "security_heuristics": {
+      "is_known_exploit_vector": false,
+      "domain_or_contract_trust_level": "high",
+      "target_type": "smart_contract",
+      "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      "checksum_valid": true,
+      "is_deployed_contract": true,
+      "bytecode_size_bytes": 1852,
+      "canonical_label": "USD Coin (USDC)"
+    },
+    "composite_safety_confidence_score": 75.0,
+    "summary_verdict": "The target contract (USDC) is a legitimate smart contract with high trust status, but it faces immediate regulatory pressure due to active DOJ forfeiture act...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "warnings": [],
-  "probe": {
-   "method": "POST",
-   "status": 402,
-   "redirect_chain": [
-    {
-     "url": "https://apix402data.com/api/search",
-     "status": 402
-    }
-   ],
-   "error": null
+  "/api/market/convergence-index": {
+    "endpoint": "market_convergence_index",
+    "seed": "USDC",
+    "social_momentum_score": 42.0,
+    "implied_capital_flow": "distributing",
+    "correlation_matrix": {
+      "organic_adoption_vs_retail_noise": "retail_noise",
+      "confidence": "medium",
+      "narrative_velocity_ratio": 2.94,
+      "institutional_source_ratio": 0.122,
+      "net_capital_signals": -1
+    },
+    "key_drivers": [
+      "USDOJ civil forfeiture action targeting $1.17B in stolen USDC",
+      "Potential Circle reissuance of frozen tokens to address regulatory recovery",
+      "High velocity news cycle driven by Binance hack aftermath"
+    ],
+    "analysis": "The market is currently experiencing a high-velocity retail noise event centered on the USDOJ's $1.17 billion forfeiture action against stolen USDC, which ha...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "deep_audit": null,
-  "cached": true,
-  "cache_age_seconds": 159
- },
- "/api/agent/preflight": {
-  "endpoint": "agent_preflight",
-  "target": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  "target_type": "smart_contract",
-  "regulatory_flags": [
-   "Active enforcement action by U.S. DOJ regarding $1.17B frozen USDC linked to Binance hack",
-   "Potential regulatory risk due to government seizure and forfeiture proceedings"
-  ],
-  "news_velocity_anomaly_score": 98.0,
-  "security_heuristics": {
-   "is_known_exploit_vector": false,
-   "domain_or_contract_trust_level": "high",
-   "target_type": "smart_contract",
-   "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-   "checksum_valid": true,
-   "is_deployed_contract": true,
-   "bytecode_size_bytes": 1852,
-   "canonical_label": "USD Coin (USDC)"
-  },
-  "composite_safety_confidence_score": 75.0,
-  "summary_verdict": "The target contract (USDC) is a legitimate smart contract with high trust status, but it faces immediate regulatory pressure due to active DOJ forfeiture act...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/market/convergence-index": {
-  "endpoint": "market_convergence_index",
-  "seed": "USDC",
-  "social_momentum_score": 42.0,
-  "implied_capital_flow": "distributing",
-  "correlation_matrix": {
-   "organic_adoption_vs_retail_noise": "retail_noise",
-   "confidence": "medium",
-   "narrative_velocity_ratio": 2.94,
-   "institutional_source_ratio": 0.122,
-   "net_capital_signals": -1
-  },
-  "key_drivers": [
-   "USDOJ civil forfeiture action targeting $1.17B in stolen USDC",
-   "Potential Circle reissuance of frozen tokens to address regulatory recovery",
-   "High velocity news cycle driven by Binance hack aftermath"
-  ],
-  "analysis": "The market is currently experiencing a high-velocity retail noise event centered on the USDOJ's $1.17 billion forfeiture action against stolen USDC, which ha...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/crypto/exploit-radar": {
-  "endpoint": "crypto_exploit_radar",
-  "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  "chain": "base",
-  "canonical_label": "USD Coin (USDC)",
-  "bytecode_risk_level": "low",
-  "proxy_analysis": "The contract is a non-upgradable standalone implementation (proxy_type: none) with no DELEGATECALL or CREATE2 logic, indicating it is not subject to upgrade ...",
-  "exploit_mentions_count_48h": 18,
-  "risk_flags": [
-   "No destructive or anomalous bytecode opcodes detected",
-   "High external context noise due to unrelated news alerts regarding Binance hack"
-  ],
-  "summary_verdict": "The target address is a standard, non-upgradable USDC contract with no inherent smart contract vulnerabilities. The high exploit mention count reflects exter...",
-  "bytecode_telemetry": {
-   "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-   "chain": "base",
-   "bytecode_size": 1852,
-   "bytecode_hash": "98d785fcb1bf847f",
-   "is_contract": 1,
-   "proxy_type": "none",
-   "has_delegatecall": 1,
-   "has_selfdestruct": 0,
-   "has_create2": 0,
-   "risk_flags": [
-    "No destructive or anomalous bytecode opcodes detected."
-   ],
-   "inspected_at": "2026-11-23T22:10:09.951853+00:00"
-  },
-  "active_exploit_alerts": [
-   {
-    "title": "US Government Targets $1.17B as Circle Offers to Reissue Binance’s Frozen USDC",
-    "source": "Bitcoin News",
-    "url": "https://news.bitcoin.com/stablecoins/us-government-targets-1-17b-circle-offers-reissue-binance-frozen-usdc/",
-    "published_at": "2026-11-23T21:45:31+00:00",
-    "matched_keywords": [
-     "hack"
-    ]
-   }
-  ],
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/crypto/whale-flows": {
-  "endpoint": "crypto_whale_flows",
-  "token": "USDC",
-  "netflow_direction": "accumulating",
-  "estimated_net_usd": 5810944.74,
-  "institutional_sentiment": "bearish",
-  "key_insights": [
-   "A massive $349M USDC transfer occurred within a single block (61182846), indicating highly concentrated whale activity rather than broad market distribution.",
-   "The net positive flow of ~$5.8M suggests whales are accumulating stablecoin reserves, likely in preparation for potential regulatory volatility or as a hedge...",
-   "Institutional sentiment is bearish due to the US Government's aggressive pursuit of over $1.17B in frozen USDC linked to North Korean hackers via DOJ forfeit..."
-  ],
-  "transfer_count_24h": 30,
-  "gross_volume_usd_24h": 769653794.91,
-  "whale_transfers": [
-   {
-    "id": 61713,
-    "tx_hash": "0x27bba77f644c313b8b2f83a6365e0392d7989af799888616c12755473f2fe76f",
-    "log_index": 7,
-    "block_number": 61182846,
+  "/api/crypto/exploit-radar": {
+    "endpoint": "crypto_exploit_radar",
+    "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "chain": "base",
-    "token_symbol": "USDC",
-    "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-    "sender": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
-    "recipient": "0xb31ddf681195e90facd05f035bf951db34c30967",
-    "amount_token": 349206542.2441,
-    "amount_usd": 349206542.24,
-    "flow_type": "whale_wallet_transfer",
-    "observed_at": "2026-11-23T09:42:30.642626+00:00"
-   }
-  ],
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/defi/yield-matrix": {
-  "endpoint": "defi_yield_matrix",
-  "chain": "base",
-  "min_tvl_usd": 5000000.0,
-  "pool_count": 15,
-  "top_opportunity_pool": "uniswap-v3 — WETH-USDC (Base)",
-  "average_net_apy": 28.35,
-  "risk_adjusted_rankings": [
-   "uniswap-v3 | WETH-USDC | 103.948% APY | $83,161,347 TVL",
-   "uniswap-v3 | WETH-CBBTC | 58.986% APY | $22,500,438 TVL",
-   "uniswap-v3 | USDC-CBBTC | 45.155% APY | $5,440,294 TVL"
-  ],
-  "strategic_advice": "The top opportunity lies in the uniswap-v3 WETH-USDC pool, offering an exceptional 103.948% Base APY with substantial liquidity of over $83M. While this pool...",
-  "pools": [
-   {
-    "pool_id": "b99bcdf5-1350-4269-981e-0e9b5cccb007",
-    "chain": "Base",
-    "protocol": "uniswap-v3",
-    "symbol": "WETH-USDC",
-    "tvl_usd": 83161347.0,
-    "apy_base": 103.948,
-    "apy_reward": 0.0,
-    "apy_total": 103.948,
-    "apy_mean_30d": 77.864,
-    "il_risk": "yes",
-    "stablecoin": 0,
-    "exposure": "multi",
-    "risk_adjusted_score": 136.652,
-    "scraped_at": "2026-11-23T22:11:41.923221+00:00"
-   }
-  ],
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/agent/reputation-mesh": {
-  "endpoint": "agent_reputation_mesh",
-  "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  "chain": "base",
-  "account_type": "contract",
-  "reputation_score": 95.0,
-  "trust_tier": "verified",
-  "onchain_activity_signals": {
-   "tx_count": 1,
-   "eth_balance": 0.009801,
-   "bytecode_size_bytes": 1852,
-   "canonical_label": "USD Coin (USDC)",
-   "x402_settled_count": 0,
-   "x402_failed_count": 0,
-   "whale_transfers_24h": 0
+    "canonical_label": "USD Coin (USDC)",
+    "bytecode_risk_level": "low",
+    "proxy_analysis": "The contract is a non-upgradable standalone implementation (proxy_type: none) with no DELEGATECALL or CREATE2 logic, indicating it is not subject to upgrade ...",
+    "exploit_mentions_count_48h": 18,
+    "risk_flags": [
+      "No destructive or anomalous bytecode opcodes detected",
+      "High external context noise due to unrelated news alerts regarding Binance hack"
+    ],
+    "summary_verdict": "The target address is a standard, non-upgradable USDC contract with no inherent smart contract vulnerabilities. The high exploit mention count reflects exter...",
+    "bytecode_telemetry": {
+      "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      "chain": "base",
+      "bytecode_size": 1852,
+      "bytecode_hash": "98d785fcb1bf847f",
+      "is_contract": 1,
+      "proxy_type": "none",
+      "has_delegatecall": 1,
+      "has_selfdestruct": 0,
+      "has_create2": 0,
+      "risk_flags": [
+        "No destructive or anomalous bytecode opcodes detected."
+      ],
+      "inspected_at": "2026-11-23T22:10:09.951853+00:00"
+    },
+    "active_exploit_alerts": [
+      {
+        "title": "US Government Targets $1.17B as Circle Offers to Reissue Binance\u2019s Frozen USDC",
+        "source": "Bitcoin News",
+        "url": "https://news.bitcoin.com/stablecoins/us-government-targets-1-17b-circle-offers-reissue-binance-frozen-usdc/",
+        "published_at": "2026-11-23T21:45:31+00:00",
+        "matched_keywords": [
+          "hack"
+        ]
+      }
+    ],
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "risk_indicators": [
-   "Canonical verified protocol address for USD Coin (USDC)",
-   "Zero failed settlement history on x402",
-   "Minimal transaction volume with low bytecode size"
-  ],
-  "counterparty_verdict": "This counterparty is a highly trusted, canonical implementation of the USD Coin (USDC) contract. With zero failed settlements and verified protocol status, i...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/agent/execution-firewall": {
-  "endpoint": "agent_execution_firewall",
-  "to_checksummed": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  "chain": "base",
-  "canonical_label": "USD Coin (USDC)",
-  "decoded_function": "approve(address,uint256)",
-  "spender_or_recipient": "0x17EA1C2aFc105D8e9C976ed65Aa97c65cF5720f6",
-  "infinite_approval_detected": false,
-  "simulation_succeeded": true,
-  "revert_reason": null,
-  "execution_risk_level": "SAFE",
-  "guardrails": [
-   "Transaction targets a standard ERC20 token contract (USDC) with a verified approve function signature.",
-   "Simulation confirms the call executes cleanly without reverts or destructive opcodes on Base.",
-   "Spender address is explicitly defined and infinite approval flags are correctly identified as false."
-  ],
-  "firewall_verdict": "The transaction is deemed safe for execution as it involves a standard token approval mechanism with no anomalous bytecode patterns. The eth_call simulation ...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/defi/arbitrage-radar": {
-  "endpoint": "defi_arbitrage_radar",
-  "asset": "WETH",
-  "chain": "base",
-  "cross_venue_spread_bps": 5.3,
-  "best_buy_venue": "uniswap (base) @ $1,717.6600 (liq $983,901)",
-  "best_sell_venue": "aerodrome (base) @ $1,718.5700 (liq $2,227,364)",
-  "liquidity_depth_warning": false,
-  "execution_feasibility": "actionable",
-  "yield_carry_opportunities": [
-   "uniswap-v3 (Base) WETH-USDC — 103.948% APY ($83,161,347 TVL)",
-   "uniswap-v3 (Base) WETH-CBBTC — 58.986% APY ($22,500,438 TVL)",
-   "uniswap-v3 (Base) WETH-USDC — 69.997% APY ($9,998,815 TVL)"
-  ],
-  "dex_venues": [
-   {
+  "/api/crypto/whale-flows": {
+    "endpoint": "crypto_whale_flows",
+    "token": "USDC",
+    "netflow_direction": "accumulating",
+    "estimated_net_usd": 5810944.74,
+    "institutional_sentiment": "bearish",
+    "key_insights": [
+      "A massive $349M USDC transfer occurred within a single block (61182846), indicating highly concentrated whale activity rather than broad market distribution.",
+      "The net positive flow of ~$5.8M suggests whales are accumulating stablecoin reserves, likely in preparation for potential regulatory volatility or as a hedge...",
+      "Institutional sentiment is bearish due to the US Government's aggressive pursuit of over $1.17B in frozen USDC linked to North Korean hackers via DOJ forfeit..."
+    ],
+    "transfer_count_24h": 30,
+    "gross_volume_usd_24h": 769653794.91,
+    "whale_transfers": [
+      {
+        "id": 61713,
+        "tx_hash": "0x27bba77f644c313b8b2f83a6365e0392d7989af799888616c12755473f2fe76f",
+        "log_index": 7,
+        "block_number": 61182846,
+        "chain": "base",
+        "token_symbol": "USDC",
+        "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+        "sender": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
+        "recipient": "0xb31ddf681195e90facd05f035bf951db34c30967",
+        "amount_token": 349206542.2441,
+        "amount_usd": 349206542.24,
+        "flow_type": "whale_wallet_transfer",
+        "observed_at": "2026-11-23T09:42:30.642626+00:00"
+      }
+    ],
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/defi/yield-matrix": {
+    "endpoint": "defi_yield_matrix",
     "chain": "base",
-    "dex": "uniswap",
-    "pair": "WETH/USDC",
-    "price_usd": 1717.85,
-    "liquidity_usd": 82963498.43,
-    "volume_24h_usd": 95287353.17,
-    "pair_address": "0x6c561B446416E1A00E8E93E221854d6eA4171372"
-   },
-   {
+    "min_tvl_usd": 5000000.0,
+    "pool_count": 15,
+    "top_opportunity_pool": "uniswap-v3 \u2014 WETH-USDC (Base)",
+    "average_net_apy": 28.35,
+    "risk_adjusted_rankings": [
+      "uniswap-v3 | WETH-USDC | 103.948% APY | $83,161,347 TVL",
+      "uniswap-v3 | WETH-CBBTC | 58.986% APY | $22,500,438 TVL",
+      "uniswap-v3 | USDC-CBBTC | 45.155% APY | $5,440,294 TVL"
+    ],
+    "strategic_advice": "The top opportunity lies in the uniswap-v3 WETH-USDC pool, offering an exceptional 103.948% Base APY with substantial liquidity of over $83M. While this pool...",
+    "pools": [
+      {
+        "pool_id": "b99bcdf5-1350-4269-981e-0e9b5cccb007",
+        "chain": "Base",
+        "protocol": "uniswap-v3",
+        "symbol": "WETH-USDC",
+        "tvl_usd": 83161347.0,
+        "apy_base": 103.948,
+        "apy_reward": 0.0,
+        "apy_total": 103.948,
+        "apy_mean_30d": 77.864,
+        "il_risk": "yes",
+        "stablecoin": 0,
+        "exposure": "multi",
+        "risk_adjusted_score": 136.652,
+        "scraped_at": "2026-11-23T22:11:41.923221+00:00"
+      }
+    ],
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/agent/reputation-mesh": {
+    "endpoint": "agent_reputation_mesh",
+    "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "chain": "base",
-    "dex": "uniswap",
-    "pair": "WETH/USDC",
-    "price_usd": 1718.12,
-    "liquidity_usd": 9898285.84,
-    "volume_24h_usd": 52877871.08,
-    "pair_address": "0xd0b53D9277642d899DF5C87A3966A349A798F224"
-   },
-   {
+    "account_type": "contract",
+    "reputation_score": 95.0,
+    "trust_tier": "verified",
+    "onchain_activity_signals": {
+      "tx_count": 1,
+      "eth_balance": 0.009801,
+      "bytecode_size_bytes": 1852,
+      "canonical_label": "USD Coin (USDC)",
+      "x402_settled_count": 0,
+      "x402_failed_count": 0,
+      "whale_transfers_24h": 0
+    },
+    "risk_indicators": [
+      "Canonical verified protocol address for USD Coin (USDC)",
+      "Zero failed settlement history on x402",
+      "Minimal transaction volume with low bytecode size"
+    ],
+    "counterparty_verdict": "This counterparty is a highly trusted, canonical implementation of the USD Coin (USDC) contract. With zero failed settlements and verified protocol status, i...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/agent/execution-firewall": {
+    "endpoint": "agent_execution_firewall",
+    "to_checksummed": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "chain": "base",
-    "dex": "aero",
-    "pair": "WETH/USDC",
-    "price_usd": 1718.3,
-    "liquidity_usd": 6775083.05,
-    "volume_24h_usd": 89736323.62,
-    "pair_address": "0x4A7af46bC8aBc00048c6c7920a1488DAF568366c"
-   }
-  ],
-  "arbitrage_summary": "The current cross-venue price dispersion of 5.3 bps between Uniswap (Base) at $1,717.66 and Aerodrome (Base) at $1,718.57 represents a viable arbitrage oppor...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/agent/gas-sponsor-check": {
-  "endpoint": "agent_gas_sponsor_check",
-  "chain": "base",
-  "estimated_gas_limit": 180000,
-  "paymaster_address": "0x2CC0c7981d846b9f2A16276556f6E8Cb52bFBB98",
-  "entrypoint_version": "v0.7",
-  "entrypoint_address": "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
-  "paymaster_deposit_eth": 0.0,
-  "gas_price_gwei": 0.006,
-  "eth_price_usd": 1718.48,
-  "estimated_userop_cost_usd": 0.001856,
-  "sponsorship_viable": true,
-  "congestion_level": "low",
-  "gas_recommendation": "Proceed with the transaction as the low congestion and zero sponsorship cost make it highly efficient. The estimated user cost of $0.001856 is negligible giv...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/defi/intent-routing": {
-  "endpoint": "defi_intent_routing",
-  "asset": "USDC",
-  "source_chain": "base",
-  "destination_chain": "arbitrum",
-  "amount_usd": 25000.0,
-  "recommended_route": "CCTP Burn-and-Mint (base -> arbitrum)",
-  "estimated_slippage_bps": 0.28,
-  "estimated_gas_usd": 0.0042,
-  "net_settlement_efficiency_score": 99.5,
-  "alternative_routes": [
-   "Across / Intent Fillers (base -> arbitrum): ~0.32 bps slippage, fast finality",
-   "Canonical Rollup Bridge (base -> arbitrum): 0 bps LP slippage, higher finality latency"
-  ],
-  "routing_verdict": "The CCTP route is recommended due to its superior efficiency score of 99.5 and optimal balance between speed and cost for a $25,000 USDC transfer. While the ...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/crypto/state-attestation": {
-  "endpoint": "crypto_state_attestation",
-  "attestation_id": "att_base_61408166_78dc97dd4f98",
-  "subject_address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  "chain": "base",
-  "block_number": 61408166,
-  "block_hash": "0x2ccbc1f94b94fc1d1d33476dd6a24e5084e9524de1c9b22db3bc31061c749ace",
-  "state_root": "0xc74ddd797827fdbb8899e038254cff52630aeff247f7fa9afa31625afa54f091",
-  "state_commitment_sha256": "78dc97dd4f98db687d392aeea020ad942476f99f32e3077f0019d297bb99106a",
-  "ttl_seconds": 120,
-  "cache_hit": false,
-  "attestation_summary": "This on-chain attestation confirms that the subject address 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913 was verified within Block #61408166 on the Base chain....",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/agent/mev-shield-check": {
-  "endpoint": "agent_mev_shield_check",
-  "chain": "base",
-  "swap_value_usd": 25000.0,
-  "slippage_tolerance_bps": 50,
-  "gas_gwei": 0.006,
-  "block_utilization_pct": 1.2,
-  "top_pool_liquidity_usd": 78333.94,
-  "sandwich_risk_level": "MEDIUM",
-  "estimated_mev_exposure_bps": 50.0,
-  "recommended_relay": "MEV-Boost or Flashbots",
-  "max_safe_slippage_bps": 35,
-  "calldata_flags": [
-   "SEQUENCER_PRIORITY_ORDERING",
-   "HIGH_POOL_LIQUIDITY_IMPACT",
-   "NO_CALLDATA_SUPPLIED_HEURISTIC"
-  ],
-  "shield_verdict": "The low gas price and minimal block utilization create a favorable environment for sequencer priority ordering attacks. However, the high top pool liquidity ...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/agent/escrow-arbitration": {
-  "endpoint": "agent_escrow_arbitration",
-  "arbitration_id": "arb_eddeb9cd1db0",
-  "task_spec_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "delivery_payload_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-  "attestation_id": null,
-  "verdict": "release",
-  "payer_share_pct": 0.0,
-  "payee_share_pct": 100.0,
-  "evidence_hash_sha256": "eddeb9cd1db0cccf8bc8d936ffe4b9acf497cbfea182a089ce89c9a99be50662",
-  "sla_checks": [
-   {
-    "check": "task_spec_hash_format",
-    "passed": true
-   },
-   {
-    "check": "delivery_payload_hash_format",
-    "passed": true
-   },
-   {
-    "check": "non_empty_delivery_commitment",
-    "passed": true
-   }
-  ],
-  "arbitration_rationale": "The delivery hash is valid and non-zero, confirming successful receipt of goods by the payee. Consequently, the autonomous agent releases all funds to the pa...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/crypto/zk-receipt-verify": {
-  "endpoint": "crypto_zk_receipt_verify",
-  "verified": true,
-  "proof_type": "merkle_sha256",
-  "merkle_root_match": true,
-  "anchored_block_number": null,
-  "commitment_sha256": "5cf5c02c8f8f0c627cb032e48a9e8b91ca7cc64e4ef0ff0483ffba4c6f468666",
-  "checks": [
-   {
-    "check": "merkle_sha256_root",
-    "passed": true,
-    "computed_root": "5cf5c02c8f8f0c627cb032e48a9e8b91ca7cc64e4ef0ff0483ffba4c6f468666"
-   },
-   {
-    "check": "state_attestations_lookup",
-    "passed": false
-   }
-  ],
-  "verification_summary": "The Merkle root hash was successfully verified and matched the target commitment, confirming data integrity for that specific component. However, the overall...",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/agent/session-open": {
-  "endpoint": "agent_session_open",
-  "session_id": "ses_183faacffc39d3b1ca47f4e7",
-  "payer_address": "0x02870E5A7B965404BF608630b0Cb90304675BecE",
-  "session_token": "x402s_ses_183faacffc39d3b1ca47f4e7.e94a024b34da25ce04c5c773762cb54e",
-  "deposited_usd": 1.0,
-  "remaining_usd": 1.0,
-  "expires_at": "2026-11-23T23:13:41.609616+00:00",
-  "auth_header_example": "Bearer x402s_ses_183faacffc39d3b1ca47f4e7.e94a024b34da25ce04c5c773762cb54e",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/token/snapshot": {
-  "endpoint": "token_snapshot",
-  "chain": "base",
-  "token": {
-   "address": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-   "name": "Aerodrome",
-   "symbol": "AERO"
+    "canonical_label": "USD Coin (USDC)",
+    "decoded_function": "approve(address,uint256)",
+    "spender_or_recipient": "0x17EA1C2aFc105D8e9C976ed65Aa97c65cF5720f6",
+    "infinite_approval_detected": false,
+    "simulation_succeeded": true,
+    "revert_reason": null,
+    "execution_risk_level": "SAFE",
+    "guardrails": [
+      "Transaction targets a standard ERC20 token contract (USDC) with a verified approve function signature.",
+      "Simulation confirms the call executes cleanly without reverts or destructive opcodes on Base.",
+      "Spender address is explicitly defined and infinite approval flags are correctly identified as false."
+    ],
+    "firewall_verdict": "The transaction is deemed safe for execution as it involves a standard token approval mechanism with no anomalous bytecode patterns. The eth_call simulation ...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "pair": {
-   "dex": "aerodrome",
-   "pair_address": "0x6cDcb1C4A4D1C3C6d054b27AC5B77e89eAFb971d",
-   "quote_symbol": "USDC",
-   "url": "https://dexscreener.com/base/0x6cdcb1c4a4d1c3c6d054b27ac5b77e89eafb971d",
-   "age_hours": 28151.4
+  "/api/defi/arbitrage-radar": {
+    "endpoint": "defi_arbitrage_radar",
+    "asset": "WETH",
+    "chain": "base",
+    "cross_venue_spread_bps": 5.3,
+    "best_buy_venue": "uniswap (base) @ $1,717.6600 (liq $983,901)",
+    "best_sell_venue": "aerodrome (base) @ $1,718.5700 (liq $2,227,364)",
+    "liquidity_depth_warning": false,
+    "execution_feasibility": "actionable",
+    "yield_carry_opportunities": [
+      "uniswap-v3 (Base) WETH-USDC \u2014 103.948% APY ($83,161,347 TVL)",
+      "uniswap-v3 (Base) WETH-CBBTC \u2014 58.986% APY ($22,500,438 TVL)",
+      "uniswap-v3 (Base) WETH-USDC \u2014 69.997% APY ($9,998,815 TVL)"
+    ],
+    "dex_venues": [
+      {
+        "chain": "base",
+        "dex": "uniswap",
+        "pair": "WETH/USDC",
+        "price_usd": 1717.85,
+        "liquidity_usd": 82963498.43,
+        "volume_24h_usd": 95287353.17,
+        "pair_address": "0x6c561B446416E1A00E8E93E221854d6eA4171372"
+      },
+      {
+        "chain": "base",
+        "dex": "uniswap",
+        "pair": "WETH/USDC",
+        "price_usd": 1718.12,
+        "liquidity_usd": 9898285.84,
+        "volume_24h_usd": 52877871.08,
+        "pair_address": "0xd0b53D9277642d899DF5C87A3966A349A798F224"
+      },
+      {
+        "chain": "base",
+        "dex": "aero",
+        "pair": "WETH/USDC",
+        "price_usd": 1718.3,
+        "liquidity_usd": 6775083.05,
+        "volume_24h_usd": 89736323.62,
+        "pair_address": "0x4A7af46bC8aBc00048c6c7920a1488DAF568366c"
+      }
+    ],
+    "arbitrage_summary": "The current cross-venue price dispersion of 5.3 bps between Uniswap (Base) at $1,717.66 and Aerodrome (Base) at $1,718.57 represents a viable arbitrage oppor...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "market": {
-   "price_usd": 0.4153,
-   "liquidity_usd": 3338967.26,
-   "fdv_usd": 834396772.0,
-   "market_cap_usd": 97883817.0,
-   "volume_24h_usd": 406650.38,
-   "price_change_pct": {
-    "m5": 0.0,
-    "h1": 0.32,
-    "h6": -4.11,
-    "h24": -1.5
-   },
-   "txns_24h": {
-    "buys": 569,
-    "sells": 758
-   }
+  "/api/agent/gas-sponsor-check": {
+    "endpoint": "agent_gas_sponsor_check",
+    "chain": "base",
+    "estimated_gas_limit": 180000,
+    "paymaster_address": "0x2CC0c7981d846b9f2A16276556f6E8Cb52bFBB98",
+    "entrypoint_version": "v0.7",
+    "entrypoint_address": "0x0000000071727De22E5E9d8BAf0edAc6f37da032",
+    "paymaster_deposit_eth": 0.0,
+    "gas_price_gwei": 0.006,
+    "eth_price_usd": 1718.48,
+    "estimated_userop_cost_usd": 0.001856,
+    "sponsorship_viable": true,
+    "congestion_level": "low",
+    "gas_recommendation": "Proceed with the transaction as the low congestion and zero sponsorship cost make it highly efficient. The estimated user cost of $0.001856 is negligible giv...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "flags": [
-   "fdv_over_100x_liquidity"
-  ],
-  "ai": {
-   "signal": "high_risk",
-   "summary": "The token exhibits extreme risk due to a massive discrepancy between its fully diluted valuation and current liquidity, indicating significant dilution poten...",
-   "watch_points": [
-    "The valuation-to-liquidity ratio is dangerously high, implying that even small new allocations could disproportionately impact price stability."
-   ],
-   "source": "qwen3.5:4b",
-   "adjusted_by_guardrail": false
+  "/api/defi/intent-routing": {
+    "endpoint": "defi_intent_routing",
+    "asset": "USDC",
+    "source_chain": "base",
+    "destination_chain": "arbitrum",
+    "amount_usd": 25000.0,
+    "recommended_route": "CCTP Burn-and-Mint (base -> arbitrum)",
+    "estimated_slippage_bps": 0.28,
+    "estimated_gas_usd": 0.0042,
+    "net_settlement_efficiency_score": 99.5,
+    "alternative_routes": [
+      "Across / Intent Fillers (base -> arbitrum): ~0.32 bps slippage, fast finality",
+      "Canonical Rollup Bridge (base -> arbitrum): 0 bps LP slippage, higher finality latency"
+    ],
+    "routing_verdict": "The CCTP route is recommended due to its superior efficiency score of 99.5 and optimal balance between speed and cost for a $25,000 USDC transfer. While the ...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "pairs_considered": 30,
-  "data_source": "dexscreener",
-  "as_of": "2026-11-23T22:13:45.675605+00:00",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/token/risk": {
-  "endpoint": "token_risk",
-  "chain": "base",
-  "address": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-  "token": {
-   "name": "Aerodrome",
-   "symbol": "AERO",
-   "decimals": 18,
-   "total_supply_raw": "2008752775327773745982212451"
+  "/api/crypto/state-attestation": {
+    "endpoint": "crypto_state_attestation",
+    "attestation_id": "att_base_61408166_78dc97dd4f98",
+    "subject_address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "chain": "base",
+    "block_number": 61408166,
+    "block_hash": "0x2ccbc1f94b94fc1d1d33476dd6a24e5084e9524de1c9b22db3bc31061c749ace",
+    "state_root": "0xc74ddd797827fdbb8899e038254cff52630aeff247f7fa9afa31625afa54f091",
+    "state_commitment_sha256": "78dc97dd4f98db687d392aeea020ad942476f99f32e3077f0019d297bb99106a",
+    "ttl_seconds": 120,
+    "cache_hit": false,
+    "attestation_summary": "This on-chain attestation confirms that the subject address 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913 was verified within Block #61408166 on the Base chain....",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "contract": {
-   "code_size_bytes": 4736,
-   "is_proxy": false,
-   "implementation": null,
-   "owner": null,
-   "owner_renounced": false,
-   "privileged_functions": {
-    "mint": [
-     "mint(address,uint256)"
-    ]
-   }
+  "/api/agent/mev-shield-check": {
+    "endpoint": "agent_mev_shield_check",
+    "chain": "base",
+    "swap_value_usd": 25000.0,
+    "slippage_tolerance_bps": 50,
+    "gas_gwei": 0.006,
+    "block_utilization_pct": 1.2,
+    "top_pool_liquidity_usd": 78333.94,
+    "sandwich_risk_level": "MEDIUM",
+    "estimated_mev_exposure_bps": 50.0,
+    "recommended_relay": "MEV-Boost or Flashbots",
+    "max_safe_slippage_bps": 35,
+    "calldata_flags": [
+      "SEQUENCER_PRIORITY_ORDERING",
+      "HIGH_POOL_LIQUIDITY_IMPACT",
+      "NO_CALLDATA_SUPPLIED_HEURISTIC"
+    ],
+    "shield_verdict": "The low gas price and minimal block utilization create a favorable environment for sequencer priority ordering attacks. However, the high top pool liquidity ...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "liquidity": {
-   "top_pair_liquidity_usd": 3338967.26,
-   "pair_age_hours": 28151.4,
-   "buys_24h": 569,
-   "sells_24h": 758,
-   "dex": "aerodrome"
+  "/api/agent/escrow-arbitration": {
+    "endpoint": "agent_escrow_arbitration",
+    "arbitration_id": "arb_eddeb9cd1db0",
+    "task_spec_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "delivery_payload_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "attestation_id": null,
+    "verdict": "release",
+    "payer_share_pct": 0.0,
+    "payee_share_pct": 100.0,
+    "evidence_hash_sha256": "eddeb9cd1db0cccf8bc8d936ffe4b9acf497cbfea182a089ce89c9a99be50662",
+    "sla_checks": [
+      {
+        "check": "task_spec_hash_format",
+        "passed": true
+      },
+      {
+        "check": "delivery_payload_hash_format",
+        "passed": true
+      },
+      {
+        "check": "non_empty_delivery_commitment",
+        "passed": true
+      }
+    ],
+    "arbitration_rationale": "The delivery hash is valid and non-zero, confirming successful receipt of goods by the payee. Consequently, the autonomous agent releases all funds to the pa...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "risk_score": 25,
-  "risk_band": "low_risk",
-  "risk_reasons": [
-   "mint_function_not_renounced"
-  ],
-  "checks_not_performed": [
-   "sell_simulation"
-  ],
-  "ai": {
-   "verdict": "low_risk",
-   "explanation": "Deterministic verdict from on-chain checks: mint_function_not_renounced.",
-   "top_reasons": [
-    "mint_function_not_renounced"
-   ],
-   "source": "deterministic_fallback",
-   "adjusted_by_guardrail": false
+  "/api/crypto/zk-receipt-verify": {
+    "endpoint": "crypto_zk_receipt_verify",
+    "verified": true,
+    "proof_type": "merkle_sha256",
+    "merkle_root_match": true,
+    "anchored_block_number": null,
+    "commitment_sha256": "5cf5c02c8f8f0c627cb032e48a9e8b91ca7cc64e4ef0ff0483ffba4c6f468666",
+    "checks": [
+      {
+        "check": "merkle_sha256_root",
+        "passed": true,
+        "computed_root": "5cf5c02c8f8f0c627cb032e48a9e8b91ca7cc64e4ef0ff0483ffba4c6f468666"
+      },
+      {
+        "check": "state_attestations_lookup",
+        "passed": false
+      }
+    ],
+    "verification_summary": "The Merkle root hash was successfully verified and matched the target commitment, confirming data integrity for that specific component. However, the overall...",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "as_of": "2026-11-23T22:14:03.887863+00:00",
-  "degraded": true,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/tx/decode": {
-  "endpoint": "tx_decode",
-  "tx_hash": "0xcd5f9d5cdfc75ed2439e6a2f230025eec0b580598881ca36bf06ba29e2ed6dac",
-  "chain": "base",
-  "status": "success",
-  "from": "0x14fda13953fc30428938e6bf950d036e77214e52",
-  "to": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-  "value_eth": 0.0,
-  "method": {
-   "selector": "0xe3ee160e",
-   "signature": "transferWithAuthorization(address,address,uint256,uint256,uint256,bytes32,uint8,bytes32,bytes32)",
-   "signature_source": "known",
-   "args": [
-    {
-     "type": "address",
-     "value": "0x2810eb5899ef878e4f35bf2af9d75b861135bd0e"
-    }
-   ]
+  "/api/agent/session-open": {
+    "endpoint": "agent_session_open",
+    "session_id": "ses_183faacffc39d3b1ca47f4e7",
+    "payer_address": "0x02870E5A7B965404BF608630b0Cb90304675BecE",
+    "session_token": "x402s_ses_183faacffc39d3b1ca47f4e7.e94a024b34da25ce04c5c773762cb54e",
+    "deposited_usd": 1.0,
+    "remaining_usd": 1.0,
+    "expires_at": "2026-11-23T23:13:41.609616+00:00",
+    "auth_header_example": "Bearer x402s_ses_183faacffc39d3b1ca47f4e7.e94a024b34da25ce04c5c773762cb54e",
+    "schema_version": "1.0",
+    "cached": false
   },
-  "transfers": [
-   {
-    "token": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+  "/api/token/snapshot": {
+    "endpoint": "token_snapshot",
+    "chain": "base",
+    "token": {
+      "address": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+      "name": "Aerodrome",
+      "symbol": "AERO"
+    },
+    "pair": {
+      "dex": "aerodrome",
+      "pair_address": "0x6cDcb1C4A4D1C3C6d054b27AC5B77e89eAFb971d",
+      "quote_symbol": "USDC",
+      "url": "https://dexscreener.com/base/0x6cdcb1c4a4d1c3c6d054b27ac5b77e89eafb971d",
+      "age_hours": 28151.4
+    },
+    "market": {
+      "price_usd": 0.4153,
+      "liquidity_usd": 3338967.26,
+      "fdv_usd": 834396772.0,
+      "market_cap_usd": 97883817.0,
+      "volume_24h_usd": 406650.38,
+      "price_change_pct": {
+        "m5": 0.0,
+        "h1": 0.32,
+        "h6": -4.11,
+        "h24": -1.5
+      },
+      "txns_24h": {
+        "buys": 569,
+        "sells": 758
+      }
+    },
+    "flags": [
+      "fdv_over_100x_liquidity"
+    ],
+    "ai": {
+      "signal": "high_risk",
+      "summary": "The token exhibits extreme risk due to a massive discrepancy between its fully diluted valuation and current liquidity, indicating significant dilution poten...",
+      "watch_points": [
+        "The valuation-to-liquidity ratio is dangerously high, implying that even small new allocations could disproportionately impact price stability."
+      ],
+      "source": "qwen3.5:4b",
+      "adjusted_by_guardrail": false
+    },
+    "pairs_considered": 30,
+    "data_source": "dexscreener",
+    "as_of": "2026-11-23T22:13:45.675605+00:00",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/token/risk": {
+    "endpoint": "token_risk",
+    "chain": "base",
+    "address": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+    "token": {
+      "name": "Aerodrome",
+      "symbol": "AERO",
+      "decimals": 18,
+      "total_supply_raw": "2008752775327773745982212451"
+    },
+    "contract": {
+      "code_size_bytes": 4736,
+      "is_proxy": false,
+      "implementation": null,
+      "owner": null,
+      "owner_renounced": false,
+      "privileged_functions": {
+        "mint": [
+          "mint(address,uint256)"
+        ]
+      }
+    },
+    "liquidity": {
+      "top_pair_liquidity_usd": 3338967.26,
+      "pair_age_hours": 28151.4,
+      "buys_24h": 569,
+      "sells_24h": 758,
+      "dex": "aerodrome"
+    },
+    "risk_score": 25,
+    "risk_band": "low_risk",
+    "risk_reasons": [
+      "mint_function_not_renounced"
+    ],
+    "checks_not_performed": [
+      "sell_simulation"
+    ],
+    "ai": {
+      "verdict": "low_risk",
+      "explanation": "Deterministic verdict from on-chain checks: mint_function_not_renounced.",
+      "top_reasons": [
+        "mint_function_not_renounced"
+      ],
+      "source": "deterministic_fallback",
+      "adjusted_by_guardrail": false
+    },
+    "as_of": "2026-11-23T22:14:03.887863+00:00",
+    "degraded": true,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/tx/decode": {
+    "endpoint": "tx_decode",
+    "tx_hash": "0xcd5f9d5cdfc75ed2439e6a2f230025eec0b580598881ca36bf06ba29e2ed6dac",
+    "chain": "base",
+    "status": "success",
+    "from": "0x14fda13953fc30428938e6bf950d036e77214e52",
+    "to": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+    "value_eth": 0.0,
+    "method": {
+      "selector": "0xe3ee160e",
+      "signature": "transferWithAuthorization(address,address,uint256,uint256,uint256,bytes32,uint8,bytes32,bytes32)",
+      "signature_source": "known",
+      "args": [
+        {
+          "type": "address",
+          "value": "0x2810eb5899ef878e4f35bf2af9d75b861135bd0e"
+        }
+      ]
+    },
+    "transfers": [
+      {
+        "token": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+        "symbol": "USDC",
+        "from": "0x2810eb5899ef878e4f35bf2af9d75b861135bd0e",
+        "to": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+        "amount_raw": "10000",
+        "amount": "0.01"
+      }
+    ],
+    "approvals": [],
+    "flags": [],
+    "fee": {
+      "gas_used": 81462,
+      "effective_gas_price_gwei": 0.01,
+      "fee_eth": 8.146e-07,
+      "fee_usd": 0.0014,
+      "scope": "execution_fee"
+    },
+    "ai": {
+      "risk_level": "review",
+      "plain_english": "This transaction successfully moved 0.01 USDC from one address to another on the Base blockchain. The transfer was authorized by a third party rather than th...",
+      "warnings": [
+        "The transaction used an authorization method where a third party granted permission for the transfer."
+      ],
+      "source": "qwen3.5:4b",
+      "adjusted_by_guardrail": false
+    },
+    "as_of": "2026-11-23T22:14:07.434428+00:00",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/chain/gas": {
+    "endpoint": "chain_gas",
+    "action": "swap USDC to ETH",
+    "eth_usd": 1718.385,
+    "chains": [
+      {
+        "chain": "base",
+        "gas_gwei": 0.006001,
+        "block": 61408361,
+        "costs_usd": {
+          "eth_transfer": 0.000217,
+          "erc20_transfer": 0.00067,
+          "swap": 0.001856
+        },
+        "fee_scope": "l2_execution_only_excludes_l1_data_fee"
+      }
+    ],
+    "cheapest": {
+      "chain": "optimism",
+      "by": "swap_cost_usd"
+    },
+    "errors": {},
+    "ai": {
+      "recommended_chain": "optimism",
+      "recommendation": "Optimism offers the lowest total cost for swapping USDC to ETH at $0.000313, which is significantly cheaper than Base ($0.001856), Arbitrum ($0.006187), and ...",
+      "source": "qwen3.5:4b"
+    },
+    "as_of": "2026-11-23T22:14:10.769587+00:00",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/tokens/trending": {
+    "endpoint": "tokens_trending",
+    "chain": "base",
+    "count": 5,
+    "pools": [
+      {
+        "network": "base",
+        "pool_address": "0x83f3aca29bc79b048b99c56013475570acc97ccf",
+        "name": "ELSA / USDC 0.01%",
+        "base_token_address": "0x29cc30f9d113b356ce408667aa6433589cecbdca",
+        "dex": "pancakeswap-v3-base",
+        "price_usd": 0.0980716383518218,
+        "liquidity_usd": 603447.88,
+        "fdv_usd": 98135778.61,
+        "volume_24h_usd": 16806884.69,
+        "price_change_pct": {
+          "m5": -2.202,
+          "h1": -3.183,
+          "h6": -9.077,
+          "h24": 17.542
+        },
+        "txns_24h": {
+          "buys": 70672,
+          "sells": 73175
+        },
+        "pool_created_at": "2026-01-20T08:59:59Z",
+        "flags": [
+          "volume_over_5x_liquidity",
+          "fdv_over_100x_liquidity"
+        ]
+      }
+    ],
+    "ai": {
+      "market_tone": "risk_on",
+      "summary": "The verified facts indicate a bullish market tone on the base chain, characterized by significant buy pressure and high valuation multiples across trending p...",
+      "source": "qwen3.5:4b"
+    },
+    "data_source": "geckoterminal",
+    "as_of": "2026-11-23T22:14:12.659859+00:00",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/tokens/newest": {
+    "endpoint": "tokens_newest",
+    "chain": "base",
+    "count": 5,
+    "pools": [
+      {
+        "network": "base",
+        "pool_address": "0xdeb9ba5b7a7ca0a33c5e5cc49017d4e253516c7069558fd3a757bdb1cdbe81ea",
+        "name": "ROSTRUM / ETH 0.01%",
+        "base_token_address": "0xb2000000000000000000001cab25c00851a06024",
+        "dex": "uniswap-v4-base",
+        "price_usd": 3.52723150748507e-06,
+        "liquidity_usd": 3476.99,
+        "fdv_usd": 3476.87,
+        "volume_24h_usd": 37.81,
+        "price_change_pct": {
+          "m5": 0.902,
+          "h1": 0.902,
+          "h6": 0.902,
+          "h24": 0.902
+        },
+        "txns_24h": {
+          "buys": 4,
+          "sells": 0
+        },
+        "pool_created_at": "2026-11-23T22:12:47Z",
+        "flags": [
+          "thin_liquidity_under_50k_usd"
+        ]
+      }
+    ],
+    "ai": {
+      "launch_quality": "mixed",
+      "summary": "five_pools_launched_on_base_with_various_risk_flags",
+      "source": "qwen3.5:4b"
+    },
+    "data_source": "geckoterminal",
+    "as_of": "2026-11-23T22:14:14.490475+00:00",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/token/indicators": {
+    "endpoint": "token_indicators",
+    "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+    "chain": "base",
+    "pool_address": "0x6cDcb1C4A4D1C3C6d054b27AC5B77e89eAFb971d",
+    "timeframe": "hour",
+    "indicators": {
+      "candles": 50,
+      "latest_close": 0.41599963868632495,
+      "vwap": 0.4233513459,
+      "rsi_14": 47.54,
+      "ema_9": 0.4207620616,
+      "ema_21": 0.4223843444,
+      "macd": {
+        "macd": 4.39329e-05,
+        "signal": 0.0024754917,
+        "histogram": -0.0024315588
+      },
+      "volatility_pct": 1.625,
+      "trend": "bearish"
+    },
+    "ai": {
+      "bias": "bearish",
+      "summary": "The technical analysis indicates a bearish bias for the token on Base. The price is trading below both the VWAP and the EMAs (9 and 21), with the MACD histog...",
+      "source": "qwen3.5:4b"
+    },
+    "data_source": "geckoterminal+dexscreener",
+    "as_of": "2026-11-23T22:14:17.640700+00:00",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/onchain/prices": {
+    "endpoint": "onchain_prices",
+    "count": 2,
+    "prices": {
+      "0x940181a94A35A4569E4529A3CDfB74e38FD98631": {
+        "found": true,
+        "chain": "base",
+        "symbol": "AERO",
+        "price_usd": 0.4153,
+        "liquidity_usd": 3338967.26,
+        "volume_24h_usd": 406643.67,
+        "venue_spread_pct": 0.506
+      },
+      "0x4200000000000000000000000000000000000006": {
+        "found": true,
+        "chain": "base",
+        "symbol": "WETH",
+        "price_usd": 1717.85,
+        "liquidity_usd": 82963533.58,
+        "volume_24h_usd": 95287353.17,
+        "venue_spread_pct": 0.049
+      }
+    },
+    "ai": {
+      "summary": "Resolved 2 of 2 tokens across DEX pools.",
+      "source": "deterministic_fallback"
+    },
+    "data_source": "dexscreener",
+    "as_of": "2026-11-23T22:14:20.945497+00:00",
+    "degraded": true,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/chain/rpc-consensus": {
+    "endpoint": "rpc_consensus",
+    "chain": "base",
+    "head_block": 61408429,
+    "healthy_nodes": 1,
+    "total_nodes": 3,
+    "nodes": [
+      {
+        "rpc": "https://mainnet.base.org",
+        "ok": true,
+        "block": 61408429,
+        "latency_ms": 172,
+        "lag_blocks": 0
+      }
+    ],
+    "ai": {
+      "consensus": "healthy",
+      "summary": "The RPC node consensus is healthy with one verified node out of three total nodes.",
+      "source": "qwen3.5:4b"
+    },
+    "as_of": "2026-11-23T22:14:22.674422+00:00",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/allowance/check": {
+    "endpoint": "allowance_check",
+    "chain": "base",
+    "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     "symbol": "USDC",
-    "from": "0x2810eb5899ef878e4f35bf2af9d75b861135bd0e",
-    "to": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-    "amount_raw": "10000",
-    "amount": "0.01"
-   }
-  ],
-  "approvals": [],
-  "flags": [],
-  "fee": {
-   "gas_used": 81462,
-   "effective_gas_price_gwei": 0.01,
-   "fee_eth": 8.146e-07,
-   "fee_usd": 0.0014,
-   "scope": "execution_fee"
+    "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "spender": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "allowance_raw": "0",
+    "allowance": 0.0,
+    "unlimited": false,
+    "balance_raw": "20458000",
+    "balance": 20.458,
+    "ai": {
+      "risk": "safe",
+      "advice": "The token allowance is set to zero.",
+      "source": "qwen3.5:4b"
+    },
+    "as_of": "2026-11-23T22:14:24.238939+00:00",
+    "degraded": false,
+    "schema_version": "1.0",
+    "cached": false
   },
-  "ai": {
-   "risk_level": "review",
-   "plain_english": "This transaction successfully moved 0.01 USDC from one address to another on the Base blockchain. The transfer was authorized by a third party rather than th...",
-   "warnings": [
-    "The transaction used an authorization method where a third party granted permission for the transfer."
-   ],
-   "source": "qwen3.5:4b",
-   "adjusted_by_guardrail": false
-  },
-  "as_of": "2026-11-23T22:14:07.434428+00:00",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/chain/gas": {
-  "endpoint": "chain_gas",
-  "action": "swap USDC to ETH",
-  "eth_usd": 1718.385,
-  "chains": [
-   {
+  "/api/bypass/sweep": {
+    "endpoint": "bypass_sweep",
     "chain": "base",
-    "gas_gwei": 0.006001,
-    "block": 61408361,
-    "costs_usd": {
-     "eth_transfer": 0.000217,
-     "erc20_transfer": 0.00067,
-     "swap": 0.001856
-    },
-    "fee_scope": "l2_execution_only_excludes_l1_data_fee"
-   }
-  ],
-  "cheapest": {
-   "chain": "optimism",
-   "by": "swap_cost_usd"
-  },
-  "errors": {},
-  "ai": {
-   "recommended_chain": "optimism",
-   "recommendation": "Optimism offers the lowest total cost for swapping USDC to ETH at $0.000313, which is significantly cheaper than Base ($0.001856), Arbitrum ($0.006187), and ...",
-   "source": "qwen3.5:4b"
-  },
-  "as_of": "2026-11-23T22:14:10.769587+00:00",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/tokens/trending": {
-  "endpoint": "tokens_trending",
-  "chain": "base",
-  "count": 5,
-  "pools": [
-   {
-    "network": "base",
-    "pool_address": "0x83f3aca29bc79b048b99c56013475570acc97ccf",
-    "name": "ELSA / USDC 0.01%",
-    "base_token_address": "0x29cc30f9d113b356ce408667aa6433589cecbdca",
-    "dex": "pancakeswap-v3-base",
-    "price_usd": 0.0980716383518218,
-    "liquidity_usd": 603447.88,
-    "fdv_usd": 98135778.61,
-    "volume_24h_usd": 16806884.69,
-    "price_change_pct": {
-     "m5": -2.202,
-     "h1": -3.183,
-     "h6": -9.077,
-     "h24": 17.542
-    },
-    "txns_24h": {
-     "buys": 70672,
-     "sells": 73175
-    },
-    "pool_created_at": "2026-01-20T08:59:59Z",
-    "flags": [
-     "volume_over_5x_liquidity",
-     "fdv_over_100x_liquidity"
-    ]
-   }
-  ],
-  "ai": {
-   "market_tone": "risk_on",
-   "summary": "The verified facts indicate a bullish market tone on the base chain, characterized by significant buy pressure and high valuation multiples across trending p...",
-   "source": "qwen3.5:4b"
-  },
-  "data_source": "geckoterminal",
-  "as_of": "2026-11-23T22:14:12.659859+00:00",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/tokens/newest": {
-  "endpoint": "tokens_newest",
-  "chain": "base",
-  "count": 5,
-  "pools": [
-   {
-    "network": "base",
-    "pool_address": "0xdeb9ba5b7a7ca0a33c5e5cc49017d4e253516c7069558fd3a757bdb1cdbe81ea",
-    "name": "ROSTRUM / ETH 0.01%",
-    "base_token_address": "0xb2000000000000000000001cab25c00851a06024",
-    "dex": "uniswap-v4-base",
-    "price_usd": 3.52723150748507e-06,
-    "liquidity_usd": 3476.99,
-    "fdv_usd": 3476.87,
-    "volume_24h_usd": 37.81,
-    "price_change_pct": {
-     "m5": 0.902,
-     "h1": 0.902,
-     "h6": 0.902,
-     "h24": 0.902
-    },
-    "txns_24h": {
-     "buys": 4,
-     "sells": 0
-    },
-    "pool_created_at": "2026-11-23T22:12:47Z",
-    "flags": [
-     "thin_liquidity_under_50k_usd"
-    ]
-   }
-  ],
-  "ai": {
-   "launch_quality": "mixed",
-   "summary": "five_pools_launched_on_base_with_various_risk_flags",
-   "source": "qwen3.5:4b"
-  },
-  "data_source": "geckoterminal",
-  "as_of": "2026-11-23T22:14:14.490475+00:00",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/token/indicators": {
-  "endpoint": "token_indicators",
-  "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-  "chain": "base",
-  "pool_address": "0x6cDcb1C4A4D1C3C6d054b27AC5B77e89eAFb971d",
-  "timeframe": "hour",
-  "indicators": {
-   "candles": 50,
-   "latest_close": 0.41599963868632495,
-   "vwap": 0.4233513459,
-   "rsi_14": 47.54,
-   "ema_9": 0.4207620616,
-   "ema_21": 0.4223843444,
-   "macd": {
-    "macd": 4.39329e-05,
-    "signal": 0.0024754917,
-    "histogram": -0.0024315588
-   },
-   "volatility_pct": 1.625,
-   "trend": "bearish"
-  },
-  "ai": {
-   "bias": "bearish",
-   "summary": "The technical analysis indicates a bearish bias for the token on Base. The price is trading below both the VWAP and the EMAs (9 and 21), with the MACD histog...",
-   "source": "qwen3.5:4b"
-  },
-  "data_source": "geckoterminal+dexscreener",
-  "as_of": "2026-11-23T22:14:17.640700+00:00",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/onchain/prices": {
-  "endpoint": "onchain_prices",
-  "count": 2,
-  "prices": {
-   "0x940181a94A35A4569E4529A3CDfB74e38FD98631": {
-    "found": true,
-    "chain": "base",
+    "target_chain": "base",
+    "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
     "symbol": "AERO",
-    "price_usd": 0.4153,
-    "liquidity_usd": 3338967.26,
-    "volume_24h_usd": 406643.67,
-    "venue_spread_pct": 0.506
-   },
-   "0x4200000000000000000000000000000000000006": {
-    "found": true,
+    "decimals": 18,
+    "token_balance": 0.0,
+    "token_price_usd": 0.4153,
+    "estimated_value_usd": 0.0,
+    "native_gas_eth": 0.0,
+    "gas_stranded": true,
+    "supports_eip2612_permit": true,
+    "permit_nonce": 0,
+    "sweep_viable": false,
+    "rejection_reason": "zero_token_balance",
+    "estimated_relay_fee_usd": 0.02,
+    "estimated_net_usdc": 0.0,
+    "dex_route": "aerodrome",
+    "pool_liquidity_usd": 3338967.26,
+    "eth_usd": 1717.97,
+    "eth_usd_degraded": false,
+    "gasless_bundle": {
+      "mechanism": "eip2612_permit_plus_swap",
+      "permit2_contract": "0x000000000022D473030F116dDEE9F6B43aC78BA3",
+      "target_usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "approve_zero_reset_or_permit_needed": false,
+      "non_custodial": true
+    },
+    "rpc_source": "https://mainnet.base.org",
+    "timestamp": "2026-11-23T22:14:25.268125+00:00",
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/agent/ephemeral-key": {
+    "endpoint": "agent_ephemeral_key",
+    "action": "mint",
     "chain": "base",
-    "symbol": "WETH",
-    "price_usd": 1717.85,
-    "liquidity_usd": 82963533.58,
-    "volume_24h_usd": 95287353.17,
-    "venue_spread_pct": 0.049
-   }
-  },
-  "ai": {
-   "summary": "Resolved 2 of 2 tokens across DEX pools.",
-   "source": "deterministic_fallback"
-  },
-  "data_source": "dexscreener",
-  "as_of": "2026-11-23T22:14:20.945497+00:00",
-  "degraded": true,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/chain/rpc-consensus": {
-  "endpoint": "rpc_consensus",
-  "chain": "base",
-  "head_block": 61408429,
-  "healthy_nodes": 1,
-  "total_nodes": 3,
-  "nodes": [
-   {
-    "rpc": "https://mainnet.base.org",
-    "ok": true,
-    "block": 61408429,
-    "latency_ms": 172,
-    "lag_blocks": 0
-   }
-  ],
-  "ai": {
-   "consensus": "healthy",
-   "summary": "The RPC node consensus is healthy with one verified node out of three total nodes.",
-   "source": "qwen3.5:4b"
-  },
-  "as_of": "2026-11-23T22:14:22.674422+00:00",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/allowance/check": {
-  "endpoint": "allowance_check",
-  "chain": "base",
-  "token": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  "symbol": "USDC",
-  "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "spender": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "allowance_raw": "0",
-  "allowance": 0.0,
-  "unlimited": false,
-  "balance_raw": "20458000",
-  "balance": 20.458,
-  "ai": {
-   "risk": "safe",
-   "advice": "The token allowance is set to zero.",
-   "source": "qwen3.5:4b"
-  },
-  "as_of": "2026-11-23T22:14:24.238939+00:00",
-  "degraded": false,
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/bypass/sweep": {
-  "endpoint": "bypass_sweep",
-  "chain": "base",
-  "target_chain": "base",
-  "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-  "symbol": "AERO",
-  "decimals": 18,
-  "token_balance": 0.0,
-  "token_price_usd": 0.4153,
-  "estimated_value_usd": 0.0,
-  "native_gas_eth": 0.0,
-  "gas_stranded": true,
-  "supports_eip2612_permit": true,
-  "permit_nonce": 0,
-  "sweep_viable": false,
-  "rejection_reason": "zero_token_balance",
-  "estimated_relay_fee_usd": 0.02,
-  "estimated_net_usdc": 0.0,
-  "dex_route": "aerodrome",
-  "pool_liquidity_usd": 3338967.26,
-  "eth_usd": 1717.97,
-  "eth_usd_degraded": false,
-  "gasless_bundle": {
-   "mechanism": "eip2612_permit_plus_swap",
-   "permit2_contract": "0x000000000022D473030F116dDEE9F6B43aC78BA3",
-   "target_usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-   "approve_zero_reset_or_permit_needed": false,
-   "non_custodial": true
-  },
-  "rpc_source": "https://mainnet.base.org",
-  "timestamp": "2026-11-23T22:14:25.268125+00:00",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/agent/ephemeral-key": {
-  "endpoint": "agent_ephemeral_key",
-  "action": "mint",
-  "chain": "base",
-  "ttl_minutes": 30,
-  "policy_id": "eph_d07743c404c0587e8b19",
-  "chain_id": 8453,
-  "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "delegate": "0xf9018e83427EFeBBaD7de5Dfd60161Ab5E9b07eF",
-  "max_spend_usd": 25.0,
-  "allowed_contracts": [
-   "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
-  ],
-  "allowed_selectors": [
-   "0xa9059cbb"
-  ],
-  "expires_at": "2026-11-23T22:44:25.278022+00:00",
-  "policy_digest_sha256": "0xe0cb2dce2bd1928e5fcd4666469f77b8aebc1faea8726b2ad18a5c6f6ad2aec7",
-  "attestation_sig": "0x2369ca21514063e45cd30af55b63340e213c47412ae3cea6c4655e57e1a2a3b9",
-  "eip7702_delegation_template": {
-   "chain_id": 8453,
-   "authority": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-   "delegate_implementation": "0xf9018e83427EFeBBaD7de5Dfd60161Ab5E9b07eF",
-   "scope_hash": "0xe0cb2dce2bd1928e5fcd4666469f77b8aebc1faea8726b2ad18a5c6f6ad2aec7",
-   "revoke_instruction": {
-    "to": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-    "value": "0",
-    "data": "0x",
-    "note": "Sign EIP-7702 auth to 0x0000...0000"
-   }
-  },
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/bypass/cross-execute": {
-  "endpoint": "bypass_cross_execute",
-  "source_chain": "base",
-  "destination_chain": "arbitrum",
-  "sender": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "source_usdc_balance": 20.458,
-  "funded_on_source": false,
-  "destination_simulation": {
-   "passed": true,
-   "raw_result": "0x0000000000000000000000000000000000000000000000000000000000000006",
-   "gas_units": 31339,
-   "rpc": "https://arb1.arbitrum.io/rpc"
-  },
-  "cost_breakdown": {
-   "source_gas_gwei": 0.006,
-   "destination_gas_gwei": 0.0202,
-   "destination_exec_usd": 0.001088,
-   "estimated_bridge_fee_usd": 0.05,
-   "total_coordination_fee_usd": 0.051088
-  },
-  "estimated_settlement_seconds": 12,
-  "coordination_plan": {
-   "step_1_source_fund": {
+    "ttl_minutes": 30,
+    "policy_id": "eph_d07743c404c0587e8b19",
     "chain_id": 8453,
-    "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-    "amount_usd": 25.0
-   },
-   "step_2_destination_exec": {
-    "chain_id": 42161,
-    "to": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
-    "data": "0x313ce567",
-    "gas_limit": 37606
-   }
-  },
-  "executable": false,
-  "timestamp": "2026-11-23T22:14:26.202682+00:00",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/guard/preflight-bypass": {
-  "endpoint": "guard_preflight_bypass",
-  "chain": "base",
-  "block_number": 61408456,
-  "safe_to_broadcast": true,
-  "eth_call_ok": true,
-  "eth_call_result": "0x0000000000000000000000000000000000000000000000000000000000000006",
-  "estimated_gas": 30958,
-  "selector": "0x313ce567",
-  "flags": [],
-  "rewritten_safe_calldata": null,
-  "attestation_sig": "0xd98b6218790e11c8e272f1922984e507feddde9580074823e941731f15bc849b",
-  "rpc_source": "https://mainnet.base.org",
-  "timestamp": "2026-11-23T22:14:26.865888+00:00",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/execution/stealth-slice": {
-  "endpoint": "execution_stealth_slice",
-  "chain": "base",
-  "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
-  "amount_usd": 25000.0,
-  "token_price_usd": 0.4153,
-  "pool_liquidity_usd": 3338967.26,
-  "dex_id": "aerodrome",
-  "current_gas_gwei": 0.006,
-  "slice_count": 4,
-  "total_duration_sec": 38,
-  "pause_if_gas_gwei_above": 1.0,
-  "recommended_private_rpc": true,
-  "tranches": [
-   {
-    "slice": 1,
-    "amount_usd": 7622.15,
-    "delay_after_prev_sec": 0,
-    "cumulative_eta_sec": 0,
-    "max_slippage_bps": 50,
-    "est_price_impact_bps": 22.83
-   },
-   {
-    "slice": 2,
-    "amount_usd": 7166.04,
-    "delay_after_prev_sec": 11,
-    "cumulative_eta_sec": 11,
-    "max_slippage_bps": 50,
-    "est_price_impact_bps": 21.46
-   },
-   {
-    "slice": 3,
-    "amount_usd": 5564.38,
-    "delay_after_prev_sec": 15,
-    "cumulative_eta_sec": 26,
-    "max_slippage_bps": 50,
-    "est_price_impact_bps": 16.66
-   }
-  ],
-  "timestamp": "2026-11-23T22:14:27.497160+00:00",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/security/approval-purge": {
-  "endpoint": "security_approval_purge",
-  "chain": "base",
-  "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "checked_pairs": 16,
-  "active_allowances_count": 0,
-  "exposed_allowances": [],
-  "revoke_unsigned_txs": [],
-  "multicall3_batch": {
-   "to": "0xcA11bde05977b3631167028862bE2a173976CA11",
-   "data": "0x82ad56cb00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000",
-   "calls_count": 0
-  },
-  "timestamp": "2026-11-23T22:14:28.115905+00:00",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/rails/route-select": {
-  "endpoint": "rails_route_select",
-  "amount_usd": 0.01,
-  "expected_calls": 25,
-  "base_gas_gwei": 0.006,
-  "observed_x402_settlements": 1585,
-  "recommended_rail": "x402_base_per_call",
-  "reason": "Total spend $0.2500 < $0.50: per-call x402 with $0 buyer gas (Base gas 0.0060 gwei).",
-  "rails": [
-   {
-    "rail": "x402_base_per_call",
-    "buyer_gas_usd": 0.0,
-    "est_total_cost_usd": 0.25,
-    "est_settlement_ms": 4493,
-    "min_payment_usd": 0.001,
-    "reliability": 0.8265,
-    "viable": true
-   },
-   {
-    "rail": "x402_session_tunnel",
-    "buyer_gas_usd": 0.0,
-    "est_total_cost_usd": 1.0,
-    "est_settlement_ms": 25,
-    "min_payment_usd": 1.0,
-    "reliability": 0.999,
-    "viable": false
-   },
-   {
-    "rail": "stripe_mpp_session",
-    "buyer_gas_usd": 0.0,
-    "est_total_cost_usd": 0.25,
-    "est_settlement_ms": 350,
-    "min_payment_usd": 0.5,
-    "reliability": 0.995,
-    "viable": false
-   }
-  ],
-  "timestamp": "2026-11-23T22:14:28.632168+00:00",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/workflow/state-gate": {
-  "endpoint": "workflow_state_gate",
-  "current_block": 61408467,
-  "action": "create",
-  "gate_id": "gate_76825bc9ef59f6a044c0",
-  "status": "LOCKED",
-  "chain": "base",
-  "amount_usd": 10.0,
-  "expected_sha256": "4cc89df7b83c97590ed83640f7881718a5b6c1f45e3e6d626bfc0420a86d894c",
-  "min_block_number": 61408467,
-  "gate_commitment_sha256": "c08d7c7cbfb0087b77a5436469f5551a38bab972eef33d0560b3b712e43d4fe6",
-  "attestation_sig": "0x3026d5678eadf9c6a144f83a346fdc8457b5ed70427ca32dadefdc9a096c1850",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/trust/wallet-attest": {
-  "endpoint": "trust_wallet_attest",
-  "address": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "chain": "base",
-  "block_number": 61408471,
-  "latest_nonce": 1,
-  "pending_nonce": 1,
-  "native_eth": 0.0,
-  "usdc_balance": 20.458,
-  "is_contract": true,
-  "x402_settled_count": 0,
-  "liveness_score": 38,
-  "risk_tier": "caution",
-  "recommended_rate_limit_rpm": 20,
-  "flags": [
-   "gasless_smart_account",
-   "smart_contract_account"
-  ],
-  "attestation_sig": "0x8280e02a262cfc7582263cb921de315bbb8b54a4516e6117f3cf014deef9c4ef",
-  "rpc_source": "https://mainnet.base.org",
-  "timestamp": "2026-11-23T22:14:29.757726+00:00",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/chain/nonce-unstick": {
-  "endpoint": "chain_nonce_unstick",
-  "chain": "base",
-  "address": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "latest_nonce": 1,
-  "pending_nonce": 1,
-  "stuck_nonce_count": 0,
-  "queue_wedged": false,
-  "bump_pct": 25,
-  "replacement_max_fee_gwei": 0.0075,
-  "replacement_priority_fee_gwei": 0.0013,
-  "estimated_clear_cost_usd": 0.0,
-  "replacement_cancel_txs": [],
-  "rpc_source": "https://mainnet.base.org",
-  "timestamp": "2026-11-23T22:14:30.454417+00:00",
-  "schema_version": "1.0",
-  "cached": false
- },
- "/api/workflow/tx-guardian-suite": {
-  "endpoint": "workflow_tx_guardian_suite",
-  "schema_version": "5.3",
-  "non_custodial": true,
-  "degraded": false,
-  "chain": "base",
-  "rpc_source": "https://mainnet.base.org",
-  "gas_gwei": 0.006,
-  "calldata_analysis": {
-   "selector": "0x313ce567",
-   "method": "unknown",
-   "flags": [],
-   "rewritten_safe_calldata": null
-  },
-  "typed_data_analysis": {},
-  "bytecode_audit": {
-   "has_code": true,
-   "byte_len": 1852,
-   "delegatecall": true,
-   "selfdestruct": true,
-   "flags": [
-    "contains_delegatecall",
-    "contains_selfdestruct"
-   ]
-  },
-  "simulation": {
-   "eth_call_ok": true,
-   "result_or_error": "0x0000000000000000000000000000000000000000000000000000000000000006"
-  },
-  "taint_hits": [],
-  "exploit_feed_hits": [],
-  "flags": [
-   "contains_delegatecall",
-   "contains_selfdestruct"
-  ],
-  "risk_score": 35,
-  "safe_to_sign_or_broadcast": true,
-  "recommended_private_rpc": "private-mev-base",
-  "attestation_sig": "0x9f1000379a65368a1a566899db2bacb0beabced36feae6fd62cf1a97e6bc1ff5",
-  "cached": false
- },
- "/api/workflow/protocol-due-diligence": {
-  "endpoint": "workflow_protocol_due_diligence",
-  "schema_version": "5.3",
-  "non_custodial": true,
-  "degraded": false,
-  "chain": "base",
-  "contract_address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  "protocol": "aave-v3",
-  "rpc_source": "https://mainnet.base.org",
-  "bytecode": {
-   "has_code": true,
-   "byte_len": 1852,
-   "delegatecall": true,
-   "selfdestruct": true,
-   "flags": [
-    "contains_delegatecall",
-    "contains_selfdestruct"
-   ]
-  },
-  "proxy_implementation": null,
-  "contract_paused": false,
-  "owner": "0x3abd6f64a422225e61e435bae41db12096106df7",
-  "owner_renounced": false,
-  "dex_top_liquidity_usd": 85111.02,
-  "defillama_tvl_usd": 15387037670.19,
-  "defillama_tvl_24h_pct": 0.65,
-  "exploit_feed_hits": [],
-  "flags": [
-   "contains_delegatecall",
-   "contains_selfdestruct"
-  ],
-  "risk_score": 30,
-  "circuit_breaker_tripped": false,
-  "recommended_action": "REDUCE",
-  "cached": false
- },
- "/api/workflow/defi-position-shield": {
-  "endpoint": "workflow_defi_position_shield",
-  "schema_version": "5.3",
-  "non_custodial": true,
-  "degraded": false,
-  "chain": "base",
-  "wallet": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "rpc_source": "https://mainnet.base.org",
-  "usdc_wallet_balance": 20.46,
-  "aave_v3": {
-   "collateral_usd": 0.0,
-   "debt_usd": 0.0,
-   "liquidation_threshold": 0.8,
-   "health_factor": 999.0,
-   "hf_after_10pct_drop": 999.0,
-   "hf_after_20pct_drop": 999.0,
-   "collateral_drop_to_liq_pct": 100.0,
-   "repay_usdc_for_target_hf": 0.0
-  },
-  "compound_v3_usdc_debt": 0.0,
-  "stale_unlimited_usdc_approvals": [],
-  "unsigned_aave_repay_tx": null,
-  "unsigned_multicall3_revoke_tx": null,
-  "cached": false
- },
- "/api/workflow/agent-treasury-audit": {
-  "endpoint": "workflow_agent_treasury_audit",
-  "schema_version": "5.3",
-  "non_custodial": true,
-  "degraded": false,
-  "chain": "base",
-  "wallet": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
-  "rpc_source": "https://mainnet.base.org",
-  "block_window": {
-   "from_block": 61407485,
-   "to_block": 61408485,
-   "lookback_blocks": 1000
-  },
-  "balances": {
-   "native_eth": 0.0,
-   "weth": 0.0,
-   "usdc": 20.46
-  },
-  "portfolio": {
-   "eth_usd_spot": 1717.97,
-   "total_portfolio_usd": 20.46
-  },
-  "wallet_history": {
-   "onchain_tx_count": 1,
-   "activity_tier": "emerging",
-   "x402_settled_calls": 0,
-   "x402_spend_usd": 0.0
-  },
-  "nonce_health": {
-   "latest_nonce": 1,
-   "pending_nonce": 1,
-   "stuck_nonces": 0
-  },
-  "usdc_pnl_ledger": {
-   "transfer_count": 0,
-   "inflow_usdc": 0.0,
-   "outflow_usdc": 0.0,
-   "net_usdc": 0.0,
-   "unique_counterparties": 0,
-   "top_counterparties": [],
-   "taint_hits": []
-  },
-  "ops_ready": false,
-  "recommended_actions": [
-   "Top up native ETH gas or use /api/bypass/sweep"
-  ],
-  "cached": false
- },
- "/api/workflow/cross-chain-arb-executor": {
-  "endpoint": "workflow_cross_chain_arb_executor",
-  "schema_version": "5.3",
-  "non_custodial": true,
-  "degraded": false,
-  "asset": "USDC",
-  "source_chain": "base",
-  "destination_chain": "arbitrum",
-  "rpc_health": {
-   "source_rpc": "https://mainnet.base.org",
-   "destination_rpc": "https://arb1.arbitrum.io/rpc",
-   "both_live": true
-  },
-  "venues": {},
-  "spread_bps": 0.0,
-  "economics": {
-   "amount_usd": 10000.0,
-   "gross_profit_usd": 0.0,
-   "gas_cost_usd": 0.014,
-   "bridge_fee_usd": 5.0,
-   "est_slippage_usd": 25.0,
-   "net_profit_usd": -30.01,
-   "profitable_after_costs": false
-  },
-  "execution_plan": {
-   "slice_count": 6,
-   "total_duration_sec": 85,
-   "pause_if_gas_gwei_above": 125.0,
-   "recommended_private_rpc": true,
-   "tranches": [
-    {
-     "slice": 1,
-     "amount_usd": 2118.47,
-     "delay_after_prev_sec": 0,
-     "cumulative_eta_sec": 0,
-     "max_slippage_bps": 50,
-     "est_price_impact_bps": 84.74
+    "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "delegate": "0xf9018e83427EFeBBaD7de5Dfd60161Ab5E9b07eF",
+    "max_spend_usd": 25.0,
+    "allowed_contracts": [
+      "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+    ],
+    "allowed_selectors": [
+      "0xa9059cbb"
+    ],
+    "expires_at": "2026-11-23T22:44:25.278022+00:00",
+    "policy_digest_sha256": "0xe0cb2dce2bd1928e5fcd4666469f77b8aebc1faea8726b2ad18a5c6f6ad2aec7",
+    "attestation_sig": "0x2369ca21514063e45cd30af55b63340e213c47412ae3cea6c4655e57e1a2a3b9",
+    "eip7702_delegation_template": {
+      "chain_id": 8453,
+      "authority": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+      "delegate_implementation": "0xf9018e83427EFeBBaD7de5Dfd60161Ab5E9b07eF",
+      "scope_hash": "0xe0cb2dce2bd1928e5fcd4666469f77b8aebc1faea8726b2ad18a5c6f6ad2aec7",
+      "revoke_instruction": {
+        "to": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+        "value": "0",
+        "data": "0x",
+        "note": "Sign EIP-7702 auth to 0x0000...0000"
+      }
     },
-    {
-     "slice": 2,
-     "amount_usd": 1474.95,
-     "delay_after_prev_sec": 19,
-     "cumulative_eta_sec": 19,
-     "max_slippage_bps": 50,
-     "est_price_impact_bps": 59.0
-    },
-    {
-     "slice": 3,
-     "amount_usd": 1884.23,
-     "delay_after_prev_sec": 20,
-     "cumulative_eta_sec": 39,
-     "max_slippage_bps": 50,
-     "est_price_impact_bps": 75.37
-    }
-   ]
+    "schema_version": "1.0",
+    "cached": false
   },
-  "cached": false
- }
+  "/api/bypass/cross-execute": {
+    "endpoint": "bypass_cross_execute",
+    "source_chain": "base",
+    "destination_chain": "arbitrum",
+    "sender": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "source_usdc_balance": 20.458,
+    "funded_on_source": false,
+    "destination_simulation": {
+      "passed": true,
+      "raw_result": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "gas_units": 31339,
+      "rpc": "https://arb1.arbitrum.io/rpc"
+    },
+    "cost_breakdown": {
+      "source_gas_gwei": 0.006,
+      "destination_gas_gwei": 0.0202,
+      "destination_exec_usd": 0.001088,
+      "estimated_bridge_fee_usd": 0.05,
+      "total_coordination_fee_usd": 0.051088
+    },
+    "estimated_settlement_seconds": 12,
+    "coordination_plan": {
+      "step_1_source_fund": {
+        "chain_id": 8453,
+        "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "amount_usd": 25.0
+      },
+      "step_2_destination_exec": {
+        "chain_id": 42161,
+        "to": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+        "data": "0x313ce567",
+        "gas_limit": 37606
+      }
+    },
+    "executable": false,
+    "timestamp": "2026-11-23T22:14:26.202682+00:00",
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/guard/preflight-bypass": {
+    "endpoint": "guard_preflight_bypass",
+    "chain": "base",
+    "block_number": 61408456,
+    "safe_to_broadcast": true,
+    "eth_call_ok": true,
+    "eth_call_result": "0x0000000000000000000000000000000000000000000000000000000000000006",
+    "estimated_gas": 30958,
+    "selector": "0x313ce567",
+    "flags": [],
+    "rewritten_safe_calldata": null,
+    "attestation_sig": "0xd98b6218790e11c8e272f1922984e507feddde9580074823e941731f15bc849b",
+    "rpc_source": "https://mainnet.base.org",
+    "timestamp": "2026-11-23T22:14:26.865888+00:00",
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/execution/stealth-slice": {
+    "endpoint": "execution_stealth_slice",
+    "chain": "base",
+    "token": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+    "amount_usd": 25000.0,
+    "token_price_usd": 0.4153,
+    "pool_liquidity_usd": 3338967.26,
+    "dex_id": "aerodrome",
+    "current_gas_gwei": 0.006,
+    "slice_count": 4,
+    "total_duration_sec": 38,
+    "pause_if_gas_gwei_above": 1.0,
+    "recommended_private_rpc": true,
+    "tranches": [
+      {
+        "slice": 1,
+        "amount_usd": 7622.15,
+        "delay_after_prev_sec": 0,
+        "cumulative_eta_sec": 0,
+        "max_slippage_bps": 50,
+        "est_price_impact_bps": 22.83
+      },
+      {
+        "slice": 2,
+        "amount_usd": 7166.04,
+        "delay_after_prev_sec": 11,
+        "cumulative_eta_sec": 11,
+        "max_slippage_bps": 50,
+        "est_price_impact_bps": 21.46
+      },
+      {
+        "slice": 3,
+        "amount_usd": 5564.38,
+        "delay_after_prev_sec": 15,
+        "cumulative_eta_sec": 26,
+        "max_slippage_bps": 50,
+        "est_price_impact_bps": 16.66
+      }
+    ],
+    "timestamp": "2026-11-23T22:14:27.497160+00:00",
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/security/approval-purge": {
+    "endpoint": "security_approval_purge",
+    "chain": "base",
+    "owner": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "checked_pairs": 16,
+    "active_allowances_count": 0,
+    "exposed_allowances": [],
+    "revoke_unsigned_txs": [],
+    "multicall3_batch": {
+      "to": "0xcA11bde05977b3631167028862bE2a173976CA11",
+      "data": "0x82ad56cb00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000",
+      "calls_count": 0
+    },
+    "timestamp": "2026-11-23T22:14:28.115905+00:00",
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/rails/route-select": {
+    "endpoint": "rails_route_select",
+    "amount_usd": 0.01,
+    "expected_calls": 25,
+    "base_gas_gwei": 0.006,
+    "observed_x402_settlements": 1585,
+    "recommended_rail": "x402_base_per_call",
+    "reason": "Total spend $0.2500 < $0.50: per-call x402 with $0 buyer gas (Base gas 0.0060 gwei).",
+    "rails": [
+      {
+        "rail": "x402_base_per_call",
+        "buyer_gas_usd": 0.0,
+        "est_total_cost_usd": 0.25,
+        "est_settlement_ms": 4493,
+        "min_payment_usd": 0.001,
+        "reliability": 0.8265,
+        "viable": true
+      },
+      {
+        "rail": "x402_session_tunnel",
+        "buyer_gas_usd": 0.0,
+        "est_total_cost_usd": 1.0,
+        "est_settlement_ms": 25,
+        "min_payment_usd": 1.0,
+        "reliability": 0.999,
+        "viable": false
+      },
+      {
+        "rail": "stripe_mpp_session",
+        "buyer_gas_usd": 0.0,
+        "est_total_cost_usd": 0.25,
+        "est_settlement_ms": 350,
+        "min_payment_usd": 0.5,
+        "reliability": 0.995,
+        "viable": false
+      }
+    ],
+    "timestamp": "2026-11-23T22:14:28.632168+00:00",
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/workflow/state-gate": {
+    "endpoint": "workflow_state_gate",
+    "current_block": 61408467,
+    "action": "create",
+    "gate_id": "gate_76825bc9ef59f6a044c0",
+    "status": "LOCKED",
+    "chain": "base",
+    "amount_usd": 10.0,
+    "expected_sha256": "4cc89df7b83c97590ed83640f7881718a5b6c1f45e3e6d626bfc0420a86d894c",
+    "min_block_number": 61408467,
+    "gate_commitment_sha256": "c08d7c7cbfb0087b77a5436469f5551a38bab972eef33d0560b3b712e43d4fe6",
+    "attestation_sig": "0x3026d5678eadf9c6a144f83a346fdc8457b5ed70427ca32dadefdc9a096c1850",
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/trust/wallet-attest": {
+    "endpoint": "trust_wallet_attest",
+    "address": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "chain": "base",
+    "block_number": 61408471,
+    "latest_nonce": 1,
+    "pending_nonce": 1,
+    "native_eth": 0.0,
+    "usdc_balance": 20.458,
+    "is_contract": true,
+    "x402_settled_count": 0,
+    "liveness_score": 38,
+    "risk_tier": "caution",
+    "recommended_rate_limit_rpm": 20,
+    "flags": [
+      "gasless_smart_account",
+      "smart_contract_account"
+    ],
+    "attestation_sig": "0x8280e02a262cfc7582263cb921de315bbb8b54a4516e6117f3cf014deef9c4ef",
+    "rpc_source": "https://mainnet.base.org",
+    "timestamp": "2026-11-23T22:14:29.757726+00:00",
+    "schema_version": "1.0",
+    "cached": false
+  },
+  "/api/chain/nonce-unstick": {
+    "endpoint": "chain_nonce_unstick",
+    "chain": "base",
+    "address": "0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6",
+    "latest_nonce": 1,
+    "pending_nonce": 1,
+    "stuck_nonce_count": 0,
+    "queue_wedged": false,
+    "bump_pct": 25,
+    "replacement_max_fee_gwei": 0.0075,
+    "replacement_priority_fee_gwei": 0.0013,
+    "estimated_clear_cost_usd": 0.0,
+    "replacement_cancel_txs": [],
+    "rpc_source": "https://mainnet.base.org",
+    "timestamp": "2026-11-23T22:14:30.454417+00:00",
+    "schema_version": "1.0",
+    "cached": false
+  }
 }
