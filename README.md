@@ -2,7 +2,7 @@
 
 [![Glama MCP Connector Score](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api/badges/score.svg)](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api)
 
-Open-source **Node.js MCP stdio server** (`bin/cli.mjs` + `tools_catalog.json` + `Dockerfile`) implementing **9 flagship crypto, DeFi, EVM pre-flight, SEC EDGAR, news, and web-intelligence MCP tools** backed by the `apix402data.com` REST/x402 API (**`48` paid endpoints accepting BOTH Solana USDC and Base USDC**, `5` free `/check` endpoints, `10` free lifetime preview calls per IP).
+Open-source **Node.js MCP stdio server** (`bin/cli.mjs` + `tools_catalog.json` + `Dockerfile`) implementing **15 flagship Solana, multi-chain RPC, Polymarket, Farcaster, DeFi, EVM pre-flight, SEC EDGAR, news, and web-intelligence MCP tools** backed by the `apix402data.com` REST/x402 API (**`48` paid endpoints accepting BOTH Solana USDC and Base USDC**, `5` free `/check` endpoints, **`1` free try per IP that automatically rolls over to paid HTTP 402**).
 
 - **Live Public Radar (`$0`, Pre-Warmed `<10ms`):** `https://apix402data.com/live` — real-time Solana priority fees, SPL rug checks, Polymarket 24h volume & bid/ask spreads, and keyless multi-chain RPC demos.
 - **Dual-Chain x402 Settlement (Solana + Base USDC):** Every `402` response advertises both **Base (`eip155:8453`)** and **Solana (`solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`)** USDC `accepts[]` with `$0` buyer gas.
@@ -10,9 +10,9 @@ Open-source **Node.js MCP stdio server** (`bin/cli.mjs` + `tools_catalog.json` +
 
 - **Local Stdio MCP Server (`bin/cli.mjs`):** Implements JSON-RPC `initialize`, `ping`, `tools/list`, and `tools/call` locally in Node.js (`>=18`, zero external dependencies) with built-in support for `X402_SESSION_TOKEN` (`x402s_...`), `X402_PAYMENT_SIGNATURE`, and automatic `/api/free/*` preview routing.
 - **Docker Support:** Includes a standalone `Dockerfile` (`node:22-alpine`) for containerized MCP runners.
-- **Remote Streamable HTTP MCP Endpoint:** `https://apix402data.com/mcp` (`9` flagship MCP tools)
+- **Remote Streamable HTTP MCP Endpoint:** `https://apix402data.com/mcp` (`15` flagship MCP tools)
 - **A2A Messaging Endpoint:** `https://apix402data.com/a2a` (`message/send`, `tasks/get`) & `POST /message:send`
-- **Free Preview (10 lifetime calls via `/mcp` or REST):** `GET https://apix402data.com/api/free/status` & `POST https://apix402data.com/api/free/<tool_path>`
+- **1 Free Try -> Paid Rollover (via `/mcp` or REST):** `GET https://apix402data.com/api/free/status` & `POST https://apix402data.com/api/free/<tool_path>` (call #1 returns live data; call #2 automatically rolls over to HTTP 402 with Solana + Base USDC `accepts[]` and `/pay` top-up link)
 - **Card / Apple Pay Top-Up (Claude Web & Mobile):** `https://apix402data.com/pay` — mints an instant 30-day `session_token` (`x402s_...`) to pass in any MCP tool call or `Authorization: Bearer` header
 - **OpenAPI 3.1 Spec:** `https://apix402data.com/openapi.json`
 - **x402 / Bazaar Manifest:** `https://apix402data.com/.well-known/x402.json`
