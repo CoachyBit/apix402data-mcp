@@ -41,11 +41,11 @@ async def run(free: bool):
     async with httpx.AsyncClient(transport=x402_httpx_transport(client), timeout=60) as http:
         r1 = await http.post(f"{BASE}/api/token/risk", json={"address": TOKEN, "chain": "base"})
         r2 = await http.post(
-            f"{BASE}/api/workflow/tx-guardian-suite",
+            f"{BASE}/api/agent/execution-firewall",
             json={"chain": "base", "to": TARGET_ROUTER, "data": CALLDATA},
         )
         print("token/risk:", r1.status_code, r1.json().get("risk_band"))
-        print("tx-guardian:", r2.status_code, r2.json().get("safe_to_sign_or_broadcast"))
+        print("execution-firewall:", r2.status_code, r2.json().get("safe_to_execute"))
 
 
 if __name__ == "__main__":
