@@ -1,8 +1,8 @@
 [
   {
-    "name": "multichain_rpc",
+    "name": "chain_rpc_call",
     "title": "Keyless multi-chain JSON-RPC proxy",
-    "description": "[$0.001] Keyless multi-chain JSON-RPC proxy for Solana, Base, Ethereum, Arbitrum, and Optimism with automatic failover and hot RAM caching for read calls ($0.001/call). Keyless multi-chain JSON-RPC proxy (Solana, Base, Ethereum, Arbitrum, Optimism) with multi-RPC failover and hot RAM cache. Includes 1 free try per IP, then automatically rolls over to paid HTTP 402 (Solana or Base USDC, $0.001/call) or session_token.",
+    "description": "[$0.001] Keyless multi-chain JSON-RPC proxy for Solana, Base, Ethereum, Arbitrum, and Optimism with automatic failover and hot RAM caching for read calls. Do not use for token audits (use evm_token_risk or solana_token_risk) or priority fees (use solana_priority_fee). Read-only/broadcast allowlisted JSON-RPC methods; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -39,7 +39,7 @@
   {
     "name": "solana_priority_fee",
     "title": "Solana priority fees & Jito tip floor",
-    "description": "[$0.001] Live Solana priority fee percentiles (p50/p75/p95 microlamports), Jito tip floor, slot, and congestion level pre-warmed in RAM every 10 seconds ($0.001/call). Live Solana priority fee percentiles (p50/p75/p95 microlamports) + Jito tip floor pre-warmed every 10s. Includes 1 free try per IP, then automatically rolls over to paid HTTP 402 (Solana or Base USDC, $0.001/call).",
+    "description": "[$0.001] Live Solana priority fee percentiles (p50/p75/p95 microlamports), Jito tip floor, slot, and congestion level pre-warmed in RAM every 10 seconds. Do not use for raw RPC queries (use chain_rpc_call) or SPL audits (use solana_token_risk). Returns p50/p75/p95 microlamports and Jito tip floor; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -61,7 +61,7 @@
   {
     "name": "solana_token_risk",
     "title": "Solana SPL / Token-2022 rug check",
-    "description": "[$0.002] Instant Solana SPL and Token-2022 rug check: mint and freeze authority status, top-10 holder concentration, Raydium/PumpSwap DEX liquidity, and risk score ($0.002/call). Instant Solana SPL & Token-2022 rug check (mint/freeze authority, top-10 holder %, Raydium/PumpSwap DEX liquidity). Do not use for EVM chains (use token_honeypot_scan). 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.002/call).",
+    "description": "[$0.002] Instant Solana SPL and Token-2022 rug check: mint and freeze authority status, top-10 holder concentration, Raydium/PumpSwap DEX liquidity, and risk score. Do not use for EVM chains (use evm_token_risk) or wallet portfolios (use solana_wallet_holdings). Flags mint/freeze authorities, top-10 share, and zero-sell honeypots; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -94,7 +94,7 @@
   {
     "name": "solana_wallet_holdings",
     "title": "Solana wallet SOL + SPL portfolio",
-    "description": "[$0.002] Keyless Solana wallet portfolio lookup returning SOL balance, SPL token holdings with live USD valuation, total portfolio USD, and recent tx signatures ($0.002/call). Keyless Solana SOL + SPL token portfolio with USD valuation and recent signatures. 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.002/call).",
+    "description": "[$0.002] Keyless Solana wallet portfolio lookup returning SOL balance, SPL token holdings with live USD valuation, total portfolio USD, and recent tx signatures. Do not use for single-token audits (use solana_token_risk) or EVM identities (use farcaster_identity). Returns SOL + SPL USD balances and recent tx signatures; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -122,7 +122,7 @@
   {
     "name": "polymarket_markets",
     "title": "Polymarket live odds & spread radar",
-    "description": "[$0.002] Live Polymarket active prediction markets sorted by 24h volume with implied odds, bid/ask spread bps, probability sum arb deviation, and keyword filtering ($0.002/call). Live Polymarket active prediction markets sorted by 24h volume with implied odds and bid/ask spreads. 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.002/call).",
+    "description": "[$0.002] Live Polymarket active prediction markets sorted by 24h volume with implied odds, bid/ask spread bps, probability sum arb deviation, and keyword filtering. Do not use for DeFi yield pools (use defi_yield_pools) or crypto news (use news_crypto_feed). Filter via optional `q` or `min_volume_usd`; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -164,9 +164,9 @@
     }
   },
   {
-    "name": "farcaster_lookup",
+    "name": "farcaster_identity",
     "title": "Farcaster & Base wallet identity lookup",
-    "description": "[$0.002] Keyless Base EVM wallet and handle lookup resolving Farcaster FID, username, follower counts, ENS/Basenames profiles, and sybil trust signal in JSON ($0.002/call). Keyless Base 0x wallet <-> Farcaster FID, username, follower count & ENS profile lookup. 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.002/call).",
+    "description": "[$0.002] Keyless Base EVM wallet and handle lookup resolving Farcaster FID, username, follower counts, ENS/Basenames profiles, and sybil trust signal in JSON. Do not use for Solana wallets (use solana_wallet_holdings) or web search (use web_search). `sybil_signal` is `established` (>=500 followers), `active` (<500), `ens_linked`, or `unverified`; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -194,7 +194,7 @@
   {
     "name": "web_search",
     "title": "Live web search JSON",
-    "description": "[$0.002] Fast live web search & news JSON (up to 5 batched queries, highlights, sentiment, and named entities) at $0.002/call \u2014 2.5x-5x cheaper than Exa ($0.004-$0.007). Do not use for single-URL extraction (use web_fetch_markdown) or crypto ticker feeds (use news_crypto_feed). Live web/RSS data, read-only; 1 free try per IP, then auto-rollover to paid HTTP 402 (Solana/Base USDC or Stripe MPP).",
+    "description": "[$0.002] Fast live web search & news JSON (up to 5 batched queries, highlights, sentiment, and named entities) at $0.002/call \u2014 2.5x-5x cheaper than Exa ($0.004-$0.007). Do not use for single-URL extraction (use web_fetch_markdown) or crypto ticker news (use news_crypto_feed). Supports up to 5 batched `queries`; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -374,7 +374,7 @@
   {
     "name": "web_fetch_markdown",
     "title": "Webpage to clean LLM Markdown",
-    "description": "[$0.002] Fetch any public HTTPS webpage (SSRF-guarded) to clean LLM Markdown, structured summary, and extracted entities at $0.002/call \u2014 5x cheaper than Firecrawl ($0.01). Do not use for searching across sites (use web_search) or probing x402 paywalls (use x402_paywall_probe). Live SSRF-guarded HTTPS fetch, read-only; 1 free try per IP, then auto-rollover to paid HTTP 402.",
+    "description": "[$0.002] Fetch any public HTTPS webpage (SSRF-guarded) to clean LLM Markdown, structured summary, and extracted entities at $0.002/call \u2014 5x cheaper than Firecrawl ($0.01). Do not use for cross-site search (use web_search). Only `summarize=true` invokes local LLM; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -456,7 +456,7 @@
   {
     "name": "news_crypto_feed",
     "title": "Crypto news sentiment",
-    "description": "[$0.002] Get real-time cryptocurrency and DeFi news headlines enriched with per-article sentiment scores and mentioned token tickers in structured JSON. Do not use for general web search (use web_search) or SEC filings (use sec_company_lookup). Live feeds, read-only; 1 free try per IP, then auto-rollover to paid HTTP 402.",
+    "description": "[$0.002] Get real-time cryptocurrency and DeFi news headlines enriched with per-article sentiment scores and mentioned token tickers in structured JSON. Do not use for general web search (use web_search) or SEC filings (use sec_company_lookup). 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -796,7 +796,7 @@
   {
     "name": "sec_company_lookup",
     "title": "SEC EDGAR company intelligence",
-    "description": "[$0.002] Look up public company financials, CIK, recent SEC EDGAR filings (10-K/10-Q/8-K), and recent news sentiment by stock ticker (supports up to 5 batched tickers). Do not use for crypto tokens (use token_market_snapshot) or open web search (use web_search). Live SEC EDGAR data, read-only; 1 free try per IP, then auto-rollover to paid HTTP 402.",
+    "description": "[$0.002] Look up public company financials, CIK, recent SEC EDGAR filings (10-K/10-Q/8-K), and recent news sentiment by stock ticker (supports up to 5 batched tickers). Do not use for crypto tokens (use evm_token_risk or solana_token_risk). Supports up to 5 batched `tickers`; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1021,353 +1021,9 @@
     }
   },
   {
-    "name": "x402_paywall_probe",
-    "title": "Pre-flight x402 security audit & prompt-injection detector",
-    "description": "[$0.002] Pre-flight x402 endpoint security firewall & prompt-injection detector. Probes any URL unpaid to catch price spikes, SIWx spoofing, fake USDC, and prompt injections ($0.002/call). Live x402 paywall probe and security audit. 1 free try per IP, then auto-rollover to paid HTTP 402.",
-    "inputSchema": {
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string",
-          "maxLength": 2000,
-          "description": "Target x402 endpoint URL to inspect (https only)"
-        },
-        "method": {
-          "type": "string",
-          "enum": [
-            "GET",
-            "POST"
-          ],
-          "maxLength": 4,
-          "default": "POST",
-          "description": "HTTP method for the unpaid probe"
-        },
-        "max_acceptable_usd": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1000,
-          "default": 0.1,
-          "description": "Your maximum acceptable price in USD"
-        },
-        "deep_audit": {
-          "type": "boolean",
-          "default": false,
-          "description": "Add one local-LLM prompt-injection audit of the 402 metadata"
-        },
-        "session_token": {
-          "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
-        }
-      },
-      "additionalProperties": false
-    },
-    "annotations": {
-      "title": "Pre-flight x402 security audit & prompt-injection detector",
-      "readOnlyHint": true,
-      "destructiveHint": false,
-      "idempotentHint": true,
-      "openWorldHint": true
-    },
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "schema_version": {
-          "type": "string"
-        },
-        "endpoint": {
-          "type": "string"
-        },
-        "target_url": {
-          "type": "string"
-        },
-        "final_url": {
-          "type": "string"
-        },
-        "safe_to_pay": {
-          "type": "boolean"
-        },
-        "risk_level": {
-          "type": "string"
-        },
-        "risk_score": {
-          "type": "integer"
-        },
-        "quoted_price_usd": {
-          "type": "number"
-        },
-        "max_acceptable_usd": {
-          "type": "number"
-        },
-        "network": {
-          "type": "string"
-        },
-        "pay_to": {
-          "type": "string"
-        },
-        "x402_version": {
-          "type": "integer"
-        },
-        "payment_options": {
-          "type": "integer"
-        },
-        "stripe_mpp_offered": {
-          "type": "boolean"
-        },
-        "checks": {
-          "type": "object",
-          "properties": {
-            "returns_402": {
-              "type": "boolean"
-            },
-            "spend_cap_safe": {
-              "type": "boolean"
-            },
-            "siwx_origin_valid": {
-              "type": "boolean"
-            },
-            "canonical_asset_valid": {
-              "type": "boolean"
-            },
-            "bazaar_schema_present": {
-              "type": "boolean"
-            },
-            "prompt_injection_clean": {
-              "type": "boolean"
-            }
-          }
-        },
-        "warnings": {
-          "type": "array",
-          "items": {}
-        },
-        "probe": {
-          "type": "object",
-          "properties": {
-            "method": {
-              "type": "string"
-            },
-            "status": {
-              "type": "integer"
-            },
-            "redirect_chain": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "url": {
-                    "type": "string"
-                  },
-                  "status": {
-                    "type": "integer"
-                  }
-                }
-              }
-            },
-            "error": {
-              "type": [
-                "string",
-                "null"
-              ]
-            }
-          }
-        },
-        "deep_audit": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "cached": {
-          "type": "boolean"
-        },
-        "cache_age_seconds": {
-          "type": "integer"
-        }
-      }
-    }
-  },
-  {
-    "name": "token_market_snapshot",
-    "title": "Live token market snapshot with AI momentum read",
-    "description": "[$0.003] Live token price, liquidity, FDV, market cap, 24h volume, price change, and buy/sell order flow from DEX pairs, plus deterministic anomaly flags and a local qwen3.5:4b momentum and risk read. Live DEX token snapshot (Base, Ethereum, Arbitrum, Optimism, Solana). 1 free try per IP, then auto-rollover to paid HTTP 402.",
-    "inputSchema": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string",
-          "maxLength": 60,
-          "description": "Token contract address (0x...) or symbol (e.g. AERO)"
-        },
-        "chain": {
-          "type": "string",
-          "maxLength": 20,
-          "description": "Optional chain filter: base, ethereum, arbitrum, optimism"
-        },
-        "timeout_ms": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 120000,
-          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data"
-        },
-        "session_token": {
-          "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
-        }
-      },
-      "additionalProperties": false
-    },
-    "annotations": {
-      "title": "Live token market snapshot with AI momentum read",
-      "readOnlyHint": true,
-      "destructiveHint": false,
-      "idempotentHint": true,
-      "openWorldHint": true
-    },
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "endpoint": {
-          "type": "string"
-        },
-        "chain": {
-          "type": "string"
-        },
-        "token": {
-          "type": "object",
-          "properties": {
-            "address": {
-              "type": "string"
-            },
-            "name": {
-              "type": "string"
-            },
-            "symbol": {
-              "type": "string"
-            }
-          }
-        },
-        "pair": {
-          "type": "object",
-          "properties": {
-            "dex": {
-              "type": "string"
-            },
-            "pair_address": {
-              "type": "string"
-            },
-            "quote_symbol": {
-              "type": "string"
-            },
-            "url": {
-              "type": "string"
-            },
-            "age_hours": {
-              "type": "number"
-            }
-          }
-        },
-        "market": {
-          "type": "object",
-          "properties": {
-            "price_usd": {
-              "type": "number"
-            },
-            "liquidity_usd": {
-              "type": "number"
-            },
-            "fdv_usd": {
-              "type": "number"
-            },
-            "market_cap_usd": {
-              "type": "number"
-            },
-            "volume_24h_usd": {
-              "type": "number"
-            },
-            "price_change_pct": {
-              "type": "object",
-              "properties": {
-                "m5": {
-                  "type": "number"
-                },
-                "h1": {
-                  "type": "number"
-                },
-                "h6": {
-                  "type": "number"
-                },
-                "h24": {
-                  "type": "number"
-                }
-              }
-            },
-            "txns_24h": {
-              "type": "object",
-              "properties": {
-                "buys": {
-                  "type": "integer"
-                },
-                "sells": {
-                  "type": "integer"
-                }
-              }
-            }
-          }
-        },
-        "flags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "ai": {
-          "type": "object",
-          "properties": {
-            "signal": {
-              "type": "string"
-            },
-            "summary": {
-              "type": "string"
-            },
-            "watch_points": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "source": {
-              "type": "string"
-            },
-            "adjusted_by_guardrail": {
-              "type": "boolean"
-            }
-          }
-        },
-        "pairs_considered": {
-          "type": "integer"
-        },
-        "data_source": {
-          "type": "string"
-        },
-        "as_of": {
-          "type": "string"
-        },
-        "degraded": {
-          "type": "boolean"
-        },
-        "schema_version": {
-          "type": "string"
-        },
-        "cached": {
-          "type": "boolean"
-        }
-      }
-    }
-  },
-  {
-    "name": "token_honeypot_scan",
+    "name": "evm_token_risk",
     "title": "EVM token risk verdict & honeypot scan",
-    "description": "[$0.01] Token risk verdict & honeypot scan ($0.01/call \u2014 50% cheaper than $0.02 verdicts): proxy upgradeability, owner renouncement, mint/blacklist/fee/trading-toggle bytecode, DEX liquidity, 0-100 score & AI grade. EVM contract honeypot & liquidity scan (Base, Ethereum, Arbitrum, Optimism; for Solana use solana_token_risk). 1 free try per IP, then auto-rollover to paid HTTP 402.",
+    "description": "[$0.01] Token risk verdict & honeypot scan: proxy upgradeability, owner renouncement, mint/blacklist/fee/trading-toggle bytecode, DEX liquidity, 0-100 score & AI grade. Do not use for Solana SPL tokens (use solana_token_risk) or DeFi yields (use defi_yield_pools). Covers Base, Ethereum, Arbitrum, Optimism; 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1547,7 +1203,7 @@
   {
     "name": "defi_yield_pools",
     "title": "Cross-chain DeFi real-yield & liquidity matrix",
-    "description": "[$0.005] Rank cross-chain DeFi liquidity pools with TVL >= $5M by risk-adjusted real base APY, impermanent loss exposure, and strategic allocation advice. Live DeFiLlama yield pool rankings across Base or all chains ($5M+ TVL). 1 free try per IP, then auto-rollover to paid HTTP 402 ($0.005/call).",
+    "description": "[$0.005] Rank cross-chain DeFi liquidity pools with TVL >= $5M by risk-adjusted real base APY, impermanent loss exposure, and strategic allocation advice. Do not use for prediction markets (use polymarket_markets) or token audits (use evm_token_risk). Defaults to `chain='base'` (`'all'` for multi-chain $5M+ TVL); 1 free try per IP, then HTTP 402.",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1672,7 +1328,7 @@
   {
     "name": "agent_session_open",
     "title": "Pre-funded agent session tunnel",
-    "description": "[$1.00] Deposit $1.00 USDC once to mint an HMAC-signed Bearer session token (x402s_...) for zero-402 high-frequency API calls with atomic balance debits. Charges $1.00 USDC (Solana or Base) and mints a fresh 30-day x402s_... Bearer session token for high-frequency calls without per-call 402 roundtrips. Check balance and expiry anytime with agent_session_status; sessions auto-expire after ttl_minutes (no close required) and additional credits can be added by calling agent_session_open again or via https://apix402data.com/pay.",
+    "description": "[$1.00] Deposit $1.00 USDC once to mint an HMAC-signed Bearer session token (x402s_...) for zero-402 high-frequency API calls with atomic balance debits. Do not use for single read calls (call tools directly). Mints a 30-day x402s_... Bearer session ($1.00 USDC on Solana or Base); inspect balance/expiry with agent_session_status (sessions auto-expire, no close needed).",
     "inputSchema": {
       "type": "object",
       "properties": {
