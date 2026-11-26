@@ -1,6 +1,6 @@
 ---
 name: apix402data
-description: 46 pay-per-call x402 & Stripe MPP/Tempo data, EVM pre-flight security, DeFi routing, SEC EDGAR, and web-intelligence endpoints (14 flagship MCP tools). Includes 10 free lifetime preview calls via POST /mcp or /api/free/*.
+description: 48 pay-per-call Solana & Base x402 + Stripe MPP endpoints (15 flagship MCP tools): multi-chain RPC, Solana rug-check & priority fees, Polymarket odds, Farcaster lookup, DeFi/EVM security, SEC EDGAR & web intel. 1 free try per IP, auto-rolls over to paid.
 version: 5.1.0
 updated: 2026-11-21
 homepage: https://apix402data.com
@@ -12,20 +12,21 @@ pricing: https://apix402data.com/pricing
 
 # apix402data — Agent Skill & Workflow Guide
 
-Use this skill when an autonomous agent needs **pre-flight EVM/x402 security checks, SEC EDGAR company financials, Base/cross-chain DeFi & whale intelligence, or clean web/news RAG extraction** via HTTP 402 (USDC on Base `eip155:8453`), Stripe MPP/Tempo, or MCP Streamable HTTP (`https://apix402data.com/mcp`).
+Use this skill when an autonomous agent needs **keyless multi-chain JSON-RPC, Solana priority fees & SPL rug checks, live Polymarket odds/spreads, Farcaster identity lookup, pre-flight EVM/x402 security checks, SEC EDGAR company financials, or clean web/news RAG extraction** via HTTP 402 (USDC on **Solana** `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` or **Base** `eip155:8453`), Stripe MPP/Tempo, or MCP Streamable HTTP (`https://apix402data.com/mcp`).
 
 ## Cross-Referenced Discovery Endpoints
+- `GET /live` — Free real-time public radar (Solana fees, Polymarket movers, multi-chain RPC demos)
 - `GET /SKILL.md` — This skill guide (Markdown)
 - `GET /llms.txt` — LLM-readable service & quick-start guide
 - `GET /openapi.json` — Full OpenAPI 3.1 spec with `x-payment-info` & request/response schemas
 - `GET /pricing` — Live machine-readable price list & valid tickers/categories
-- `POST /mcp` — MCP Streamable HTTP endpoint (14 flagship tools, 10 free preview calls)
+- `POST /mcp` — MCP Streamable HTTP endpoint (15 flagship tools, 1 free try then auto-rollover to paid)
 - `GET /.well-known/mcp.json` | `GET /.well-known/x402.json` | `GET /.well-known/agent-card.json`
 
 ## Payment & Reliability Protocol
 1. **Free Validation First (`$0.00`):** Call `GET /api/search/check`, `/api/company/check`, `/api/news/check`, `/api/clean-url/check`, or `/api/security/preflight-402/check` before paying.
-2. **10 Free Preview Calls:** Call `POST /mcp` (`tools/call`) or `POST /api/free/<tool_path>` without a wallet (check quota via `GET /api/free/status`).
-3. **HTTP 402 (`x402` v2):** Paid `POST /api/*` routes return `402` with `PAYMENT-REQUIRED` (base64 JSON, USDC on `eip155:8453`, `payTo` `0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6`) and `extensions.bazaar` metadata. Retry with `PAYMENT-SIGNATURE` (or `X-PAYMENT`); receive `PAYMENT-RESPONSE`.
+2. **1 Free Try -> Paid Rollover:** Call `POST /mcp` (`tools/call`) or `POST /api/free/<tool_path>` without a wallet for 1 free try per IP; call #2 automatically rolls over to `HTTP 402` with full Solana + Base USDC `PAYMENT-REQUIRED` headers (check quota via `GET /api/free/status`).
+3. **HTTP 402 (`x402` v2 — Solana + Base USDC):** Paid `POST /api/*` routes return `402` with `PAYMENT-REQUIRED` advertising BOTH Base (`eip155:8453`, `payTo` `0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6`) and Solana (`solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`, `payTo` `GThvpKNLrFQmxxdM9kTKJmwBvqjzdoJCckoMeZaDZiJ6`). Retry with `PAYMENT-SIGNATURE` (or `X-PAYMENT`); receive `PAYMENT-RESPONSE`.
 4. **Stripe MPP + Tempo (routes `>= $0.01`):** `402` also includes `WWW-Authenticate: Payment` challenge; retry with `Authorization: Payment <credential>`.
 5. **Prepaid 30-Day Session (`x402s_...`):** Top up via `/pay` or `POST /api/agent/session-open`, then pass `Authorization: Bearer x402s_...` (or `session_token` in MCP `tools/call`).
 6. **Idempotency & Replay Safety:** Send `Idempotency-Key: <uuid>` for 15-minute duplicate-charge protection. Replayed EIP-3009 nonces return `409 Conflict`.
@@ -70,11 +71,11 @@ Live web/news search with field projection, SSRF-safe clean Markdown extraction 
 
 ## 30-Second Copy-Paste Recipes (Top-Demanded Endpoints)
 
-Most active endpoints in live agent traffic: `/api/token/risk` (`$0.01`), `/api/company` (`$0.002`), `/api/clean-url` (`$0.002`), `/api/defi/yield-matrix` (`$0.03`), and `/api/crypto/news` (`$0.002`).
+Most active & pre-warmed endpoints: `/api/rpc` (`$0.001`), `/api/solana/priority-fee` (`$0.001`), `/api/solana/token-risk` (`$0.002`), `/api/markets/polymarket` (`$0.002`), `/api/crypto/news` (`$0.002`), `/api/crypto/exploit-radar` (`$0.005`), and `/api/token/risk` (`$0.01`).
 
-### 1. Try Free Right Now (No Wallet — 10 Free Calls)
+### 1. Try Free Right Now (No Wallet — 1 Free Try, Call #2 Rolls Over to Paid)
 ```bash
-curl -s -X POST https://apix402data.com/api/free/token/risk   -H "Content-Type: application/json"   -d '{"chain":"base","address":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"}'
+curl -s -X POST https://apix402data.com/api/free/markets/polymarket   -H "Content-Type: application/json"   -d '{"limit":5}'
 ```
 
 ### 2. Pre-Swap Guardrail in 1 Call (`x402` Python / LangChain / CrewAI)
