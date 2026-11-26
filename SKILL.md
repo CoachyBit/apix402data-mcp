@@ -43,17 +43,23 @@ Validate 402 paywalls, counterparty reputation, calldata/approvals, MEV risk, ga
 - `POST /api/agent/escrow-arbitration` (`$0.02`, x402 + Stripe MPP/Tempo) — Hash-committed task/delivery escrow verification. Example body: `{"task_spec_hash":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","delivery_payload_hash":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}`
 
 ### Package 2: Public Company & Market Due-Diligence Pack
-SEC EDGAR XBRL GAAP financials and cross-signal market convergence.
+SEC EDGAR XBRL GAAP financials, cross-signal market convergence, protocol TVL/contract due diligence, and treasury portfolio audits.
 - `POST /api/company` (`$0.002`, x402) — SEC EDGAR XBRL GAAP financials, filings & news; supports batch 'tickers' up to 5 (free pre-check: GET /api/company/check?ticker=<SYMBOL>). Example body: `{"ticker":"NVDA","include_news":true}`
 - `POST /api/market/convergence-index` (`$0.03`, x402 + Stripe MPP/Tempo) — Cross-signal market convergence score across crypto, macro, and news. Example body: `{"seed":"USDC"}`
 
-### Package 3: On-Chain Crypto & Cross-Chain Intent Routing Pack
-24h Base L2 & cross-venue whale flows, crypto news, DEX arbitrage spreads, yield matrices, and cross-chain intent routing.
-- `POST /api/crypto/whale-flows` (`$0.02`, x402 + Stripe MPP/Tempo) — 24h Base L2 & cross-venue whale transfer & flow intelligence. Example body: `{"token":"USDC"}`
+### Package 3: Solana, Multi-Chain RPC, Polymarket & DeFi High-Frequency Pack
+Sub-10ms pre-warmed Solana priority fees, SPL token rug-checks, keyless multi-chain JSON-RPC, Polymarket odds/spreads, Base whale flows, and DeFi arb.
+- `POST /api/rpc` (`$0.001`, x402) — Keyless multi-chain JSON-RPC proxy (Solana, Base, Ethereum, Arbitrum, Optimism). Example body: `{"chain":"solana","method":"getSlot","params":"[]"}`
+- `POST /api/solana/priority-fee` (`$0.001`, x402) — Live Solana priority fee percentiles (p50/p75/p95) + Jito tip floor. Example body: `{}`
+- `POST /api/solana/token-risk` (`$0.002`, x402) — Solana SPL / Token-2022 rug check (mint/freeze authority, top holders, DEX liquidity). Example body: `{"mint":"JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN"}`
+- `POST /api/solana/wallet-holdings` (`$0.002`, x402) — Keyless Solana SOL + SPL token portfolio & recent signatures. Example body: `{"wallet":"GThvpKNLrFQmxxdM9kTKJmwBvqjzdoJCckoMeZaDZiJ6"}`
+- `POST /api/markets/polymarket` (`$0.002`, x402) — Live Polymarket 24h volume leaders, implied odds & bid/ask spreads. Example body: `{"limit":10}`
+- `POST /api/social/farcaster-lookup` (`$0.002`, x402) — Keyless Base 0x wallet <-> Farcaster FID, followers & ENS lookup. Example body: `{"identity":"0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"}`
+- `POST /api/crypto/whale-flows` (`$0.003`, x402) — 24h Base L2 & cross-venue whale transfer & flow intelligence. Example body: `{"token":"USDC"}`
 - `POST /api/crypto/news` (`$0.002`, x402) — Real-time crypto news & sentiment feed. Example body: `{"asset":"USDC","limit":5}`
-- `POST /api/defi/arbitrage-radar` (`$0.03`, x402 + Stripe MPP/Tempo) — Cross-DEX arbitrage & spread detection. Example body: `{"asset":"WETH","chain":"base"}`
-- `POST /api/defi/intent-routing` (`$0.02`, x402 + Stripe MPP/Tempo) — Optimal cross-chain bridge & intent route. Example body: `{"asset":"USDC","source_chain":"base","destination_chain":"arbitrum","amount_usd":25000.0}`
-- `POST /api/defi/yield-matrix` (`$0.03`, x402 + Stripe MPP/Tempo) — Live DeFi yield & TVL matrix. Example body: `{"chain":"base"}`
+- `POST /api/defi/arbitrage-radar` (`$0.005`, x402) — Cross-DEX arbitrage & spread detection. Example body: `{"asset":"WETH","chain":"base"}`
+- `POST /api/defi/intent-routing` (`$0.003`, x402) — Optimal cross-chain bridge & intent route. Example body: `{"asset":"USDC","source_chain":"base","destination_chain":"arbitrum","amount_usd":25000.0}`
+- `POST /api/defi/yield-matrix` (`$0.005`, x402) — Live DeFi yield & TVL matrix. Example body: `{"chain":"base"}`
 
 ### Package 4: Web Research, Clean Extraction & Session Pack
 Live web/news search with field projection, SSRF-safe clean Markdown extraction for RAG, and 30-day prepaid session tunnels.
