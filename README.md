@@ -2,7 +2,18 @@
 
 [![Glama MCP Connector Score](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api/badges/score.svg)](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api)
 
-Open-source **Node.js MCP stdio server** (`bin/cli.mjs` + `tools_catalog.json` + `Dockerfile`) implementing **15 flagship Solana, multi-chain RPC, Polymarket, Farcaster, DeFi, EVM pre-flight, SEC EDGAR, news, and web-intelligence MCP tools** backed by the `apix402data.com` REST/x402 API (**`48` paid endpoints accepting BOTH Solana USDC and Base USDC**, `5` free `/check` endpoints, **`1` free try per IP that automatically rolls over to paid HTTP 402**).
+Open-source **All-in-One OpenClaw & x402 Smart Router + Node.js MCP Server** (`bin/router.mjs` + `bin/cli.mjs` + `tools_catalog.json` + `Dockerfile`) implementing **14 flagship MCP tools** and **51 live pay-per-call endpoints** accepting **BOTH Solana USDC (PayAI) and Base USDC (Coinbase CDP)**, with **`1` free try per IP that automatically rolls over to paid HTTP 402**.
+
+### Drop-In Smart Router for OpenClaw / Cursor / Continue (`npx apix402data-router`)
+Point any OpenAI-compatible agent at `https://apix402data.com/v1` (or run the local failover proxy on `http://127.0.0.1:8403/v1`):
+```bash
+# Start local zero-dependency smart router + auto-discovery failover proxy:
+npx -y -p apix402data-mcp apix402data-router
+
+# Or point OpenClaw / Cursor / OpenAI SDK directly at:
+# OPENAI_BASE_URL=https://apix402data.com/v1   model="auto" | "eco" | "code" | "reasoning" | "local"
+```
+- **Why it beats LLM-only routers:** Sub-millisecond complexity scoring + OpenRouter frontier models + dual-GPU local failover **plus automatic `<10ms` live Solana/Polymarket RAM grounding** and `/api/discover` verified x402 failover routing — all from one Solana or Base USDC wallet.
 
 - **Live Public Radar (`$0`, Pre-Warmed `<10ms`):** `https://apix402data.com/live` — real-time Solana priority fees, SPL rug checks, Polymarket 24h volume & bid/ask spreads, and keyless multi-chain RPC demos.
 - **Dual-Chain x402 Settlement (Solana + Base USDC):** Every `402` response advertises both **Base (`eip155:8453`)** and **Solana (`solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`)** USDC `accepts[]` with `$0` buyer gas.
