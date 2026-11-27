@@ -1,8 +1,80 @@
 [
   {
-    "name": "chain_rpc_call",
+    "name": "discover_x402_endpoints",
+    "title": "Verified x402 auto-discovery & failover index",
+    "description": "Search live, health-probed x402 endpoints across Coinbase CDP Bazaar, PayAI, and seller manifests. Use `q` (natural-language capability), `scope` (`all`, `ecosystem`, `apix402data`), `network` (`all`, `solana`, `base`), `sort` (`best_value`, `highest_quality`, `cheapest`, `fastest`), and `max_price_usd`. Returns `recommended_primary`, `failover_candidates`, `quality_grade` (`A+`-`F`), `purchase_protection` handshake pin, and `network_health` with dead/bad-actor endpoints excluded by default. Do not use when you already know the exact tool to call. 5 free tries per 24h UTC per IP, then HTTP 402 ($0.0015 USDC on Solana or Base).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "description": "Capability or intent query (e.g. solana rug, polymarket, rpc, llm, gas, news, sec)"
+        },
+        "network": {
+          "type": "string",
+          "default": "all",
+          "description": "Filter by settlement network: all, solana, base"
+        },
+        "max_price_usd": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 10.0,
+          "default": 1.0,
+          "description": "Maximum price per call in USD"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 10,
+          "description": "Max ranked live providers to return (1-50)"
+        },
+        "scope": {
+          "type": "string",
+          "default": "all",
+          "description": "all (ecosystem + apix402data), ecosystem (external Bazaar/PayAI only), apix402data"
+        },
+        "sort": {
+          "type": "string",
+          "default": "best_value",
+          "description": "Ranking mode: best_value | highest_quality | cheapest | fastest"
+        },
+        "min_quality_score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 100.0,
+          "default": 0.0,
+          "description": "Minimum 5-pillar quality score (0-100)"
+        },
+        "quality_verified_only": {
+          "type": "boolean",
+          "default": false,
+          "description": "Only return Quality-Verified (70+ score, valid USDC, live 402) endpoints"
+        },
+        "include_dead": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include quarantined/dead endpoints (default false)"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 5 daily free tries roll over to HTTP 402."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Verified x402 auto-discovery & failover index",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  {
+    "name": "call_chain_rpc",
     "title": "Keyless multi-chain JSON-RPC proxy",
-    "description": "[$0.001] Keyless multi-chain JSON-RPC proxy for Solana, Base, Ethereum, Arbitrum, and Optimism with automatic failover and hot RAM caching for read calls. Do not use for token audits (use evm_token_risk or solana_token_risk) or priority fees (use solana_priority_fee). Read-only/broadcast allowlisted JSON-RPC methods; 1 free try per IP, then HTTP 402.",
+    "description": "Execute allowlisted read-only JSON-RPC queries across Solana, Base, Ethereum, Arbitrum, and Optimism with multi-upstream failover and hot caching. Pass `chain` (e.g. `solana`, `base`, `ethereum`), `method` (e.g. `getSlot`, `eth_blockNumber`, `eth_call`), and JSON-encoded `params` array. Returns `result`, `upstream`, and `cached`. Do not use for EVM gas estimation (use get_evm_gas_price), Solana fees (use get_solana_priority_fee), or token risk audits (use check_evm_token_risk or check_solana_token_risk). 1 free try per IP, then HTTP 402 ($0.001 USDC).",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -23,7 +95,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
         }
       },
       "additionalProperties": false
@@ -37,15 +109,15 @@
     }
   },
   {
-    "name": "solana_priority_fee",
+    "name": "get_solana_priority_fee",
     "title": "Solana priority fees & Jito tip floor",
-    "description": "[$0.001] Live Solana priority fee percentiles (p50/p75/p95 microlamports), Jito tip floor, slot, and congestion level pre-warmed in RAM every 10 seconds. Do not use for raw RPC queries (use chain_rpc_call) or SPL audits (use solana_token_risk). Returns p50/p75/p95 microlamports and Jito tip floor; 1 free try per IP, then HTTP 402.",
+    "description": "Fetch live Solana compute-unit priority fees and Jito bundle tip floors refreshed every 10 seconds. Takes no required parameters (optional `session_token` after free try). Returns `slot`, `congestion_level`, `priority_fee_microlamports` (`p50`, `p75`, `p95`), and `jito_tip_floor`. Do not use for EVM gas fees (use get_evm_gas_price) or raw RPC queries (use call_chain_rpc). 1 free try per IP, then HTTP 402 ($0.001 USDC).",
     "inputSchema": {
       "type": "object",
       "properties": {
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
         }
       },
       "additionalProperties": false
@@ -59,9 +131,9 @@
     }
   },
   {
-    "name": "solana_token_risk",
+    "name": "check_solana_token_risk",
     "title": "Solana SPL / Token-2022 rug check",
-    "description": "[$0.002] Instant Solana SPL and Token-2022 rug check: mint and freeze authority status, top-10 holder concentration, Raydium/PumpSwap DEX liquidity, and risk score. Do not use for EVM chains (use evm_token_risk) or wallet portfolios (use solana_wallet_holdings). Flags mint/freeze authorities, top-10 share, and zero-sell honeypots; 1 free try per IP, then HTTP 402.",
+    "description": "Audit a Solana SPL token mint for rug-pull and honeypot risks. Pass base58 `mint` address (required) and optional `force_refresh` boolean. Returns `risk_score` (0-100), `risk_band` (`low`, `medium`, `high`, `critical`), `safe_to_trade`, mint/freeze authority flags, top-10 holder concentration, and Raydium/PumpSwap liquidity and 24h buy/sell counts. Do not use for EVM tokens (use check_evm_token_risk) or wallet portfolios (use get_solana_wallet_holdings). 1 free try per IP, then HTTP 402 ($0.002 USDC).",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -78,7 +150,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
         }
       },
       "additionalProperties": false
@@ -92,9 +164,9 @@
     }
   },
   {
-    "name": "solana_wallet_holdings",
+    "name": "get_solana_wallet_holdings",
     "title": "Solana wallet SOL + SPL portfolio",
-    "description": "[$0.002] Keyless Solana wallet portfolio lookup returning SOL balance, SPL token holdings with live USD valuation, total portfolio USD, and recent tx signatures. Do not use for single-token audits (use solana_token_risk) or EVM identities (use farcaster_identity). Returns SOL + SPL USD balances and recent tx signatures; 1 free try per IP, then HTTP 402.",
+    "description": "Inspect a Solana wallet's SOL balance, SPL token holdings with USD valuations, and up to 10 recent transaction signatures. Pass base58 `wallet` address (required) and optional `limit` (1-50 tokens, default 20). Returns `sol_balance`, `total_usd`, `tokens[]`, and `recent_signatures[]`. Do not use for single-token security audits (use check_solana_token_risk). 1 free try per IP, then HTTP 402 ($0.002 USDC).",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -106,7 +178,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
         }
       },
       "additionalProperties": false
@@ -120,9 +192,454 @@
     }
   },
   {
-    "name": "polymarket_markets",
+    "name": "get_evm_gas_price",
+    "title": "Multi-chain gas and action cost oracle with AI pick",
+    "description": "Fetch current EVM gas prices, EIP-1559 base/priority fees, and USD transfer estimates across Base, Ethereum, Arbitrum, and Optimism. Pass optional `chain` (`base`, `ethereum`, `arbitrum`, `optimism`, or `all`; defaults to `base`). Returns `gas_gwei`, `base_fee_gwei`, `priority_fee_gwei`, and `est_erc20_transfer_usd`. Do not use for Solana priority fees (use get_solana_priority_fee) or raw RPC calls (use call_chain_rpc). 1 free try per IP, then HTTP 402 ($0.001 USDC).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "maxLength": 200,
+          "default": "swap",
+          "description": "What you plan to do (e.g. 'swap USDC to ETH')"
+        },
+        "chains": {
+          "type": "string",
+          "maxLength": 80,
+          "description": "Comma list (default: base,ethereum,arbitrum,optimism)"
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120000,
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Multi-chain gas and action cost oracle with AI pick",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "eth_usd": {
+          "type": "number"
+        },
+        "chains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "chain": {
+                "type": "string"
+              },
+              "gas_gwei": {
+                "type": "number"
+              },
+              "block": {
+                "type": "integer"
+              },
+              "costs_usd": {
+                "type": "object",
+                "properties": {
+                  "eth_transfer": {
+                    "type": "number"
+                  },
+                  "erc20_transfer": {
+                    "type": "number"
+                  },
+                  "swap": {
+                    "type": "number"
+                  }
+                }
+              },
+              "fee_scope": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "cheapest": {
+          "type": "object",
+          "properties": {
+            "chain": {
+              "type": "string"
+            },
+            "by": {
+              "type": "string"
+            }
+          }
+        },
+        "errors": {
+          "type": "object",
+          "properties": {}
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "recommended_chain": {
+              "type": "string"
+            },
+            "recommendation": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        "as_of": {
+          "type": "string"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "check_evm_token_risk",
+    "title": "EVM token risk verdict & honeypot scan",
+    "description": "Audit an EVM token contract on Base, Ethereum, Arbitrum, or Optimism for honeypot, sell-tax, proxy, and owner-privilege risks. Pass `chain` (`base`, `ethereum`, `arbitrum`, `optimism`) and 0x-prefixed 42-char `address` (required). Returns `risk_score` (0-100), `risk_band`, `flags[]`, tax percentages, and liquidity checks. Do not use for Solana SPL tokens (use check_solana_token_risk) or price history/indicators (use get_token_ohlc_indicators). 1 free try per IP, then HTTP 402 ($0.01 USDC).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "maxLength": 42,
+          "description": "Token contract address (0x + 40 hex)"
+        },
+        "chain": {
+          "type": "string",
+          "maxLength": 20,
+          "default": "base",
+          "description": "base (default), ethereum, arbitrum, optimism"
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120000,
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "EVM token risk verdict & honeypot scan",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "chain": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "token": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "symbol": {
+              "type": "string"
+            },
+            "decimals": {
+              "type": "integer"
+            },
+            "total_supply_raw": {
+              "type": "string"
+            }
+          }
+        },
+        "contract": {
+          "type": "object",
+          "properties": {
+            "code_size_bytes": {
+              "type": "integer"
+            },
+            "is_proxy": {
+              "type": "boolean"
+            },
+            "implementation": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "owner": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "owner_renounced": {
+              "type": "boolean"
+            },
+            "privileged_functions": {
+              "type": "object",
+              "properties": {
+                "mint": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "liquidity": {
+          "type": "object",
+          "properties": {
+            "top_pair_liquidity_usd": {
+              "type": "number"
+            },
+            "pair_age_hours": {
+              "type": "number"
+            },
+            "buys_24h": {
+              "type": "integer"
+            },
+            "sells_24h": {
+              "type": "integer"
+            },
+            "dex": {
+              "type": "string"
+            }
+          }
+        },
+        "risk_score": {
+          "type": "integer"
+        },
+        "risk_band": {
+          "type": "string"
+        },
+        "risk_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checks_not_performed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "verdict": {
+              "type": "string"
+            },
+            "explanation": {
+              "type": "string"
+            },
+            "top_reasons": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source": {
+              "type": "string"
+            },
+            "adjusted_by_guardrail": {
+              "type": "boolean"
+            }
+          }
+        },
+        "as_of": {
+          "type": "string"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "get_token_ohlc_indicators",
+    "title": "Computed VWAP, RSI, EMA, MACD technical indicators",
+    "description": "Compute historical OHLCV price candles and technical indicators (RSI-14, EMA, MACD, Bollinger Bands, volatility) for a DEX token pool. Pass `chain` (e.g. `base`, `solana`, `ethereum`), token or pool `address`, and optional `timeframe` (`5m`, `15m`, `1h`, `4h`, `1d`; default `1h`). Returns `candles[]` (OHLCV), `rsi_14`, `macd`, `ema`, and `trend_signal`. Do not use for contract security audits (use check_evm_token_risk or check_solana_token_risk). 1 free try per IP, then HTTP 402 ($0.002 USDC).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "maxLength": 60,
+          "description": "Token address or symbol (or pool address)"
+        },
+        "chain": {
+          "type": "string",
+          "maxLength": 20,
+          "default": "base",
+          "description": "Network: base, ethereum, arbitrum, optimism, solana"
+        },
+        "timeframe": {
+          "type": "string",
+          "maxLength": 12,
+          "default": "hour",
+          "description": "Candle timeframe: minute, hour, day"
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120000,
+          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data"
+        },
+        "session_token": {
+          "type": "string",
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
+        }
+      },
+      "additionalProperties": false
+    },
+    "annotations": {
+      "title": "Computed VWAP, RSI, EMA, MACD technical indicators",
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "chain": {
+          "type": "string"
+        },
+        "pool_address": {
+          "type": "string"
+        },
+        "timeframe": {
+          "type": "string"
+        },
+        "indicators": {
+          "type": "object",
+          "properties": {
+            "candles": {
+              "type": "integer"
+            },
+            "latest_close": {
+              "type": "number"
+            },
+            "vwap": {
+              "type": "number"
+            },
+            "rsi_14": {
+              "type": "number"
+            },
+            "ema_9": {
+              "type": "number"
+            },
+            "ema_21": {
+              "type": "number"
+            },
+            "macd": {
+              "type": "object",
+              "properties": {
+                "macd": {
+                  "type": "number"
+                },
+                "signal": {
+                  "type": "number"
+                },
+                "histogram": {
+                  "type": "number"
+                }
+              }
+            },
+            "volatility_pct": {
+              "type": "number"
+            },
+            "trend": {
+              "type": "string"
+            }
+          }
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "bias": {
+              "type": "string"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        "data_source": {
+          "type": "string"
+        },
+        "as_of": {
+          "type": "string"
+        },
+        "degraded": {
+          "type": "boolean"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  {
+    "name": "get_polymarket_markets",
     "title": "Polymarket live odds & spread radar",
-    "description": "[$0.002] Live Polymarket active prediction markets sorted by 24h volume with implied odds, bid/ask spread bps, probability sum arb deviation, and keyword filtering. Do not use for DeFi yield pools (use defi_yield_pools) or crypto news (use news_crypto_feed). Filter via optional `q` or `min_volume_usd`; 1 free try per IP, then HTTP 402.",
+    "description": "Fetch live Polymarket prediction markets with implied outcome odds, 24h volume, liquidity, and orderbook bid/ask spreads. Filter with optional keyword `q`, `min_volume_usd` (default 0), `limit` (1-50, default 15), and `include_closed` (default false). Returns `markets[]` with `question`, `outcomes`, `volume_24h_usd`, and `spread_bps`. Do not use for DeFi yield pools (use get_defi_yield_pools) or crypto news (use get_crypto_news). 1 free try per IP, then HTTP 402 ($0.002 USDC).",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -150,7 +667,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
         }
       },
       "additionalProperties": false
@@ -164,229 +681,17 @@
     }
   },
   {
-    "name": "farcaster_identity",
-    "title": "Farcaster & Base wallet identity lookup",
-    "description": "[$0.002] Keyless Base EVM wallet and handle lookup resolving Farcaster FID, username, follower counts, ENS/Basenames profiles, and sybil trust signal in JSON. Do not use for Solana wallets (use solana_wallet_holdings) or web search (use web_search). `sybil_signal` is `established` (>=500 followers), `active` (<500), `ens_linked`, or `unverified`; 1 free try per IP, then HTTP 402.",
+    "name": "get_defi_yield_pools",
+    "title": "Cross-chain DeFi real-yield & liquidity matrix",
+    "description": "Screen real-yield DeFi liquidity pools across Aave, Aerodrome, Uniswap, and other protocols. Pass optional `chain` (default `base`; use `all` for multi-chain pools >= $5M TVL), `asset` filter (e.g. `USDC`, `WETH`), and `min_tvl_usd`. Returns ranked `pools[]` with `project`, `symbol`, `apy`, `apy_base`, `apy_reward`, and `tvl_usd`. Do not use for prediction markets (use get_polymarket_markets) or token security checks (use check_evm_token_risk). 1 free try per IP, then HTTP 402 ($0.005 USDC).",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "identity": {
+        "chain": {
           "type": "string",
-          "maxLength": 64,
-          "default": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
-          "description": "Base/EVM 0x address, ENS name, or Farcaster handle (e.g. dwr)"
-        },
-        "session_token": {
-          "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
-        }
-      },
-      "additionalProperties": false
-    },
-    "annotations": {
-      "title": "Farcaster & Base wallet identity lookup",
-      "readOnlyHint": true,
-      "destructiveHint": false,
-      "idempotentHint": true,
-      "openWorldHint": true
-    }
-  },
-  {
-    "name": "web_search",
-    "title": "Live web search JSON",
-    "description": "[$0.002] Fast live web search & news JSON (up to 5 batched queries, highlights, sentiment, and named entities) at $0.002/call \u2014 2.5x-5x cheaper than Exa ($0.004-$0.007). Do not use for single-URL extraction (use web_fetch_markdown) or crypto ticker news (use news_crypto_feed). Supports up to 5 batched `queries`; 1 free try per IP, then HTTP 402.",
-    "inputSchema": {
-      "type": "object",
-      "properties": {
-        "query": {
-          "type": "string",
-          "maxLength": 200,
-          "description": "Search query (alias: q)"
-        },
-        "q": {
-          "type": "string",
-          "maxLength": 200,
-          "description": "Search query \u2014 supports AI, crypto, finance, tech, biotech, energy topics"
-        },
-        "category": {
-          "type": "string",
-          "enum": [
-            "web",
-            "news"
-          ],
-          "maxLength": 50,
-          "description": "Filter by category: web or news"
-        },
-        "limit": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 500,
-          "default": 50,
-          "description": "Max results to return per query (default 50, max 500)"
-        },
-        "queries": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "maxItems": 5,
-          "description": "Batch: array of up to 5 queries; priced unit price x count"
-        },
-        "fields": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Return only these result keys, e.g. [\"title\",\"url\",\"enrichment.sentiment\"]"
-        },
-        "session_token": {
-          "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
-        }
-      },
-      "additionalProperties": false
-    },
-    "annotations": {
-      "title": "Live web search JSON",
-      "readOnlyHint": true,
-      "destructiveHint": false,
-      "idempotentHint": true,
-      "openWorldHint": true
-    },
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "endpoint": {
-          "type": "string"
-        },
-        "query": {
-          "type": "string"
-        },
-        "category": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "data_source": {
-          "type": "string"
-        },
-        "count": {
-          "type": "integer"
-        },
-        "results": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "integer"
-              },
-              "query": {
-                "type": "string"
-              },
-              "category": {
-                "type": "string"
-              },
-              "title": {
-                "type": "string"
-              },
-              "url": {
-                "type": "string"
-              },
-              "snippet": {
-                "type": "string"
-              },
-              "enrichment": {
-                "type": "object",
-                "properties": {
-                  "headline": {
-                    "type": "string"
-                  },
-                  "relevance_score": {
-                    "type": "integer"
-                  },
-                  "key_takeaway": {
-                    "type": "string"
-                  },
-                  "sentiment": {
-                    "type": "string"
-                  },
-                  "entities": {
-                    "type": "array",
-                    "items": {}
-                  },
-                  "tags": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "related_queries": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "wikipedia": {
-                    "type": "object",
-                    "properties": {
-                      "title": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      },
-                      "extract": {
-                        "type": "string"
-                      },
-                      "url": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "source": {
-                    "type": "string"
-                  },
-                  "published": {
-                    "type": "string"
-                  }
-                }
-              },
-              "scraped_at": {
-                "type": "string"
-              },
-              "data_source": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "schema_version": {
-          "type": "string"
-        },
-        "cached": {
-          "type": "boolean"
-        }
-      }
-    }
-  },
-  {
-    "name": "web_fetch_markdown",
-    "title": "Webpage to clean LLM Markdown",
-    "description": "[$0.002] Fetch any public HTTPS webpage (SSRF-guarded) to clean LLM Markdown, structured summary, and extracted entities at $0.002/call \u2014 5x cheaper than Firecrawl ($0.01). Do not use for cross-site search (use web_search). Only `summarize=true` invokes local LLM; 1 free try per IP, then HTTP 402.",
-    "inputSchema": {
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string",
-          "maxLength": 2000,
-          "description": "Any public URL to fetch, clean, and extract content from"
-        },
-        "summarize": {
-          "type": "boolean",
-          "default": false,
-          "description": "Add LLM-powered summary with entity extraction and sentiment scoring"
+          "maxLength": 40,
+          "default": "base",
+          "description": "Target chain (e.g. 'base', 'ethereum', 'arbitrum', 'solana', or 'all')"
         },
         "timeout_ms": {
           "type": "integer",
@@ -396,13 +701,13 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
         }
       },
       "additionalProperties": false
     },
     "annotations": {
-      "title": "Webpage to clean LLM Markdown",
+      "title": "Cross-chain DeFi real-yield & liquidity matrix",
       "readOnlyHint": true,
       "destructiveHint": false,
       "idempotentHint": true,
@@ -414,49 +719,96 @@
         "endpoint": {
           "type": "string"
         },
-        "url": {
+        "chain": {
           "type": "string"
         },
-        "markdown": {
-          "type": "string"
+        "min_tvl_usd": {
+          "type": "number"
         },
-        "word_count": {
+        "pool_count": {
           "type": "integer"
         },
-        "robots_txt_allowed": {
-          "type": "boolean"
-        },
-        "cached": {
-          "type": "boolean"
-        },
-        "cache_age_seconds": {
-          "type": "number"
-        },
-        "sentiment": {
+        "top_opportunity_pool": {
           "type": "string"
         },
-        "sentiment_score": {
+        "average_net_apy": {
           "type": "number"
         },
-        "entities": {
+        "risk_adjusted_rankings": {
           "type": "array",
           "items": {
             "type": "string"
           }
         },
-        "nlp_method": {
+        "strategic_advice": {
           "type": "string"
+        },
+        "pools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pool_id": {
+                "type": "string"
+              },
+              "chain": {
+                "type": "string"
+              },
+              "protocol": {
+                "type": "string"
+              },
+              "symbol": {
+                "type": "string"
+              },
+              "tvl_usd": {
+                "type": "number"
+              },
+              "apy_base": {
+                "type": "number"
+              },
+              "apy_reward": {
+                "type": "number"
+              },
+              "apy_total": {
+                "type": "number"
+              },
+              "apy_mean_30d": {
+                "type": "number"
+              },
+              "il_risk": {
+                "type": "string"
+              },
+              "stablecoin": {
+                "type": "integer"
+              },
+              "exposure": {
+                "type": "string"
+              },
+              "risk_adjusted_score": {
+                "type": "number"
+              },
+              "scraped_at": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "degraded": {
+          "type": "boolean"
         },
         "schema_version": {
           "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
         }
       }
     }
   },
   {
-    "name": "news_crypto_feed",
+    "name": "get_crypto_news",
     "title": "Crypto news sentiment",
-    "description": "[$0.002] Get real-time cryptocurrency and DeFi news headlines enriched with per-article sentiment scores and mentioned token tickers in structured JSON. Do not use for general web search (use web_search) or SEC filings (use sec_company_lookup). 1 free try per IP, then HTTP 402.",
+    "description": "Fetch curated, deduplicated crypto news articles with extracted tickers, sentiment scores, source tier, and age in minutes. Pass optional `q` keyword or ticker filter, `limit` (1-30, default 10), and `sort` (`fresh` or `quality`). Returns `articles[]` with `title`, `url`, `tickers[]`, `sentiment`, and `age_minutes`. Do not use for general non-crypto web search (use search_web) or single-page extraction (use fetch_web_markdown). 1 free try per IP, then HTTP 402 ($0.002 USDC).",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -539,7 +891,7 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
         }
       },
       "additionalProperties": false
@@ -794,53 +1146,62 @@
     }
   },
   {
-    "name": "sec_company_lookup",
-    "title": "SEC EDGAR company intelligence",
-    "description": "[$0.002] Look up public company financials, CIK, recent SEC EDGAR filings (10-K/10-Q/8-K), and recent news sentiment by stock ticker (supports up to 5 batched tickers). Do not use for crypto tokens (use evm_token_risk or solana_token_risk). Supports up to 5 batched `tickers`; 1 free try per IP, then HTTP 402.",
+    "name": "search_web",
+    "title": "Live web search JSON",
+    "description": "Run live web and news search across up to 5 queries with structured snippets and URLs. Pass `q` (single query) or `queries` (array of up to 5 strings; billed per query) and optional `limit` (1-20). Returns `results[]` with `title`, `url`, `snippet`, and `source`. Do not use to extract full content from one known URL (use fetch_web_markdown) or for crypto-only feeds (use get_crypto_news). 1 free try per IP, then HTTP 402 ($0.002 USDC/query).",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "ticker": {
+        "query": {
           "type": "string",
-          "maxLength": 10,
-          "description": "Any SEC-registered stock ticker (e.g., AAPL, COST, WMT, NVDA). Unknown tickers return 404 and are not charged."
+          "maxLength": 200,
+          "description": "Search query (alias: q)"
+        },
+        "q": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Search query \u2014 supports AI, crypto, finance, tech, biotech, energy topics"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "web",
+            "news"
+          ],
+          "maxLength": 50,
+          "description": "Filter by category: web or news"
         },
         "limit": {
           "type": "integer",
           "minimum": 1,
           "maximum": 500,
           "default": 50,
-          "description": "Max results to return (default 50, max 500)"
+          "description": "Max results to return per query (default 50, max 500)"
         },
-        "tickers": {
+        "queries": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "maxItems": 5,
-          "description": "Batch: array of up to 5 tickers; priced unit price x count"
+          "description": "Batch: array of up to 5 queries; priced unit price x count"
         },
         "fields": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "description": "Return only these result keys, e.g. [\"ticker\",\"company_name\",\"recent_filings\"]"
-        },
-        "include_news": {
-          "type": "boolean",
-          "default": true,
-          "description": "Include recent news headlines with sentiment for the company"
+          "description": "Return only these result keys, e.g. [\"title\",\"url\",\"enrichment.sentiment\"]"
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
         }
       },
       "additionalProperties": false
     },
     "annotations": {
-      "title": "SEC EDGAR company intelligence",
+      "title": "Live web search JSON",
       "readOnlyHint": true,
       "destructiveHint": false,
       "idempotentHint": true,
@@ -852,7 +1213,16 @@
         "endpoint": {
           "type": "string"
         },
-        "ticker": {
+        "query": {
+          "type": "string"
+        },
+        "category": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "data_source": {
           "type": "string"
         },
         "count": {
@@ -866,330 +1236,85 @@
               "id": {
                 "type": "integer"
               },
-              "ticker": {
+              "query": {
                 "type": "string"
               },
-              "company_name": {
+              "category": {
                 "type": "string"
               },
-              "cik": {
+              "title": {
                 "type": "string"
               },
-              "sic_code": {
+              "url": {
                 "type": "string"
               },
-              "sic_description": {
+              "snippet": {
                 "type": "string"
-              },
-              "state": {
-                "type": "string"
-              },
-              "fiscal_year_end": {
-                "type": "string"
-              },
-              "recent_filings": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "form": {
-                      "type": "string"
-                    },
-                    "date": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "accession": {
-                      "type": "string"
-                    }
-                  }
-                }
               },
               "enrichment": {
                 "type": "object",
                 "properties": {
-                  "summary": {
+                  "headline": {
                     "type": "string"
                   },
-                  "sector": {
+                  "relevance_score": {
+                    "type": "integer"
+                  },
+                  "key_takeaway": {
                     "type": "string"
                   },
-                  "key_products": {
+                  "sentiment": {
+                    "type": "string"
+                  },
+                  "entities": {
                     "type": "array",
                     "items": {}
                   },
-                  "recent_activity": {
-                    "type": "string"
-                  },
-                  "risk_factors": {
+                  "tags": {
                     "type": "array",
-                    "items": {}
-                  },
-                  "outlook": {
-                    "type": "string"
-                  }
-                }
-              },
-              "scraped_at": {
-                "type": "string"
-              },
-              "financials": {
-                "type": "object",
-                "properties": {
-                  "revenue_usd": {
-                    "type": "integer"
-                  },
-                  "net_income_usd": {
-                    "type": "integer"
-                  },
-                  "operating_income_usd": {
-                    "type": "integer"
-                  },
-                  "eps_diluted": {
-                    "type": "number"
-                  },
-                  "total_assets_usd": {
-                    "type": "integer"
-                  },
-                  "total_liabilities_usd": {
-                    "type": "integer"
-                  },
-                  "stockholders_equity_usd": {
-                    "type": "integer"
-                  },
-                  "cash_usd": {
-                    "type": "integer"
-                  },
-                  "shares_outstanding": {
-                    "type": "integer"
-                  },
-                  "fiscal_year_period_end": {
-                    "type": "string"
-                  },
-                  "balance_sheet_period_end": {
-                    "type": "string"
-                  }
-                }
-              },
-              "sentiment": {
-                "type": "string"
-              },
-              "sentiment_source": {
-                "type": "string"
-              },
-              "entities": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "news": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "title": {
-                      "type": "string"
-                    },
-                    "url": {
-                      "type": "string"
-                    },
-                    "source": {
-                      "type": "string"
-                    },
-                    "published_at": {
-                      "type": "string"
-                    },
-                    "sentiment": {
+                    "items": {
                       "type": "string"
                     }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "schema_version": {
-          "type": "string"
-        },
-        "cached": {
-          "type": "boolean"
-        }
-      }
-    }
-  },
-  {
-    "name": "evm_token_risk",
-    "title": "EVM token risk verdict & honeypot scan",
-    "description": "[$0.01] Token risk verdict & honeypot scan: proxy upgradeability, owner renouncement, mint/blacklist/fee/trading-toggle bytecode, DEX liquidity, 0-100 score & AI grade. Do not use for Solana SPL tokens (use solana_token_risk) or DeFi yields (use defi_yield_pools). Covers Base, Ethereum, Arbitrum, Optimism; 1 free try per IP, then HTTP 402.",
-    "inputSchema": {
-      "type": "object",
-      "properties": {
-        "address": {
-          "type": "string",
-          "maxLength": 42,
-          "description": "Token contract address (0x + 40 hex)"
-        },
-        "chain": {
-          "type": "string",
-          "maxLength": 20,
-          "default": "base",
-          "description": "base (default), ethereum, arbitrum, optimism"
-        },
-        "timeout_ms": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 120000,
-          "description": "Optional deadline in ms. If the local LLM would exceed it, the response comes back fast with \"degraded\": true and non-LLM/cached data"
-        },
-        "session_token": {
-          "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
-        }
-      },
-      "additionalProperties": false
-    },
-    "annotations": {
-      "title": "EVM token risk verdict & honeypot scan",
-      "readOnlyHint": true,
-      "destructiveHint": false,
-      "idempotentHint": true,
-      "openWorldHint": true
-    },
-    "outputSchema": {
-      "type": "object",
-      "properties": {
-        "endpoint": {
-          "type": "string"
-        },
-        "chain": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "token": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "symbol": {
-              "type": "string"
-            },
-            "decimals": {
-              "type": "integer"
-            },
-            "total_supply_raw": {
-              "type": "string"
-            }
-          }
-        },
-        "contract": {
-          "type": "object",
-          "properties": {
-            "code_size_bytes": {
-              "type": "integer"
-            },
-            "is_proxy": {
-              "type": "boolean"
-            },
-            "implementation": {
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "owner": {
-              "type": [
-                "string",
-                "null"
-              ]
-            },
-            "owner_renounced": {
-              "type": "boolean"
-            },
-            "privileged_functions": {
-              "type": "object",
-              "properties": {
-                "mint": {
-                  "type": "array",
-                  "items": {
+                  },
+                  "related_queries": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "wikipedia": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "extract": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "published": {
                     "type": "string"
                   }
                 }
-              }
-            }
-          }
-        },
-        "liquidity": {
-          "type": "object",
-          "properties": {
-            "top_pair_liquidity_usd": {
-              "type": "number"
-            },
-            "pair_age_hours": {
-              "type": "number"
-            },
-            "buys_24h": {
-              "type": "integer"
-            },
-            "sells_24h": {
-              "type": "integer"
-            },
-            "dex": {
-              "type": "string"
-            }
-          }
-        },
-        "risk_score": {
-          "type": "integer"
-        },
-        "risk_band": {
-          "type": "string"
-        },
-        "risk_reasons": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "checks_not_performed": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "ai": {
-          "type": "object",
-          "properties": {
-            "verdict": {
-              "type": "string"
-            },
-            "explanation": {
-              "type": "string"
-            },
-            "top_reasons": {
-              "type": "array",
-              "items": {
+              },
+              "scraped_at": {
+                "type": "string"
+              },
+              "data_source": {
                 "type": "string"
               }
-            },
-            "source": {
-              "type": "string"
-            },
-            "adjusted_by_guardrail": {
-              "type": "boolean"
             }
           }
-        },
-        "as_of": {
-          "type": "string"
-        },
-        "degraded": {
-          "type": "boolean"
         },
         "schema_version": {
           "type": "string"
@@ -1201,17 +1326,21 @@
     }
   },
   {
-    "name": "defi_yield_pools",
-    "title": "Cross-chain DeFi real-yield & liquidity matrix",
-    "description": "[$0.005] Rank cross-chain DeFi liquidity pools with TVL >= $5M by risk-adjusted real base APY, impermanent loss exposure, and strategic allocation advice. Do not use for prediction markets (use polymarket_markets) or token audits (use evm_token_risk). Defaults to `chain='base'` (`'all'` for multi-chain $5M+ TVL); 1 free try per IP, then HTTP 402.",
+    "name": "fetch_web_markdown",
+    "title": "Webpage to clean LLM Markdown",
+    "description": "Fetch a single public HTTPS webpage and extract clean, boilerplate-free Markdown for RAG ingestion. Pass `url` (required public HTTP/HTTPS URL) and optional `summarize` boolean (default false; true invokes LLM synthesis). Returns `title`, `markdown`, `word_count`, and optional `summary`. Do not use for multi-site keyword discovery (use search_web). 1 free try per IP, then HTTP 402 ($0.002 USDC).",
     "inputSchema": {
       "type": "object",
       "properties": {
-        "chain": {
+        "url": {
           "type": "string",
-          "maxLength": 40,
-          "default": "base",
-          "description": "Target chain (e.g. 'base', 'ethereum', 'arbitrum', 'solana', or 'all')"
+          "maxLength": 2000,
+          "description": "Any public URL to fetch, clean, and extract content from"
+        },
+        "summarize": {
+          "type": "boolean",
+          "default": false,
+          "description": "Add LLM-powered summary with entity extraction and sentiment scoring"
         },
         "timeout_ms": {
           "type": "integer",
@@ -1221,13 +1350,13 @@
         },
         "session_token": {
           "type": "string",
-          "description": "Optional prepaid session token (x402s_...) from https://apix402data.com/pay after the 1 free try rolls over to paid."
+          "description": "Optional prepaid x402s_... session token from open_agent_session or https://apix402data.com/pay used after the 1 free try rolls over to HTTP 402."
         }
       },
       "additionalProperties": false
     },
     "annotations": {
-      "title": "Cross-chain DeFi real-yield & liquidity matrix",
+      "title": "Webpage to clean LLM Markdown",
       "readOnlyHint": true,
       "destructiveHint": false,
       "idempotentHint": true,
@@ -1239,96 +1368,49 @@
         "endpoint": {
           "type": "string"
         },
-        "chain": {
+        "url": {
           "type": "string"
         },
-        "min_tvl_usd": {
-          "type": "number"
+        "markdown": {
+          "type": "string"
         },
-        "pool_count": {
+        "word_count": {
           "type": "integer"
         },
-        "top_opportunity_pool": {
-          "type": "string"
+        "robots_txt_allowed": {
+          "type": "boolean"
         },
-        "average_net_apy": {
+        "cached": {
+          "type": "boolean"
+        },
+        "cache_age_seconds": {
           "type": "number"
         },
-        "risk_adjusted_rankings": {
+        "sentiment": {
+          "type": "string"
+        },
+        "sentiment_score": {
+          "type": "number"
+        },
+        "entities": {
           "type": "array",
           "items": {
             "type": "string"
           }
         },
-        "strategic_advice": {
+        "nlp_method": {
           "type": "string"
-        },
-        "pools": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "pool_id": {
-                "type": "string"
-              },
-              "chain": {
-                "type": "string"
-              },
-              "protocol": {
-                "type": "string"
-              },
-              "symbol": {
-                "type": "string"
-              },
-              "tvl_usd": {
-                "type": "number"
-              },
-              "apy_base": {
-                "type": "number"
-              },
-              "apy_reward": {
-                "type": "number"
-              },
-              "apy_total": {
-                "type": "number"
-              },
-              "apy_mean_30d": {
-                "type": "number"
-              },
-              "il_risk": {
-                "type": "string"
-              },
-              "stablecoin": {
-                "type": "integer"
-              },
-              "exposure": {
-                "type": "string"
-              },
-              "risk_adjusted_score": {
-                "type": "number"
-              },
-              "scraped_at": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "degraded": {
-          "type": "boolean"
         },
         "schema_version": {
           "type": "string"
-        },
-        "cached": {
-          "type": "boolean"
         }
       }
     }
   },
   {
-    "name": "agent_session_open",
+    "name": "open_agent_session",
     "title": "Pre-funded agent session tunnel",
-    "description": "[$1.00] Deposit $1.00 USDC once to mint an HMAC-signed Bearer session token (x402s_...) for zero-402 high-frequency API calls with atomic balance debits. Do not use for single read calls (call tools directly). Mints a 30-day x402s_... Bearer session ($1.00 USDC on Solana or Base); inspect balance/expiry with agent_session_status (sessions auto-expire, no close needed).",
+    "description": "Mint a prepaid `x402s_...` Bearer session token backed by a $1.00 USDC deposit (Solana or Base) so subsequent tool calls skip per-call signing. Pass optional `ttl_minutes` (range 5-43200; default 43200 = 30 days). Returns `session_token`, `balance_usd`, and `expires_at`. Inspect balance later with get_agent_session_status (sessions auto-expire; no close call needed). Do not use for single read calls (call tools directly). Requires HTTP 402 payment ($1.00 USDC).",
     "inputSchema": {
       "type": "object",
       "properties": {
@@ -1340,9 +1422,9 @@
         "ttl_minutes": {
           "type": "integer",
           "minimum": 5,
-          "maximum": 1440,
-          "default": 60,
-          "description": "Session lifetime in minutes (default 60, max 1440)"
+          "maximum": 43200,
+          "default": 43200,
+          "description": "Session lifetime in minutes (default 43200 = 30 days, range 5-43200)"
         }
       },
       "additionalProperties": false
@@ -1391,9 +1473,9 @@
     }
   },
   {
-    "name": "agent_session_status",
+    "name": "get_agent_session_status",
     "title": "Check prepaid session balance & expiry",
-    "description": "[$0.00 FREE] Check remaining USD balance, call count, active state, and expiration timestamp for an existing x402s_... prepaid session token minted via agent_session_open or https://apix402data.com/pay. Read-only and free (never consumes your 1 free try).",
+    "description": "Check remaining USD balance, call count, active status, and ISO expiration timestamp for an existing `x402s_...` prepaid session token minted via open_agent_session or https://apix402data.com/pay. Pass `session_token` (required `x402s_...` string). Returns `active`, `remaining_usd`, `calls_made`, and `expires_at`; returns HTTP 404/invalid error if the token is unknown or expired. Do not use to create a new session (use open_agent_session). Free and read-only (never consumes free-trial quota).",
     "inputSchema": {
       "type": "object",
       "additionalProperties": false,
@@ -1406,6 +1488,26 @@
       "required": [
         "session_token"
       ]
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "remaining_usd": {
+          "type": "number"
+        },
+        "calls_made": {
+          "type": "integer"
+        },
+        "expires_at": {
+          "type": "string"
+        }
+      }
     },
     "annotations": {
       "title": "Check prepaid session balance & expiry",
