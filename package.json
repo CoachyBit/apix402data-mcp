@@ -1,11 +1,12 @@
 {
   "name": "apix402data-mcp",
-  "version": "5.5.0",
-  "description": "All-in-one OpenClaw & x402 Smart Router + MCP Server (51 endpoints on PayAI Solana & Coinbase CDP Base): auto complexity LLM routing, live Solana/Polymarket/RPC tools, auto-discovery failover, 1 free try -> paid 402.",
+  "version": "5.5.1",
+  "description": "x402Pilot — Autonomous x402 Ecosystem Finder, Quality Grader (A+ to F), Purchase Protection Shield & Smart Router + MCP Server (Solana PayAI & Base CDP): probes live x402 APIs, blocks dead/scam endpoints, 5 free daily tries.",
   "main": "./bin/cli.mjs",
   "bin": {
     "apix402data-mcp": "bin/cli.mjs",
-    "apix402data-router": "bin/router.mjs"
+    "apix402data-router": "bin/router.mjs",
+    "x402pilot": "bin/router.mjs"
   },
   "scripts": {
     "start": "node ./bin/cli.mjs"
@@ -21,17 +22,24 @@
     "url": "git+https://github.com/CoachyBit/apix402data-mcp.git"
   },
   "keywords": [
-    "mcp",
     "x402",
-    "crypto",
-    "defi",
+    "x402pilot",
+    "x402-router",
+    "x402-discovery",
+    "mcp",
+    "smart-router",
+    "llm-router",
+    "openclaw",
+    "ai-agents",
+    "solana",
     "base",
     "usdc",
-    "evm",
-    "agents",
-    "coingecko",
-    "firecrawl",
-    "exa",
+    "payai",
+    "bazaar",
+    "polymarket",
+    "crypto",
+    "defi",
+    "purchase-protection",
     "openai"
   ]
 }
