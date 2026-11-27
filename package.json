@@ -1,10 +1,11 @@
 {
   "name": "apix402data-mcp",
-  "version": "5.4.0",
-  "description": "Self-contained Node.js MCP server (15 flagship tools, 48 endpoints) for Solana & Base USDC x402: keyless multi-chain RPC, Solana rug-check & priority fees, Polymarket odds, Farcaster, DeFi security & SEC EDGAR (1 free try -> auto-rollover to paid).",
+  "version": "5.5.0",
+  "description": "All-in-one OpenClaw & x402 Smart Router + MCP Server (51 endpoints on PayAI Solana & Coinbase CDP Base): auto complexity LLM routing, live Solana/Polymarket/RPC tools, auto-discovery failover, 1 free try -> paid 402.",
   "main": "./bin/cli.mjs",
   "bin": {
-    "apix402data-mcp": "bin/cli.mjs"
+    "apix402data-mcp": "bin/cli.mjs",
+    "apix402data-router": "bin/router.mjs"
   },
   "scripts": {
     "start": "node ./bin/cli.mjs"
