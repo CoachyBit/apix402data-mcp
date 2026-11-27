@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Syntax check Node CLIs
+        run: |
+          node --check bin/cli.mjs
+          node --check bin/router.mjs
+      - name: Validate JSON catalogs
+        run: |
+          node -e "const t = JSON.parse(require('fs').readFileSync('tools_catalog.json','utf8')); if (!Array.isArray(t) || t.length !== 15) process.exit(1); console.log('Validated', t.length, 'MCP tools');"
+          node -e "JSON.parse(require('fs').readFileSync('package.json','utf8')); JSON.parse(require('fs').readFileSync('glama.json','utf8'));"
+      - name: Smoke-test stdio MCP initialize & tools/list
+        run: |
+          printf '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}\n{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}\n' | node bin/cli.mjs | grep -q "discover_x402_endpoints"
