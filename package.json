@@ -1,6 +1,6 @@
 {
   "name": "apix402data-mcp",
-  "version": "5.5.1",
+  "version": "5.5.2",
   "description": "x402Pilot — Autonomous x402 Ecosystem Finder, Quality Grader (A+ to F), Purchase Protection Shield & Smart Router + MCP Server (Solana PayAI & Base CDP): probes live x402 APIs, blocks dead/scam endpoints, 5 free daily tries.",
   "main": "./bin/cli.mjs",
   "bin": {
