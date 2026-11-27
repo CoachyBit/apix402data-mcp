@@ -85,3 +85,9 @@ curl -s -X POST https://apix402data.com/api/free/token/risk \
 - **x402 (Solana SPL USDC & Base ERC-20 USDC):** `$0` buyer gas via Coinbase CDP facilitator (`GThvpKNLrFQmxxdM9kTKJmwBvqjzdoJCckoMeZaDZiJ6` on Solana, `0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6` on Base)
 - **Stripe MPP:** Card payments for `>= $0.01` / session calls
 - **Session Tunnel:** `POST /api/agent/session-open` (`$1.00` pre-funded bearer token)
+
+## Support & Links
+- **Email:** [support@apix402data.com](mailto:support@apix402data.com)
+- **Website & Live Radar:** https://apix402data.com · https://apix402data.com/live
+- **Support, Privacy & Terms:** https://apix402data.com/support · https://apix402data.com/privacy · https://apix402data.com/terms
+- **Issues:** https://github.com/CoachyBit/apix402data-mcp/issues
