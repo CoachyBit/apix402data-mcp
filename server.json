@@ -1,12 +1,10 @@
 {
-  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
-  "name": "io.github.CoachyBit/apix402data-mcp",
-  "description": "48 pay-per-call Solana & Base USDC x402 endpoints (15 MCP tools): multi-chain RPC, Solana rug-check/fees, Polymarket odds, Farcaster, DeFi security & SEC EDGAR. 1 free try then auto-rollover to paid.",
-  "repository": {
-    "url": "https://github.com/CoachyBit/apix402data-mcp",
-    "source": "github"
-  },
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.apix402data/x402-data-api",
+  "title": "x402Pilot — x402 Ecosystem Finder, Solana, Base, DeFi, RPC, Polymarket, News & Web",
+  "description": "x402Pilot autonomous x402 ecosystem quality grader & Purchase Protection (5 free/24h) + 15 MCP tools on Solana & Base.",
   "version": "5.5.2",
+  "websiteUrl": "https://apix402data.com",
   "remotes": [
     {
       "type": "streamable-http",
