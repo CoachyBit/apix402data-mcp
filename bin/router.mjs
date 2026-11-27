@@ -22,7 +22,9 @@ import dns from "node:dns/promises";
 import net from "node:net";
 
 const PORT = Number(process.env.APIX402_ROUTER_PORT || process.env.PORT || 8403);
-const HOST = process.env.APIX402_ROUTER_HOST || "127.0.0.1";
+const RAW_HOST = process.env.APIX402_ROUTER_HOST || "127.0.0.1";
+const ALLOW_NON_LOOPBACK = process.env.APIX402_ALLOW_NON_LOOPBACK === "1";
+const HOST = (RAW_HOST === "127.0.0.1" || RAW_HOST === "localhost" || RAW_HOST === "::1" || ALLOW_NON_LOOPBACK) ? RAW_HOST : "127.0.0.1";
 const BASE_URL = (process.env.APIX402_BASE_URL || "https://apix402data.com").replace(/\/+$/, "");
 const BASE_ORIGIN = new URL(BASE_URL).origin;
 const ALLOW_EXTERNAL_CALL = process.env.APIX402_ALLOW_EXTERNAL === "1";
@@ -316,23 +318,23 @@ function verifyPurchaseProtection402(callRes, providerMeta, maxBudgetUsd) {
   const pinnedMax = typeof pp.pinned_max_price_usd === "number" ? pp.pinned_max_price_usd : providerMeta.price_usd;
   const ceiling = typeof maxBudgetUsd === "number" ? Math.min(maxBudgetUsd, pinnedMax ?? maxBudgetUsd) : pinnedMax;
   const pinnedWallets = new Set(Object.values(pp.pinned_pay_to || providerMeta.pay_to || {}).map((w) => String(w).toLowerCase()));
+  // MEDIUM #5 fix: fail closed if no wallet is pinned!
+  if (pinnedWallets.size === 0) return { ok: false, reason: "no_pinned_wallet_for_purchase_protection" };
   const accepts = parseLive402Accepts(callRes.text, callRes.headers);
   if (!accepts.length) return { ok: false, reason: "malformed_402_challenge_missing_accepts" };
 
-  let anyValid = false;
+  // MEDIUM #6 fix: require EVERY accept entry in 402 to match pinned price ceiling & wallet (no Trojan entry!)
   for (const a of accepts) {
     const rawAmt = a?.amount ?? a?.maxAmountRequired;
     const num = Number(rawAmt);
     const priceUsd = Number.isFinite(num) ? (num >= 10 ? num / 1_000_000 : num) : Infinity;
     const payTo = String(a?.payTo || "").toLowerCase();
     const priceOk = ceiling === undefined || priceUsd <= ceiling * 1.05 + 0.0001;
-    const walletOk = pinnedWallets.size === 0 || pinnedWallets.has(payTo);
-    if (priceOk && walletOk) {
-      anyValid = true;
-      break;
+    const walletOk = pinnedWallets.has(payTo);
+    if (!priceOk || !walletOk) {
+      return { ok: false, reason: "price_or_wallet_mismatch_against_pinned_handshake" };
     }
   }
-  if (!anyValid) return { ok: false, reason: "price_or_wallet_mismatch_against_pinned_handshake" };
   return { ok: true };
 }
 
@@ -347,11 +349,11 @@ function copyPaymentHeaders(upstreamHeaders) {
 
 const server = http.createServer(async (req, res) => {
   try {
-    // H2: Block DNS rebinding & browser drive-by CSRF
+    // H2 + blind GET CSRF fix: Block DNS rebinding, browser Origin & cross-site Sec-Fetch-Site
     if (!isAllowedHost(req.headers.host)) {
       return sendJson(res, 403, { error: "forbidden_host" });
     }
-    if (req.headers.origin) {
+    if (req.headers.origin || String(req.headers["sec-fetch-site"] || "").toLowerCase() === "cross-site") {
       return sendJson(res, 403, { error: "browser_origin_blocked" });
     }
 
