@@ -54,3 +54,5 @@ export function withX402PilotFetch(baseFetch = fetch, options = {}) {
     return resp;
   };
 }
+
+export const createShieldedFetch = withX402PilotFetch;
