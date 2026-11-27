@@ -6,7 +6,7 @@
     "url": "https://github.com/CoachyBit/apix402data-mcp",
     "source": "github"
   },
-  "version": "5.4.0",
+  "version": "5.5.2",
   "remotes": [
     {
       "type": "streamable-http",
