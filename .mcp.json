@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "x402pilot": {
+      "type": "http",
+      "url": "https://apix402data.com/mcp"
+    }
+  }
+}
