@@ -1,19 +1,22 @@
-# apix402data MCP Server (`apix402data-mcp`)
+# x402Pilot + apix402data MCP Server (`apix402data-mcp`)
 
 [![Glama MCP Connector Score](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api/badges/score.svg)](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api)
 
-Open-source **All-in-One OpenClaw & x402 Smart Router + Node.js MCP Server** (`bin/router.mjs` + `bin/cli.mjs` + `tools_catalog.json` + `Dockerfile`) implementing **14 flagship MCP tools** and **51 live pay-per-call endpoints** accepting **BOTH Solana USDC (PayAI) and Base USDC (Coinbase CDP)**, with **`1` free try per IP that automatically rolls over to paid HTTP 402**.
+**x402Pilot** is the autonomous **x402 Ecosystem Endpoint Finder, Quality Grader (`A+`–`F`), Purchase Protection Shield & OpenAI-Compatible Smart Router** (`bin/router.mjs` + `bin/cli.mjs`), backed by **51 live pay-per-call endpoints** accepting **Solana USDC (PayAI)** and **Base USDC (Coinbase CDP)**.
 
-### Drop-In Smart Router for OpenClaw / Cursor / Continue (`npx apix402data-router`)
-Point any OpenAI-compatible agent at `https://apix402data.com/v1` (or run the local failover proxy on `http://127.0.0.1:8403/v1`):
+### x402Pilot — Autonomous x402 Ecosystem Finder & Purchase Shield (`npx x402pilot`)
+Point any AI agent, OpenClaw bot, Cursor, Continue, or OpenAI SDK at `http://127.0.0.1:8403` (or directly at `https://apix402data.com`):
 ```bash
-# Start local zero-dependency smart router + auto-discovery failover proxy:
-npx -y -p apix402data-mcp apix402data-router
+# Start x402Pilot local hardened proxy (zero dependencies, Node >= 18):
+npx -y -p apix402data-mcp@latest x402pilot
 
 # Or point OpenClaw / Cursor / OpenAI SDK directly at:
-# OPENAI_BASE_URL=https://apix402data.com/v1   model="auto" | "eco" | "code" | "reasoning" | "local"
+# OPENAI_BASE_URL=http://127.0.0.1:8403/v1   model="auto" | "eco" | "code" | "reasoning" | "local"
 ```
-- **Why it beats LLM-only routers:** Sub-millisecond complexity scoring + OpenRouter frontier models + dual-GPU local failover **plus automatic `<10ms` live Solana/Polymarket RAM grounding** and `/api/discover` verified x402 failover routing — all from one Solana or Base USDC wallet.
+- **Active Network-Wide Quality & Deal Discovery (`GET|POST /discover`):** **5 FREE tries every 24 hours** (then `$0.0015/call` on Solana or Base USDC). Continuously probes live x402 endpoints across Coinbase CDP Bazaar, PayAI Discovery, and seller `/.well-known/x402` manifests — quarantining dead/404/5xx APIs and bad actors so agents always get verified, high-quality, best-deal endpoints in `<15ms`.
+- **Buyer Purchase Protection (`POST /call` + `/api/discover/verify-handshake` + `/api/discover/report`):** Pins verified price & recipient wallet before signing, blocks tampered or over-budget `402` payment challenges before a wallet ever signs, and downgrades/quarantines endpoints reported for bad data until the seller repairs and re-verifies.
+- **OpenAI-Compatible Drop-In Smart Router (`POST /v1/chat/completions`):** Supports `stream: true` SSE replay, automatic complexity routing, and `<10ms` live Solana/Polymarket grounding.
+- **Security Hardened:** Localhost-only Host/Origin CSRF & DNS-rebinding guards, `redirect: "manual"`, strict `x402s_` session scoping (never forwards user `OPENAI_API_KEY`).
 
 - **Live Public Radar (`$0`, Pre-Warmed `<10ms`):** `https://apix402data.com/live` — real-time Solana priority fees, SPL rug checks, Polymarket 24h volume & bid/ask spreads, and keyless multi-chain RPC demos.
 - **Dual-Chain x402 Settlement (Solana + Base USDC):** Every `402` response advertises both **Base (`eip155:8453`)** and **Solana (`solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`)** USDC `accepts[]` with `$0` buyer gas.
