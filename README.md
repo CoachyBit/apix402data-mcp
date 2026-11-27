@@ -1,5 +1,6 @@
 # x402Pilot + apix402data MCP Server (`apix402data-mcp`)
 
+[![x402Pilot Verified Grade A+](https://apix402data.com/badge?url=https://apix402data.com/api/discover)](https://apix402data.com/)
 [![Glama MCP Connector Score](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api/badges/score.svg)](https://glama.ai/mcp/connectors/com.apix402data/x402-data-api)
 
 **x402Pilot** is the autonomous **x402 Ecosystem Endpoint Finder, Quality Grader (`A+`–`F`), Purchase Protection Shield & OpenAI-Compatible Smart Router** (`bin/router.mjs` + `bin/cli.mjs`), backed by **51 live pay-per-call endpoints** accepting **Solana USDC (PayAI)** and **Base USDC (Coinbase CDP)**.
