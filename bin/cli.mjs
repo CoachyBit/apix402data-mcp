@@ -9,6 +9,23 @@ const TOOLS = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "tools_catal
 const BASE_URL = (process.env.APIX402_BASE_URL || "https://apix402data.com").replace(/\/+$/, "");
 
 const TOOL_ROUTES = {
+  discover_x402_endpoints: "/api/discover",
+  call_chain_rpc: "/api/rpc",
+  get_solana_priority_fee: "/api/solana/priority-fee",
+  check_solana_token_risk: "/api/solana/token-risk",
+  get_solana_wallet_holdings: "/api/solana/wallet-holdings",
+  get_evm_gas_price: "/api/chain/gas",
+  check_evm_token_risk: "/api/token/risk",
+  get_token_ohlc_indicators: "/api/token/indicators",
+  get_polymarket_markets: "/api/markets/polymarket",
+  get_defi_yield_pools: "/api/defi/yield-matrix",
+  get_crypto_news: "/api/crypto/news",
+  search_web: "/api/search",
+  fetch_web_markdown: "/api/clean-url",
+  open_agent_session: "/api/agent/session-open",
+  get_agent_session_status: "/api/agent/session-status",
+  // Legacy aliases preserved for backward compatibility
+  x402pilot_discover: "/api/discover",
   chain_rpc_call: "/api/rpc",
   solana_priority_fee: "/api/solana/priority-fee",
   solana_token_risk: "/api/solana/token-risk",
@@ -92,7 +109,7 @@ rl.on("line", async (line) => {
         result: {
           protocolVersion: "2025-03-26",
           capabilities: { tools: {} },
-          serverInfo: { name: "apix402data-mcp", version: "5.3.0" },
+          serverInfo: { name: "apix402data-mcp", version: "5.5.2" },
         },
       });
     } else if (method === "ping") {
