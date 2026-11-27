@@ -16,6 +16,15 @@
   },
   "type": "module",
   "license": "MIT",
+  "author": {
+    "name": "x402Pilot",
+    "email": "support@apix402data.com",
+    "url": "https://apix402data.com"
+  },
+  "bugs": {
+    "url": "https://github.com/CoachyBit/apix402data-mcp/issues",
+    "email": "support@apix402data.com"
+  },
   "homepage": "https://apix402data.com",
   "repository": {
     "type": "git",
