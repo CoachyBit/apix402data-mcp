@@ -1,13 +1,34 @@
 {
   "name": "apix402data-mcp",
-  "version": "5.5.2",
-  "description": "x402Pilot — Autonomous x402 Ecosystem Finder, Quality Grader (A+ to F), Purchase Protection Shield & Smart Router + MCP Server (Solana PayAI & Base CDP): probes live x402 APIs, blocks dead/scam endpoints, 5 free daily tries.",
+  "version": "5.6.0",
+  "description": "x402Pilot — The Trust, Discovery & Execution Layer for the x402 Ecosystem (66,800+ live verified x402 APIs, Ed25519 trust attestations, 1-line wallet shield, smart discovery transport + 75 live crypto/DeFi/web MCP & HTTP 402 endpoints).",
   "main": "./bin/cli.mjs",
+  "exports": {
+    ".": "./bin/cli.mjs",
+    "./router": "./bin/router.mjs",
+    "./shield": "./adapters/x402pilot_shield.mjs"
+  },
   "bin": {
     "apix402data-mcp": "bin/cli.mjs",
     "apix402data-router": "bin/router.mjs",
     "x402pilot": "bin/router.mjs"
   },
+  "files": [
+    "bin/",
+    "adapters/",
+    "examples/",
+    "assets/",
+    "README.md",
+    "LICENSE",
+    "SKILL.md",
+    "mcp_manifest.json",
+    "tools_catalog.json",
+    "openapi_examples.json",
+    "server.json",
+    "glama.json",
+    "smithery.yaml",
+    ".mcp.json"
+  ],
   "scripts": {
     "start": "node ./bin/cli.mjs"
   },
@@ -33,12 +54,13 @@
   "keywords": [
     "x402",
     "x402pilot",
-    "x402-router",
     "x402-discovery",
+    "x402-transport",
+    "x402-router",
+    "x402-shield",
     "mcp",
-    "smart-router",
-    "llm-router",
-    "openclaw",
+    "mcp-server",
+    "ed25519",
     "ai-agents",
     "solana",
     "base",
@@ -49,6 +71,8 @@
     "crypto",
     "defi",
     "purchase-protection",
+    "cursor",
+    "claude",
     "openai"
   ]
 }
