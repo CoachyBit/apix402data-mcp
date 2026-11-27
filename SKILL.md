@@ -1,6 +1,6 @@
 ---
-name: apix402data
-description: 48 pay-per-call Solana & Base x402 + Stripe MPP endpoints (15 flagship MCP tools): multi-chain RPC, Solana rug-check & priority fees, Polymarket odds, Farcaster lookup, DeFi/EVM security, SEC EDGAR & web intel. 1 free try per IP, auto-rolls over to paid.
+name: x402pilot-apix402data
+description: x402Pilot (Autonomous x402 Ecosystem Finder, A+ to F Quality Grader, Verified Dead-Endpoint Graveyard & Purchase Protection Shield) + 51 pay-per-call Solana (PayAI) & Base (Coinbase CDP) USDC endpoints (15 uniform verb_noun MCP tools). 5 free daily tries on /api/free/discover, 1 free try on all other tools.
 version: 5.1.0
 updated: 2026-11-21
 homepage: https://apix402data.com
@@ -10,9 +10,17 @@ llms_txt: https://apix402data.com/llms.txt
 pricing: https://apix402data.com/pricing
 ---
 
-# apix402data — Agent Skill & Workflow Guide
+# x402Pilot + apix402data — Claude & Agent Skill Guide
 
-Use this skill when an autonomous agent needs **keyless multi-chain JSON-RPC, Solana priority fees & SPL rug checks, live Polymarket odds/spreads, Farcaster identity lookup, pre-flight EVM/x402 security checks, SEC EDGAR company financials, or clean web/news RAG extraction** via HTTP 402 (USDC on **Solana** `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` or **Base** `eip155:8453`), Stripe MPP/Tempo, or MCP Streamable HTTP (`https://apix402data.com/mcp`).
+Use this skill when an autonomous agent needs **live quality-graded (`A+`-`F`) x402 ecosystem endpoint discovery & Purchase Protection (`x402Pilot`), keyless multi-chain JSON-RPC, Solana priority fees & SPL rug checks, EVM gas & token risk, historical OHLCV indicators, live Polymarket odds/spreads, DeFi yields, crypto news, or clean web RAG extraction** via HTTP 402 (USDC on **Solana** `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` or **Base** `eip155:8453`), Stripe MPP/Tempo, or MCP Streamable HTTP (`https://apix402data.com/mcp`).
+
+## x402Pilot Discovery & Purchase Protection Endpoints
+- `POST /api/free/discover` (5 FREE tries every 24h UTC) -> `POST /api/discover` (`$0.0015`) — Live network-wide quality-graded (`A+`-`F`) & best-deal x402 endpoint finder across Coinbase CDP Bazaar, PayAI & seller manifests
+- `POST /api/discover/verify-handshake` (`$0.00` FREE) — Real-time pre-purchase handshake verifier (checks live 402 price, budget cap, USDC contract & `payTo` wallet BEFORE signing)
+- `GET /api/discover/dead` (`$0.00` FREE) — Verified dead-endpoint & quarantined bad-actor graveyard registry
+- `POST /api/discover/submit` (`$0.00` FREE) — Multi-facilitator seller submission & live quality re-verification
+- `POST /api/discover/report` (`$0.00` FREE) — Buyer bad-data / scam report (triggers live re-probe & instant grade downgrade/quarantine)
+- `POST /v1/chat/completions` (`$0.002`) — OpenAI-compatible drop-in smart router (`model="auto"`, SSE streaming, live Solana/Polymarket grounding)
 
 ## Cross-Referenced Discovery Endpoints
 - `GET /live` — Free real-time public radar (Solana fees, Polymarket movers, multi-chain RPC demos)
@@ -20,16 +28,16 @@ Use this skill when an autonomous agent needs **keyless multi-chain JSON-RPC, So
 - `GET /llms.txt` — LLM-readable service & quick-start guide
 - `GET /openapi.json` — Full OpenAPI 3.1 spec with `x-payment-info` & request/response schemas
 - `GET /pricing` — Live machine-readable price list & valid tickers/categories
-- `POST /mcp` — MCP Streamable HTTP endpoint (15 flagship tools, 1 free try then auto-rollover to paid)
-- `GET /.well-known/mcp.json` | `GET /.well-known/x402.json` | `GET /.well-known/agent-card.json`
+- `POST /mcp` — MCP Streamable HTTP endpoint (15 uniform `verb_noun` flagship tools with 15/15 `outputSchema`)
+- `GET /.well-known/mcp.json` | `GET /.well-known/x402` | `GET /.well-known/agent-card.json` | `GET /.well-known/ai-plugin.json`
 
 ## Payment & Reliability Protocol
-1. **Free Validation First (`$0.00`):** Call `GET /api/search/check`, `/api/company/check`, `/api/news/check`, `/api/clean-url/check`, or `/api/security/preflight-402/check` before paying.
-2. **1 Free Try -> Paid Rollover:** Call `POST /mcp` (`tools/call`) or `POST /api/free/<tool_path>` without a wallet for 1 free try per IP; call #2 automatically rolls over to `HTTP 402` with full Solana + Base USDC `PAYMENT-REQUIRED` headers (check quota via `GET /api/free/status`).
-3. **HTTP 402 (`x402` v2 — Solana + Base USDC):** Paid `POST /api/*` routes return `402` with `PAYMENT-REQUIRED` advertising BOTH Base (`eip155:8453`, `payTo` `0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6`) and Solana (`solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`, `payTo` `GThvpKNLrFQmxxdM9kTKJmwBvqjzdoJCckoMeZaDZiJ6`). Retry with `PAYMENT-SIGNATURE` (or `X-PAYMENT`); receive `PAYMENT-RESPONSE`.
+1. **Free Validation First (`$0.00`):** Call `POST /api/discover/verify-handshake`, `GET /api/discover/dead`, or `GET /api/search/check`, `/api/company/check`, `/api/news/check`, `/api/clean-url/check` before paying.
+2. **Free Tries -> Paid Rollover:** `discover_x402_endpoints` / `POST /api/free/discover` includes **5 FREE tries every 24h UTC** (6th call rolls over to `$0.0015` HTTP 402); all other paid tools include **1 free try** per IP (call #2 rolls over to HTTP 402).
+3. **HTTP 402 (`x402` v2 — Solana + Base USDC):** Paid routes return `402` with `PAYMENT-REQUIRED` advertising BOTH Base (`eip155:8453`, `payTo` `0x17ea1c2afc105d8e9c976ed65aa97c65cf5720f6`) and Solana (`solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`, `payTo` `GThvpKNLrFQmxxdM9kTKJmwBvqjzdoJCckoMeZaDZiJ6`). Retry with `PAYMENT-SIGNATURE` (or `X-PAYMENT`); receive `PAYMENT-RESPONSE`. Settlement occurs ONLY on `<400` responses (zero charge on error).
 4. **Stripe MPP + Tempo (routes `>= $0.01`):** `402` also includes `WWW-Authenticate: Payment` challenge; retry with `Authorization: Payment <credential>`.
-5. **Prepaid 30-Day Session (`x402s_...`):** Top up via `/pay` or `POST /api/agent/session-open`, then pass `Authorization: Bearer x402s_...` (or `session_token` in MCP `tools/call`).
-6. **Idempotency & Replay Safety:** Send `Idempotency-Key: <uuid>` for 15-minute duplicate-charge protection. Replayed EIP-3009 nonces return `409 Conflict`.
+5. **Prepaid 30-Day Session (`x402s_...`):** Top up via `/pay` or `open_agent_session` (`POST /api/agent/session-open`), then pass `Authorization: Bearer x402s_...` (or `session_token` in MCP `tools/call`). Inspect anytime with `get_agent_session_status` (free).
+6. **Idempotency & Replay Safety:** Send `Idempotency-Key: <uuid>` for 15-minute duplicate-charge protection. Replayed nonces return `409 Conflict`.
 
 ## Agent Workflow Packages (Curated Multi-Step Bundles)
 
