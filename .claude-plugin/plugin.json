@@ -1,0 +1,28 @@
+{
+  "name": "x402pilot",
+  "version": "5.5.2",
+  "description": "x402Pilot — Autonomous x402 Ecosystem Finder, A+ to F Quality Grader, Verified Dead-Endpoint Graveyard & Purchase Protection Shield (5 free tries/24h), plus 14 keyless Solana/Base RPC, gas, token risk, OHLC indicators, Polymarket, DeFi yield, crypto news & web tools.",
+  "author": {
+    "name": "CoachyBit",
+    "url": "https://apix402data.com"
+  },
+  "homepage": "https://apix402data.com/live",
+  "repository": "https://github.com/CoachyBit/apix402data-mcp",
+  "license": "MIT",
+  "keywords": [
+    "x402",
+    "x402pilot",
+    "mcp",
+    "solana",
+    "base",
+    "usdc",
+    "defi",
+    "polymarket",
+    "rpc",
+    "purchase-protection"
+  ],
+  "mcpServers": "./.mcp.json",
+  "skills": [
+    "./SKILL.md"
+  ]
+}
