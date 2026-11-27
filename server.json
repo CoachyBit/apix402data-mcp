@@ -1,9 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.apix402data/x402-data-api",
-  "title": "x402Pilot — x402 Ecosystem Finder, Solana, Base, DeFi, RPC, Polymarket, News & Web",
-  "description": "x402Pilot autonomous x402 ecosystem quality grader & Purchase Protection (5 free/24h) + 15 MCP tools on Solana & Base.",
-  "version": "5.5.2",
+  "title": "x402Pilot — Trust, Discovery Transport & 75 Live x402 Endpoints (Solana & Base)",
+  "description": "The trust, discovery & execution layer for the x402 ecosystem: 66,800+ live verified x402 APIs with Ed25519 attestations, 1-line wallet shield, plus 75 live crypto, DeFi, security & web endpoints.",
+  "version": "5.6.0",
   "websiteUrl": "https://apix402data.com",
   "remotes": [
     {
