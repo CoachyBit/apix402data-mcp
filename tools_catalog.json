@@ -69,6 +69,94 @@
       "destructiveHint": false,
       "idempotentHint": true,
       "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "engine": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "median_live_price_usd": {
+          "type": "number"
+        },
+        "recommended_primary": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "price_usd": {
+              "type": "number"
+            },
+            "quality_grade": {
+              "type": "string"
+            },
+            "quality_score": {
+              "type": "number"
+            },
+            "quality_verified": {
+              "type": "boolean"
+            },
+            "safety_status": {
+              "type": "string"
+            },
+            "measured_ms": {
+              "type": "integer"
+            },
+            "uptime_pct": {
+              "type": "number"
+            },
+            "purchase_protection": {
+              "type": "object",
+              "properties": {
+                "protected": {
+                  "type": "boolean"
+                },
+                "handshake_pin": {
+                  "type": "string"
+                },
+                "pinned_max_price_usd": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "failover_candidates": {
+          "type": "array",
+          "items": {}
+        },
+        "providers": {
+          "type": "array",
+          "items": {}
+        },
+        "network_health": {
+          "type": "object",
+          "properties": {
+            "cdp_catalog_total": {
+              "type": "integer"
+            },
+            "payai_catalog_total": {
+              "type": "integer"
+            },
+            "external_verified_alive": {
+              "type": "integer"
+            },
+            "dead_endpoints_filtered": {
+              "type": "integer"
+            },
+            "bad_actors_blocked": {
+              "type": "integer"
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -106,6 +194,26 @@
       "destructiveHint": false,
       "idempotentHint": true,
       "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "chain": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "result": {
+          "type": "integer"
+        },
+        "upstream": {
+          "type": "string"
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
     }
   },
   {
@@ -128,6 +236,45 @@
       "destructiveHint": false,
       "idempotentHint": true,
       "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "slot": {
+          "type": "integer"
+        },
+        "congestion_level": {
+          "type": "string"
+        },
+        "priority_fee_microlamports": {
+          "type": "object",
+          "properties": {
+            "p50": {
+              "type": "integer"
+            },
+            "p75": {
+              "type": "integer"
+            },
+            "p95": {
+              "type": "integer"
+            }
+          }
+        },
+        "jito_tip_floor": {
+          "type": "object",
+          "properties": {
+            "p50_sol": {
+              "type": "number"
+            },
+            "p75_sol": {
+              "type": "number"
+            }
+          }
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
     }
   },
   {
@@ -161,6 +308,49 @@
       "destructiveHint": false,
       "idempotentHint": true,
       "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "mint": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "risk_score": {
+          "type": "integer"
+        },
+        "risk_band": {
+          "type": "string"
+        },
+        "safe_to_trade": {
+          "type": "boolean"
+        },
+        "mint_authority_revoked": {
+          "type": "boolean"
+        },
+        "freeze_authority_revoked": {
+          "type": "boolean"
+        },
+        "top10_holder_pct": {
+          "type": "number"
+        },
+        "market": {
+          "type": "object",
+          "properties": {
+            "liquidity_usd": {
+              "type": "number"
+            },
+            "buys_24h": {
+              "type": "integer"
+            },
+            "sells_24h": {
+              "type": "integer"
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -189,6 +379,46 @@
       "destructiveHint": false,
       "idempotentHint": true,
       "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "wallet": {
+          "type": "string"
+        },
+        "sol_balance": {
+          "type": "number"
+        },
+        "total_usd": {
+          "type": "number"
+        },
+        "tokens": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mint": {
+                "type": "string"
+              },
+              "symbol": {
+                "type": "string"
+              },
+              "ui_amount": {
+                "type": "number"
+              },
+              "usd_value": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "recent_signatures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
   },
   {
@@ -678,6 +908,48 @@
       "destructiveHint": false,
       "idempotentHint": true,
       "openWorldHint": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "markets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": {
+                "type": "string"
+              },
+              "outcomes": {
+                "type": "object",
+                "properties": {
+                  "Yes": {
+                    "type": "number"
+                  },
+                  "No": {
+                    "type": "number"
+                  }
+                }
+              },
+              "volume_24h_usd": {
+                "type": "number"
+              },
+              "liquidity_usd": {
+                "type": "number"
+              },
+              "spread_bps": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "cached": {
+          "type": "boolean"
+        }
+      }
     }
   },
   {
